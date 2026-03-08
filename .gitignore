@@ -1,0 +1,27 @@
+# Sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editores de código
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencias (si en el futuro se usa npm)
+node_modules/
+package-lock.json
+
+# Variables de entorno (nunca subir al repositorio)
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
