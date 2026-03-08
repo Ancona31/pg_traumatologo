@@ -43,6 +43,45 @@ function initScrollReveal() {
 
 
 /* ================================================================
+   MENÚ HAMBURGUESA
+================================================================ */
+function initHamburgerMenu() {
+  const toggle   = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+
+  if (!toggle || !navLinks) return;
+
+  // Abrir / cerrar menú
+  toggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Cerrar al hacer clic en un enlace
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('is-open');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Cerrar al hacer clic fuera del menú
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !toggle.contains(e.target)) {
+      navLinks.classList.remove('is-open');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+}
+
+
+/* ================================================================
    SOMBRA EN NAVBAR AL HACER SCROLL
 ================================================================ */
 function initNavbarScroll() {
@@ -181,6 +220,7 @@ function escapeHtml(str) {
    INICIALIZACIÓN
 ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initHamburgerMenu();
   initScrollReveal();
   initNavbarScroll();
   initAppointmentForm();
