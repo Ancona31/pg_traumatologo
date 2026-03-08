@@ -1529,32 +1529,359 @@ footer {
 
 
 /* ================================================================
-   RESPONSIVE — TABLETS Y MÓVILES
+   TRAUMATOLOGÍA GENERAL
+================================================================ */
+#traumatologia {
+  background: var(--color-white);
+}
+
+.trauma-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.trauma-category {
+  background: white;
+  border: 1px solid rgba(26,127,232,.1);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(26,127,232,.06);
+}
+
+.trauma-category-header {
+  background: linear-gradient(135deg, var(--color-navy), var(--color-royal));
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.trauma-category-icon { font-size: 1.8rem; }
+.trauma-category-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: white;
+  font-weight: 600;
+}
+
+.trauma-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+.trauma-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem 2rem;
+  border-right: 1px solid rgba(26,127,232,.08);
+  border-bottom: 1px solid rgba(26,127,232,.08);
+  transition: background var(--transition-fast);
+  box-sizing: border-box;
+  min-width: 0; /* evita desbordamiento en grid */
+}
+.trauma-item:hover {
+  background: #f5faff;
+}
+.trauma-item-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: .1rem;
+  line-height: 1;
+}
+.trauma-item-name {
+  font-weight: 600;
+  color: var(--color-navy);
+  font-size: .95rem;
+  margin-bottom: .35rem;
+  line-height: 1.3;
+}
+.trauma-item-desc {
+  color: var(--color-text-mid);
+  font-size: .85rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Banner de urgencias */
+.trauma-urgency-banner {
+  margin-top: 2.5rem;
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  border: 1.5px solid #ffc107;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.trauma-urgency-icon { font-size: 2.5rem; flex-shrink: 0; }
+.trauma-urgency-content { flex: 1; min-width: 200px; }
+.trauma-urgency-content strong {
+  display: block;
+  color: var(--color-navy);
+  font-size: 1.1rem;
+  margin-bottom: .35rem;
+}
+.trauma-urgency-content p {
+  color: var(--color-text-mid);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.trauma-urgency-banner .btn-primary {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+}
+.trauma-urgency-banner .btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(255,107,53,.4);
+}
+
+
+/* ================================================================
+   MENÚ HAMBURGUESA (móvil)
+================================================================ */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1100;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--color-sky);
+  border-radius: 2px;
+  transition: all .3s ease;
+}
+/* Animación X al abrir */
+.nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* ================================================================
+   RESPONSIVE — DESKTOP GRANDE (> 1200px)
+================================================================ */
+@media (min-width: 1200px) {
+  .hero-content   { max-width: 1200px; }
+  .spine-hero-grid { gap: 5rem; }
+}
+
+
+/* ================================================================
+   RESPONSIVE — TABLET LANDSCAPE (max 1024px)
+================================================================ */
+@media (max-width: 1024px) {
+  :root { --section-padding: 5rem 5%; }
+
+  .spine-hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ================================================================
+   RESPONSIVE — TABLET PORTRAIT (max 900px)
 ================================================================ */
 @media (max-width: 900px) {
-  .hero-content,
-  .about-grid,
-  .appt-wrap,
-  .qa-layout,
+  :root { --section-padding: 4rem 5%; }
+
+  /* Navegación — activar hamburguesa */
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: rgba(10,22,40,.98);
+    backdrop-filter: blur(20px);
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .nav-links.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-links a {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+  .nav-cta { display: none; }
+
+  /* Hero */
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  .hero-visual  { display: none; }
+  .hero-subtitle { max-width: 100%; }
+  .hero-stats   { justify-content: center; }
+  .hero-buttons { justify-content: center; }
+  .hero-badge   { justify-content: center; }
+
+  /* Columna */
   .spine-hero-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+  .spine-conditions {
+    grid-template-columns: 1fr 1fr;
+  }
 
-  .blog-grid    { grid-template-columns: 1fr; }
-  .footer-grid  { grid-template-columns: 1fr 1fr; }
-  .hero-visual  { display: none; }
-  .form-row     { grid-template-columns: 1fr; }
+  /* Sobre mí */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .about-img-wrap { max-width: 400px; margin: 0 auto; }
 
-  /* Ocultar nav links en móvil (implementar menú hamburguesa si es necesario) */
-  .nav-links { display: none; }
+  /* Citas */
+  .appt-wrap {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 
-  .spine-conditions { grid-template-columns: 1fr; }
+  /* Blog */
+  .blog-grid { grid-template-columns: 1fr; }
+
+  /* Q&A */
+  .qa-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Traumatología */
+  .trauma-items {
+    grid-template-columns: 1fr 1fr;
+  }
+  .trauma-urgency-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .trauma-urgency-banner .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Test de dolor */
+  .pt-options {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand { grid-column: 1 / -1; }
+
+  /* Formulario */
+  .form-row { grid-template-columns: 1fr; }
 }
 
+
+/* ================================================================
+   RESPONSIVE — MÓVIL (max 600px)
+================================================================ */
 @media (max-width: 600px) {
-  .pt-scale-btn { font-size: .85rem; height: 40px; }
-  .pt-options   { grid-template-columns: 1fr 1fr; }
-  .footer-grid  { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; text-align: center; }
+  :root { --section-padding: 3.5rem 4%; }
+
+  /* Navegación */
+  #navbar { padding: .85rem 4%; }
+  .nav-logo span  { font-size: .95rem; }
+  .nav-logo small { display: none; }
+
+  /* Hero */
+  .hero-title     { font-size: 2rem; }
+  .hero-subtitle  { font-size: 1rem; }
+  .hero-stats     { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .stat-num       { font-size: 1.6rem; }
+  .hero-buttons   { flex-direction: column; align-items: center; }
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary { width: 100%; text-align: center; justify-content: center; }
+
+  /* Secciones */
+  .section-title  { font-size: 1.6rem; }
+
+  /* Spine */
+  .spine-conditions { grid-template-columns: 1fr; }
+  .mis-panel        { padding: 1.25rem; }
+
+  /* Comparativa MIS */
+  .mis-comparison__grid { grid-template-columns: 1fr 1fr; }
+
+  /* Traumatología */
+  .trauma-items         { grid-template-columns: 1fr; }
+  .trauma-item          { padding: 1.25rem; border-right: none; }
+  .trauma-category-header { padding: 1rem 1.25rem; }
+
+  /* Test de dolor */
+  .pt-options     { grid-template-columns: 1fr 1fr; }
+  .pt-scale-track { gap: .25rem; }
+  .pt-scale-btn   { height: 38px; font-size: .8rem; border-radius: 8px; }
+  .pt-nav         { flex-wrap: wrap; gap: .75rem; }
+  .pt-step-counter { width: 100%; text-align: center; order: -1; }
+  .pt-result-actions { flex-direction: column; align-items: center; }
+  .pt-result-actions .btn-primary,
+  .pt-result-actions .pt-restart { width: 100%; justify-content: center; }
+
+  /* Formulario */
+  .appt-form    { padding: 1.5rem; }
+  .form-row     { grid-template-columns: 1fr; }
+
+  /* Blog */
+  .blog-card-header { flex-direction: column; gap: .5rem; }
+
+  /* Q&A */
+  .qa-section   { padding: 2rem 1.25rem; }
+
+  /* Footer */
+  .footer-grid  { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: .5rem;
+  }
+
+  /* FAB WhatsApp — alejar del borde */
+  .fab { bottom: 1.25rem; right: 1.25rem; width: 52px; height: 52px; font-size: 1.3rem; }
+}
+
+
+/* ================================================================
+   RESPONSIVE — MÓVIL PEQUEÑO (max 380px)
+================================================================ */
+@media (max-width: 380px) {
+  :root { --section-padding: 3rem 4%; }
+
+  .pt-options       { grid-template-columns: 1fr; }
+  .mis-comparison__grid { grid-template-columns: 1fr; }
+  .hero-stats       { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
+  .cert-badges      { justify-content: center; }
 }
