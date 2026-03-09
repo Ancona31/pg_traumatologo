@@ -225,4 +225,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbarScroll();
   initAppointmentForm();
   initQAForm();
+  initFabTest();
 });
+
+/* Oculta el botón flotante cuando el usuario está dentro del test */
+function initFabTest() {
+  const fab     = document.getElementById('fab-test');
+  const section = document.getElementById('test-dolor');
+  if (!fab || !section) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => fab.classList.toggle('hide', entry.isIntersecting),
+    { threshold: 0.15 }
+  );
+  observer.observe(section);
+}
+

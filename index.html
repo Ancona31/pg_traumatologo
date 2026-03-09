@@ -47,6 +47,14 @@
       <span></span>
     </button>
   </nav>
+  <!-- ============================================================
+       BOTÓN FLOTANTE TEST DE DOLOR
+  ============================================================ -->
+  <a href="#test-dolor" class="fab-test" id="fab-test" aria-label="Hacer test de dolor">
+    <span class="fab-test-icon">🩺</span>
+    <span class="fab-test-text">Test de Dolor</span>
+  </a>
+
 
 
   <!-- ============================================================
@@ -184,6 +192,262 @@
           Protocolo de retorno deportivo seguro con rehabilitación guiada.
         </p>
       </div>
+    </div>
+  </section>
+
+  <section id="test-dolor">
+    <div class="section-header section-header--center">
+      <div class="section-tag">Evaluación Rápida</div>
+      <h2 class="section-title section-title--center">Test de Dolor de Columna</h2>
+      <p class="section-sub section-sub--center">
+        Responde 6 preguntas y recibe una orientación personalizada sobre tu dolor.
+        <strong>No reemplaza una consulta médica.</strong>
+      </p>
+    </div>
+
+    <!-- Banner llamativo -->
+    <div class="pt-banner">
+      <div class="pt-banner-pulse"></div>
+      <div class="pt-banner-content">
+        <span class="pt-banner-icon">🩺</span>
+        <div class="pt-banner-text">
+          <strong>¿Tienes dolor de espalda o cuello?</strong>
+          <span>Responde 6 preguntas y descubre qué tipo de atención necesitas</span>
+        </div>
+        <span class="pt-banner-arrow">↓</span>
+      </div>
+    </div>
+
+    <div class="pain-test-wrap">
+
+      <!-- Barra de progreso mejorada -->
+      <div class="pt-progress-header">
+        <div class="pt-progress-bar" role="progressbar" aria-label="Progreso del test">
+          <div class="pt-progress-fill" id="pt-progress"></div>
+        </div>
+        <div class="pt-progress-label" id="pt-progress-label">Pregunta 1 de 6</div>
+      </div>
+
+      <!-- Paso 1: Zona del dolor -->
+      <div class="pt-step active" id="step-1">
+        <div class="pt-step-num">01</div>
+        <div class="pt-question">¿Dónde se localiza principalmente tu dolor?</div>
+        <div class="pt-hint">Selecciona la región que más te molesta</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="zona" data-val="cervical">
+            <span class="pt-option-icon">🔝</span>
+            <div class="pt-option-label">Cuello (Cervical)</div>
+            <div class="pt-option-sub">Nuca, hombros, brazos</div>
+          </div>
+          <div class="pt-option" data-key="zona" data-val="dorsal">
+            <span class="pt-option-icon">🔙</span>
+            <div class="pt-option-label">Espalda media (Dorsal)</div>
+            <div class="pt-option-sub">Entre los omóplatos</div>
+          </div>
+          <div class="pt-option" data-key="zona" data-val="lumbar">
+            <span class="pt-option-icon">⬇️</span>
+            <div class="pt-option-label">Espalda baja (Lumbar)</div>
+            <div class="pt-option-sub">Cintura, glúteos, piernas</div>
+          </div>
+          <div class="pt-option" data-key="zona" data-val="multiple">
+            <span class="pt-option-icon">🔄</span>
+            <div class="pt-option-label">Varias zonas</div>
+            <div class="pt-option-sub">El dolor se extiende</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <span></span>
+          <button class="pt-btn-next" id="next-1" data-current="1">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 2: Intensidad -->
+      <div class="pt-step" id="step-2">
+        <div class="pt-step-num">02</div>
+        <div class="pt-question">¿Qué tan intenso es tu dolor ahora mismo?</div>
+        <div class="pt-hint">1 = casi nada · 10 = el peor dolor imaginable</div>
+        <div class="pt-scale">
+          <div class="pt-scale-track" id="scale-btns">
+            <button class="pt-scale-btn" data-value="1">1</button>
+            <button class="pt-scale-btn" data-value="2">2</button>
+            <button class="pt-scale-btn" data-value="3">3</button>
+            <button class="pt-scale-btn" data-value="4">4</button>
+            <button class="pt-scale-btn" data-value="5">5</button>
+            <button class="pt-scale-btn" data-value="6">6</button>
+            <button class="pt-scale-btn" data-value="7">7</button>
+            <button class="pt-scale-btn" data-value="8">8</button>
+            <button class="pt-scale-btn" data-value="9">9</button>
+            <button class="pt-scale-btn" data-value="10">10</button>
+          </div>
+          <div class="pt-scale-labels">
+            <span>😌 Sin dolor</span><span>😫 Dolor máximo</span>
+          </div>
+          <div class="pt-scale-selected" id="scale-selected-label"></div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="2">← Anterior</button>
+          <button class="pt-btn-next" id="next-2" data-current="2">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 3: Duración -->
+      <div class="pt-step" id="step-3">
+        <div class="pt-step-num">03</div>
+        <div class="pt-question">¿Cuánto tiempo llevas con este dolor?</div>
+        <div class="pt-hint">Considera desde cuándo comenzó el episodio actual</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="duracion" data-val="dias">
+            <span class="pt-option-icon">📅</span>
+            <div class="pt-option-label">Menos de 1 semana</div>
+            <div class="pt-option-sub">Dolor agudo reciente</div>
+          </div>
+          <div class="pt-option" data-key="duracion" data-val="semanas">
+            <span class="pt-option-icon">🗓️</span>
+            <div class="pt-option-label">1 a 6 semanas</div>
+            <div class="pt-option-sub">Dolor subagudo</div>
+          </div>
+          <div class="pt-option" data-key="duracion" data-val="meses">
+            <span class="pt-option-icon">📆</span>
+            <div class="pt-option-label">1 a 6 meses</div>
+            <div class="pt-option-sub">Dolor persistente</div>
+          </div>
+          <div class="pt-option" data-key="duracion" data-val="anos">
+            <span class="pt-option-icon">⏳</span>
+            <div class="pt-option-label">Más de 6 meses</div>
+            <div class="pt-option-sub">Dolor crónico</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="3">← Anterior</button>
+          <button class="pt-btn-next" id="next-3" data-current="3">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 4: Síntomas asociados -->
+      <div class="pt-step" id="step-4">
+        <div class="pt-step-num">04</div>
+        <div class="pt-question">¿Tienes alguno de estos síntomas adicionales?</div>
+        <div class="pt-hint">Selecciona el síntoma más significativo que presentas</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="sintomas" data-val="sfinteres">
+            <span class="pt-option-icon">🚨</span>
+            <div class="pt-option-label">Dificultad para orinar o defecar</div>
+            <div class="pt-option-sub">Pérdida de control de esfínteres</div>
+          </div>
+          <div class="pt-option" data-key="sintomas" data-val="neurologico">
+            <span class="pt-option-icon">⚡</span>
+            <div class="pt-option-label">Entumecimiento o debilidad</div>
+            <div class="pt-option-sub">En brazos, piernas o pies</div>
+          </div>
+          <div class="pt-option" data-key="sintomas" data-val="irradiado">
+            <span class="pt-option-icon">🔥</span>
+            <div class="pt-option-label">Dolor que baja por la pierna o brazo</div>
+            <div class="pt-option-sub">Ciática o cervicobraquialgia</div>
+          </div>
+          <div class="pt-option" data-key="sintomas" data-val="solo_dolor">
+            <span class="pt-option-icon">😣</span>
+            <div class="pt-option-label">Solo dolor local</div>
+            <div class="pt-option-sub">Sin irradiación ni debilidad</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="4">← Anterior</button>
+          <button class="pt-btn-next" id="next-4" data-current="4">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 5: Causa -->
+      <div class="pt-step" id="step-5">
+        <div class="pt-step-num">05</div>
+        <div class="pt-question">¿Sabes qué originó el dolor?</div>
+        <div class="pt-hint">Esto ayuda a orientar el tipo de tratamiento más adecuado</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="causa" data-val="trauma">
+            <span class="pt-option-icon">💥</span>
+            <div class="pt-option-label">Golpe o caída reciente</div>
+            <div class="pt-option-sub">Accidente, trauma directo</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="esfuerzo">
+            <span class="pt-option-icon">🏋️</span>
+            <div class="pt-option-label">Esfuerzo o movimiento brusco</div>
+            <div class="pt-option-sub">Levantar peso, torcedura</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="postura">
+            <span class="pt-option-icon">💺</span>
+            <div class="pt-option-label">Postura o trabajo sedentario</div>
+            <div class="pt-option-sub">Escritorio, computadora, pantalla</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="sin_causa">
+            <span class="pt-option-icon">❓</span>
+            <div class="pt-option-label">Sin causa aparente</div>
+            <div class="pt-option-sub">Apareció de forma espontánea</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="5">← Anterior</button>
+          <button class="pt-btn-next" id="next-5" data-current="5">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 6: Tratamiento previo -->
+      <div class="pt-step" id="step-6">
+        <div class="pt-step-num">06</div>
+        <div class="pt-question">¿Has recibido algún tratamiento para este dolor?</div>
+        <div class="pt-hint">Cuéntanos sobre tu experiencia previa con este padecimiento</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="tratamiento" data-val="ninguno">
+            <span class="pt-option-icon">🆕</span>
+            <div class="pt-option-label">Ninguno todavía</div>
+            <div class="pt-option-sub">Primera vez que lo evalúo</div>
+          </div>
+          <div class="pt-option" data-key="tratamiento" data-val="medicamento">
+            <span class="pt-option-icon">💊</span>
+            <div class="pt-option-label">Solo medicamentos</div>
+            <div class="pt-option-sub">Analgésicos, antiinflamatorios</div>
+          </div>
+          <div class="pt-option" data-key="tratamiento" data-val="fisio">
+            <span class="pt-option-icon">🏃</span>
+            <div class="pt-option-label">Fisioterapia o rehabilitación</div>
+            <div class="pt-option-sub">Con mejoría parcial o sin mejoría</div>
+          </div>
+          <div class="pt-option" data-key="tratamiento" data-val="cirugia_previa">
+            <span class="pt-option-icon">🔩</span>
+            <div class="pt-option-label">Ya tuve cirugía de columna</div>
+            <div class="pt-option-sub">El dolor regresó o persiste</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="6">← Anterior</button>
+          <button class="pt-btn-next is-enabled" id="next-6" data-action="result">Ver mi resultado →</button>
+        </div>
+      </div>
+
+      <!-- Resultado -->
+      <div id="pt-result" class="pt-result" hidden>
+        <div id="result-card" class="pt-result-card">
+          <div class="pt-result-badge">
+            <span class="pt-result-icon" id="result-icon"></span>
+            <span class="pt-result-level" id="result-level"></span>
+          </div>
+          <h3 class="pt-result-title" id="result-title"></h3>
+          <p class="pt-result-desc"  id="result-desc"></p>
+          <div class="pt-result-actions">
+            <a href="#citas" class="btn-primary btn-primary--sm">📅 Agendar Consulta</a>
+            <button class="pt-btn-pdf" id="btn-pdf" onclick="window.print()">📄 Descargar PDF</button>
+            <button class="pt-restart" id="btn-restart">🔄 Repetir test</button>
+          </div>
+        </div>
+        <div class="pt-summary" id="pt-summary">
+          <div class="pt-summary-title">📋 Resumen de tus respuestas</div>
+          <div class="pt-summary-grid" id="pt-summary-grid"></div>
+        </div>
+        <div class="pt-disclaimer" role="note">
+          ⚠️ <strong>Aviso importante:</strong> Este test es orientativo y no sustituye una valoración
+          médica profesional. Los resultados son una guía general basada en tus respuestas. Consulta
+          siempre con el Dr. Ancona para un diagnóstico preciso y un plan de tratamiento personalizado.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -793,248 +1057,6 @@
   <!-- ============================================================
        TEST DE DOLOR DE COLUMNA
   ============================================================ -->
-  <section id="test-dolor">
-    <div class="section-header section-header--center">
-      <div class="section-tag">Evaluación Rápida</div>
-      <h2 class="section-title section-title--center">Test de Dolor de Columna</h2>
-      <p class="section-sub section-sub--center">
-        Responde 6 preguntas y recibe una orientación personalizada sobre tu dolor.
-        <strong>No reemplaza una consulta médica.</strong>
-      </p>
-    </div>
-
-    <div class="pain-test-wrap">
-
-      <!-- Barra de progreso mejorada -->
-      <div class="pt-progress-header">
-        <div class="pt-progress-bar" role="progressbar" aria-label="Progreso del test">
-          <div class="pt-progress-fill" id="pt-progress"></div>
-        </div>
-        <div class="pt-progress-label" id="pt-progress-label">Pregunta 1 de 6</div>
-      </div>
-
-      <!-- Paso 1: Zona del dolor -->
-      <div class="pt-step active" id="step-1">
-        <div class="pt-step-num">01</div>
-        <div class="pt-question">¿Dónde se localiza principalmente tu dolor?</div>
-        <div class="pt-hint">Selecciona la región que más te molesta</div>
-        <div class="pt-options">
-          <div class="pt-option" data-key="zona" data-val="cervical">
-            <span class="pt-option-icon">🔝</span>
-            <div class="pt-option-label">Cuello (Cervical)</div>
-            <div class="pt-option-sub">Nuca, hombros, brazos</div>
-          </div>
-          <div class="pt-option" data-key="zona" data-val="dorsal">
-            <span class="pt-option-icon">🔙</span>
-            <div class="pt-option-label">Espalda media (Dorsal)</div>
-            <div class="pt-option-sub">Entre los omóplatos</div>
-          </div>
-          <div class="pt-option" data-key="zona" data-val="lumbar">
-            <span class="pt-option-icon">⬇️</span>
-            <div class="pt-option-label">Espalda baja (Lumbar)</div>
-            <div class="pt-option-sub">Cintura, glúteos, piernas</div>
-          </div>
-          <div class="pt-option" data-key="zona" data-val="multiple">
-            <span class="pt-option-icon">🔄</span>
-            <div class="pt-option-label">Varias zonas</div>
-            <div class="pt-option-sub">El dolor se extiende</div>
-          </div>
-        </div>
-        <div class="pt-nav">
-          <span></span>
-          <button class="pt-btn-next" id="next-1" data-current="1">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- Paso 2: Intensidad -->
-      <div class="pt-step" id="step-2">
-        <div class="pt-step-num">02</div>
-        <div class="pt-question">¿Qué tan intenso es tu dolor ahora mismo?</div>
-        <div class="pt-hint">1 = casi nada · 10 = el peor dolor imaginable</div>
-        <div class="pt-scale">
-          <div class="pt-scale-track" id="scale-btns">
-            <button class="pt-scale-btn" data-value="1">1</button>
-            <button class="pt-scale-btn" data-value="2">2</button>
-            <button class="pt-scale-btn" data-value="3">3</button>
-            <button class="pt-scale-btn" data-value="4">4</button>
-            <button class="pt-scale-btn" data-value="5">5</button>
-            <button class="pt-scale-btn" data-value="6">6</button>
-            <button class="pt-scale-btn" data-value="7">7</button>
-            <button class="pt-scale-btn" data-value="8">8</button>
-            <button class="pt-scale-btn" data-value="9">9</button>
-            <button class="pt-scale-btn" data-value="10">10</button>
-          </div>
-          <div class="pt-scale-labels">
-            <span>😌 Sin dolor</span><span>😫 Dolor máximo</span>
-          </div>
-          <div class="pt-scale-selected" id="scale-selected-label"></div>
-        </div>
-        <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="2">← Anterior</button>
-          <button class="pt-btn-next" id="next-2" data-current="2">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- Paso 3: Duración -->
-      <div class="pt-step" id="step-3">
-        <div class="pt-step-num">03</div>
-        <div class="pt-question">¿Cuánto tiempo llevas con este dolor?</div>
-        <div class="pt-hint">Considera desde cuándo comenzó el episodio actual</div>
-        <div class="pt-options">
-          <div class="pt-option" data-key="duracion" data-val="dias">
-            <span class="pt-option-icon">📅</span>
-            <div class="pt-option-label">Menos de 1 semana</div>
-            <div class="pt-option-sub">Dolor agudo reciente</div>
-          </div>
-          <div class="pt-option" data-key="duracion" data-val="semanas">
-            <span class="pt-option-icon">🗓️</span>
-            <div class="pt-option-label">1 a 6 semanas</div>
-            <div class="pt-option-sub">Dolor subagudo</div>
-          </div>
-          <div class="pt-option" data-key="duracion" data-val="meses">
-            <span class="pt-option-icon">📆</span>
-            <div class="pt-option-label">1 a 6 meses</div>
-            <div class="pt-option-sub">Dolor persistente</div>
-          </div>
-          <div class="pt-option" data-key="duracion" data-val="anos">
-            <span class="pt-option-icon">⏳</span>
-            <div class="pt-option-label">Más de 6 meses</div>
-            <div class="pt-option-sub">Dolor crónico</div>
-          </div>
-        </div>
-        <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="3">← Anterior</button>
-          <button class="pt-btn-next" id="next-3" data-current="3">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- Paso 4: Síntomas asociados -->
-      <div class="pt-step" id="step-4">
-        <div class="pt-step-num">04</div>
-        <div class="pt-question">¿Tienes alguno de estos síntomas adicionales?</div>
-        <div class="pt-hint">Selecciona el síntoma más significativo que presentas</div>
-        <div class="pt-options">
-          <div class="pt-option" data-key="sintomas" data-val="sfinteres">
-            <span class="pt-option-icon">🚨</span>
-            <div class="pt-option-label">Dificultad para orinar o defecar</div>
-            <div class="pt-option-sub">Pérdida de control de esfínteres</div>
-          </div>
-          <div class="pt-option" data-key="sintomas" data-val="neurologico">
-            <span class="pt-option-icon">⚡</span>
-            <div class="pt-option-label">Entumecimiento o debilidad</div>
-            <div class="pt-option-sub">En brazos, piernas o pies</div>
-          </div>
-          <div class="pt-option" data-key="sintomas" data-val="irradiado">
-            <span class="pt-option-icon">🔥</span>
-            <div class="pt-option-label">Dolor que baja por la pierna o brazo</div>
-            <div class="pt-option-sub">Ciática o cervicobraquialgia</div>
-          </div>
-          <div class="pt-option" data-key="sintomas" data-val="solo_dolor">
-            <span class="pt-option-icon">😣</span>
-            <div class="pt-option-label">Solo dolor local</div>
-            <div class="pt-option-sub">Sin irradiación ni debilidad</div>
-          </div>
-        </div>
-        <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="4">← Anterior</button>
-          <button class="pt-btn-next" id="next-4" data-current="4">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- Paso 5: Causa -->
-      <div class="pt-step" id="step-5">
-        <div class="pt-step-num">05</div>
-        <div class="pt-question">¿Sabes qué originó el dolor?</div>
-        <div class="pt-hint">Esto ayuda a orientar el tipo de tratamiento más adecuado</div>
-        <div class="pt-options">
-          <div class="pt-option" data-key="causa" data-val="trauma">
-            <span class="pt-option-icon">💥</span>
-            <div class="pt-option-label">Golpe o caída reciente</div>
-            <div class="pt-option-sub">Accidente, trauma directo</div>
-          </div>
-          <div class="pt-option" data-key="causa" data-val="esfuerzo">
-            <span class="pt-option-icon">🏋️</span>
-            <div class="pt-option-label">Esfuerzo o movimiento brusco</div>
-            <div class="pt-option-sub">Levantar peso, torcedura</div>
-          </div>
-          <div class="pt-option" data-key="causa" data-val="postura">
-            <span class="pt-option-icon">💺</span>
-            <div class="pt-option-label">Postura o trabajo sedentario</div>
-            <div class="pt-option-sub">Escritorio, computadora, pantalla</div>
-          </div>
-          <div class="pt-option" data-key="causa" data-val="sin_causa">
-            <span class="pt-option-icon">❓</span>
-            <div class="pt-option-label">Sin causa aparente</div>
-            <div class="pt-option-sub">Apareció de forma espontánea</div>
-          </div>
-        </div>
-        <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="5">← Anterior</button>
-          <button class="pt-btn-next" id="next-5" data-current="5">Siguiente →</button>
-        </div>
-      </div>
-
-      <!-- Paso 6: Tratamiento previo -->
-      <div class="pt-step" id="step-6">
-        <div class="pt-step-num">06</div>
-        <div class="pt-question">¿Has recibido algún tratamiento para este dolor?</div>
-        <div class="pt-hint">Cuéntanos sobre tu experiencia previa con este padecimiento</div>
-        <div class="pt-options">
-          <div class="pt-option" data-key="tratamiento" data-val="ninguno">
-            <span class="pt-option-icon">🆕</span>
-            <div class="pt-option-label">Ninguno todavía</div>
-            <div class="pt-option-sub">Primera vez que lo evalúo</div>
-          </div>
-          <div class="pt-option" data-key="tratamiento" data-val="medicamento">
-            <span class="pt-option-icon">💊</span>
-            <div class="pt-option-label">Solo medicamentos</div>
-            <div class="pt-option-sub">Analgésicos, antiinflamatorios</div>
-          </div>
-          <div class="pt-option" data-key="tratamiento" data-val="fisio">
-            <span class="pt-option-icon">🏃</span>
-            <div class="pt-option-label">Fisioterapia o rehabilitación</div>
-            <div class="pt-option-sub">Con mejoría parcial o sin mejoría</div>
-          </div>
-          <div class="pt-option" data-key="tratamiento" data-val="cirugia_previa">
-            <span class="pt-option-icon">🔩</span>
-            <div class="pt-option-label">Ya tuve cirugía de columna</div>
-            <div class="pt-option-sub">El dolor regresó o persiste</div>
-          </div>
-        </div>
-        <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="6">← Anterior</button>
-          <button class="pt-btn-next is-enabled" id="next-6" data-action="result">Ver mi resultado →</button>
-        </div>
-      </div>
-
-      <!-- Resultado -->
-      <div id="pt-result" class="pt-result" hidden>
-        <div id="result-card" class="pt-result-card">
-          <div class="pt-result-badge">
-            <span class="pt-result-icon" id="result-icon"></span>
-            <span class="pt-result-level" id="result-level"></span>
-          </div>
-          <h3 class="pt-result-title" id="result-title"></h3>
-          <p class="pt-result-desc"  id="result-desc"></p>
-          <div class="pt-result-actions">
-            <a href="#citas" class="btn-primary btn-primary--sm">📅 Agendar Consulta</a>
-            <button class="pt-btn-pdf" id="btn-pdf" onclick="window.print()">📄 Descargar PDF</button>
-            <button class="pt-restart" id="btn-restart">🔄 Repetir test</button>
-          </div>
-        </div>
-        <div class="pt-summary" id="pt-summary">
-          <div class="pt-summary-title">📋 Resumen de tus respuestas</div>
-          <div class="pt-summary-grid" id="pt-summary-grid"></div>
-        </div>
-        <div class="pt-disclaimer" role="note">
-          ⚠️ <strong>Aviso importante:</strong> Este test es orientativo y no sustituye una valoración
-          médica profesional. Los resultados son una guía general basada en tus respuestas. Consulta
-          siempre con el Dr. Ancona para un diagnóstico preciso y un plan de tratamiento personalizado.
-        </div>
-      </div>
-
-    </div>
-  </section>
 
 
   <!-- ============================================================
