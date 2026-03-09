@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Dr. Ancona Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0a1628;
+      --deep:      #0d2045;
+      --royal:     #1a3a6e;
+      --mid:       #1e5cb3;
+      --vivid:     #1a7fe8;
+      --accent:    #00c6ff;
+      --gold:      #e8c96a;
+      --success:   #22c55e;
+      --warning:   #f59e0b;
+      --error:     #ef4444;
+      --sidebar-w: 240px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #080f1e;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--deep);
+      border-right: 1px solid rgba(26,127,232,.15);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      padding: 1.5rem 1.25rem;
+      border-bottom: 1px solid rgba(26,127,232,.12);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .sidebar-brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--vivid), var(--accent));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .sidebar-brand-text { font-size: .78rem; line-height: 1.4; }
+    .sidebar-brand-text strong { display: block; font-size: .88rem; color: white; }
+    .sidebar-brand-text span   { color: rgba(255,255,255,.4); font-size: .72rem; }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1rem 0;
+      overflow-y: auto;
+    }
+    .nav-section-title {
+      padding: .6rem 1.25rem .3rem;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .65rem 1.25rem;
+      color: rgba(255,255,255,.55);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 500;
+      transition: background .15s, color .15s;
+      border-radius: 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-item:hover { background: rgba(26,127,232,.1); color: rgba(255,255,255,.85); }
+    .nav-item.is-active {
+      background: rgba(26,127,232,.2);
+      color: white;
+      border-left: 3px solid var(--vivid);
+    }
+    .nav-item-icon { font-size: 1rem; width: 20px; text-align: center; }
+    .nav-badge {
+      margin-left: auto;
+      background: var(--vivid);
+      color: white;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .15rem .45rem;
+      border-radius: 999px;
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(26,127,232,.12);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: .75rem;
+    }
+    .user-avatar {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--mid), var(--vivid));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .user-name  { font-size: .82rem; font-weight: 600; color: white; }
+    .user-role  { font-size: .72rem; color: rgba(255,255,255,.4); }
+    .btn-logout {
+      width: 100%;
+      padding: .55rem;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.25);
+      border-radius: 8px;
+      color: #fca5a5;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,.2); }
+
+    /* ── MAIN CONTENT ─────────────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: var(--deep);
+      border-bottom: 1px solid rgba(26,127,232,.12);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-title { font-size: 1.05rem; font-weight: 600; color: white; }
+    .topbar-date  { font-size: .8rem; color: rgba(255,255,255,.35); }
+
+    .content { padding: 2rem; }
+
+    /* ── STAT CARDS ───────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--deep);
+      border: 1px solid rgba(26,127,232,.15);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+      opacity: .15;
+    }
+    .stat-card--blue::before   { background: var(--vivid); }
+    .stat-card--green::before  { background: var(--success); }
+    .stat-card--gold::before   { background: var(--gold); }
+    .stat-card--accent::before { background: var(--accent); }
+
+    .stat-label {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: .6rem;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      margin-bottom: .4rem;
+    }
+    .stat-sub {
+      font-size: .78rem;
+      color: rgba(255,255,255,.35);
+    }
+    .stat-icon {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      font-size: 1.4rem;
+      opacity: .6;
+    }
+
+    /* ── PANELS ───────────────────────────────────────────────── */
+    .panels-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+    }
+
+    .panel {
+      background: var(--deep);
+      border: 1px solid rgba(26,127,232,.15);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid rgba(26,127,232,.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel-title {
+      font-size: .92rem;
+      font-weight: 600;
+      color: white;
+    }
+    .panel-action {
+      font-size: .78rem;
+      color: var(--vivid);
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .panel-action:hover { opacity: .75; }
+
+    /* Tabla de artículos recientes */
+    .posts-table { width: 100%; border-collapse: collapse; }
+    .posts-table th {
+      padding: .7rem 1.5rem;
+      text-align: left;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      border-bottom: 1px solid rgba(26,127,232,.08);
+    }
+    .posts-table td {
+      padding: .9rem 1.5rem;
+      font-size: .85rem;
+      color: rgba(255,255,255,.75);
+      border-bottom: 1px solid rgba(26,127,232,.06);
+    }
+    .posts-table tr:last-child td { border-bottom: none; }
+    .posts-table tr:hover td { background: rgba(26,127,232,.05); }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .status-badge--published {
+      background: rgba(34,197,94,.15);
+      color: #4ade80;
+    }
+    .status-badge--draft {
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.4);
+    }
+    .status-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Acciones rápidas */
+    .quick-actions { padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: .6rem; }
+    .quick-action-btn {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .85rem 1rem;
+      background: rgba(26,127,232,.08);
+      border: 1px solid rgba(26,127,232,.15);
+      border-radius: 10px;
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: background .15s, border-color .15s;
+      cursor: pointer;
+    }
+    .quick-action-btn:hover {
+      background: rgba(26,127,232,.18);
+      border-color: rgba(26,127,232,.35);
+      color: white;
+    }
+    .quick-action-btn .icon { font-size: 1.1rem; }
+    .quick-action-btn .coming-soon {
+      margin-left: auto;
+      font-size: .65rem;
+      background: rgba(232,201,106,.15);
+      color: var(--gold);
+      padding: .1rem .4rem;
+      border-radius: 4px;
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      height: 14px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    .empty-state {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: rgba(255,255,255,.3);
+      font-size: .88rem;
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: .75rem; opacity: .4; }
+  </style>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">🦴</div>
+      <div class="sidebar-brand-text">
+        <strong>Dr. Ancona</strong>
+        <span>Panel Admin</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">General</div>
+      <a class="nav-item is-active" href="dashboard.html">
+        <span class="nav-item-icon">📊</span> Dashboard
+      </a>
+
+      <div class="nav-section-title" style="margin-top:.75rem">Contenido</div>
+      <a class="nav-item" href="blog.html">
+        <span class="nav-item-icon">✍️</span> Blog
+        <span class="nav-badge" id="badge-posts">—</span>
+      </a>
+
+      <div class="nav-section-title" style="margin-top:.75rem">Próximamente</div>
+      <span class="nav-item" style="opacity:.4;cursor:not-allowed">
+        <span class="nav-item-icon">📅</span> Citas
+      </span>
+      <span class="nav-item" style="opacity:.4;cursor:not-allowed">
+        <span class="nav-item-icon">👤</span> Pacientes
+      </span>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">👨‍⚕️</div>
+        <div>
+          <div class="user-name" id="user-name">Cargando...</div>
+          <div class="user-role">Administrador</div>
+        </div>
+      </div>
+      <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ───────────────────────────────────────────────── -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-date" id="topbar-date"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card stat-card--blue">
+          <div class="stat-icon">📝</div>
+          <div class="stat-label">Total Artículos</div>
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-sub">en el blog</div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">Publicados</div>
+          <div class="stat-value" id="stat-published">—</div>
+          <div class="stat-sub">visibles en el sitio</div>
+        </div>
+        <div class="stat-card stat-card--gold">
+          <div class="stat-icon">📄</div>
+          <div class="stat-label">Borradores</div>
+          <div class="stat-value" id="stat-drafts">—</div>
+          <div class="stat-sub">pendientes</div>
+        </div>
+        <div class="stat-card stat-card--accent">
+          <div class="stat-icon">🗓️</div>
+          <div class="stat-label">Citas</div>
+          <div class="stat-value">—</div>
+          <div class="stat-sub">próximamente</div>
+        </div>
+      </div>
+
+      <!-- Panels -->
+      <div class="panels-grid">
+
+        <!-- Artículos recientes -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Artículos recientes</span>
+            <a href="blog.html" class="panel-action">Ver todos →</a>
+          </div>
+          <div id="recent-posts-container">
+            <div class="empty-state">
+              <div class="icon">⏳</div>
+              Cargando artículos...
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones rápidas -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Acciones rápidas</span>
+          </div>
+          <div class="quick-actions">
+            <a href="blog.html?action=new" class="quick-action-btn">
+              <span class="icon">✍️</span> Nuevo artículo
+            </a>
+            <a href="../index.html" target="_blank" class="quick-action-btn">
+              <span class="icon">🌐</span> Ver sitio web
+            </a>
+            <span class="quick-action-btn">
+              <span class="icon">📅</span> Gestionar citas
+              <span class="coming-soon">Próximo</span>
+            </span>
+            <span class="quick-action-btn">
+              <span class="icon">👤</span> Base de pacientes
+              <span class="coming-soon">Próximo</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://TU_PROYECTO.supabase.co'; // TODO
+    const SUPABASE_ANON = 'TU_ANON_KEY';                     // TODO
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // ── Fecha en topbar ────────────────────────────────────────────
+    document.getElementById('topbar-date').textContent =
+      new Date().toLocaleDateString('es-MX', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    // ── Auth guard ─────────────────────────────────────────────────
+    (async () => {
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { window.location.href = 'login.html'; return; }
+
+      // Mostrar email del usuario
+      document.getElementById('user-name').textContent =
+        session.user.email.split('@')[0];
+
+      // Cargar datos del dashboard
+      await loadDashboard();
+    })();
+
+    // ── Logout ─────────────────────────────────────────────────────
+    document.getElementById('btn-logout').addEventListener('click', async () => {
+      await db.auth.signOut();
+      window.location.href = 'login.html';
+    });
+
+    // ── Cargar dashboard ───────────────────────────────────────────
+    async function loadDashboard() {
+      try {
+        const { data: posts, error } = await db
+          .from('blog_posts')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        const total     = posts.length;
+        const published = posts.filter(p => p.published).length;
+        const drafts    = total - published;
+
+        document.getElementById('stat-total').textContent     = total;
+        document.getElementById('stat-published').textContent = published;
+        document.getElementById('stat-drafts').textContent    = drafts;
+        document.getElementById('badge-posts').textContent    = total;
+
+        renderRecentPosts(posts.slice(0, 6));
+      } catch (err) {
+        console.error('Error cargando dashboard:', err);
+      }
+    }
+
+    function renderRecentPosts(posts) {
+      const container = document.getElementById('recent-posts-container');
+
+      if (!posts.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">📝</div>
+            No hay artículos todavía.<br>
+            <a href="blog.html?action=new" style="color:var(--vivid);text-decoration:none;">Crea el primero →</a>
+          </div>`;
+        return;
+      }
+
+      const rows = posts.map(p => `
+        <tr>
+          <td>${escapeHtml(p.title)}</td>
+          <td>${escapeHtml(p.category || '—')}</td>
+          <td>
+            <span class="status-badge status-badge--${p.published ? 'published' : 'draft'}">
+              ${p.published ? 'Publicado' : 'Borrador'}
+            </span>
+          </td>
+          <td>${new Date(p.created_at).toLocaleDateString('es-MX')}</td>
+        </tr>`).join('');
+
+      container.innerHTML = `
+        <table class="posts-table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Categoría</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function escapeHtml(str = '') {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso Admin — Dr. Ancona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0a1628;
+      --deep:   #0d2045;
+      --royal:  #1a3a6e;
+      --vivid:  #1a7fe8;
+      --accent: #00c6ff;
+      --gold:   #e8c96a;
+      --error:  #ff4d6d;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fondo animado */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(26,127,232,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 80%, rgba(0,198,255,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Grid pattern */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(26,127,232,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,232,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: rgba(13,32,69,.85);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(26,127,232,.25);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 32px 80px rgba(0,0,0,.4);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .login-logo-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--vivid), var(--accent));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1rem;
+      box-shadow: 0 8px 24px rgba(26,127,232,.4);
+    }
+    .login-logo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: white;
+      line-height: 1.3;
+    }
+    .login-logo p {
+      color: rgba(255,255,255,.45);
+      font-size: .8rem;
+      margin-top: .3rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    label {
+      display: block;
+      color: rgba(255,255,255,.6);
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+    input {
+      width: 100%;
+      padding: .85rem 1rem;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(26,127,232,.25);
+      border-radius: 10px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      transition: border-color .2s, background .2s;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--vivid);
+      background: rgba(26,127,232,.1);
+    }
+    input::placeholder { color: rgba(255,255,255,.25); }
+
+    .btn-login {
+      width: 100%;
+      padding: .95rem;
+      margin-top: .5rem;
+      background: linear-gradient(135deg, var(--vivid), var(--accent));
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+      position: relative;
+    }
+    .btn-login:hover {
+      opacity: .92;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(26,127,232,.4);
+    }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    /* Spinner dentro del botón */
+    .btn-login .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto;
+    }
+    .btn-login.is-loading .btn-text { display: none; }
+    .btn-login.is-loading .spinner  { display: block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Mensaje de error */
+    .error-msg {
+      display: none;
+      background: rgba(255,77,109,.12);
+      border: 1px solid rgba(255,77,109,.3);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      color: #ff8fa3;
+      font-size: .85rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .error-msg.is-visible { display: block; }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.75rem;
+      color: rgba(255,255,255,.3);
+      font-size: .82rem;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .back-link:hover { color: rgba(255,255,255,.6); }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">🦴</div>
+      <h1>Dr. Angel M. Ancona Pérez</h1>
+      <p>Panel de Administración</p>
+    </div>
+
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="admin@ejemplo.com"
+          autocomplete="email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-login" id="btn-login">
+        <span class="btn-text">Iniciar Sesión</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="error-msg" id="error-msg" role="alert"></div>
+    </form>
+
+    <a href="../index.html" class="back-link">← Volver al sitio web</a>
+  </div>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ── Configuración Supabase ─────────────────────────────────────
+    const SUPABASE_URL  = 'https://TU_PROYECTO.supabase.co'; // TODO
+    const SUPABASE_ANON = 'TU_ANON_KEY';                     // TODO
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // ── Redirigir si ya hay sesión activa ──────────────────────────
+    (async () => {
+      const { data: { session } } = await db.auth.getSession();
+      if (session) window.location.href = 'dashboard.html';
+    })();
+
+    // ── Lógica del formulario ──────────────────────────────────────
+    const form    = document.getElementById('login-form');
+    const btn     = document.getElementById('btn-login');
+    const errMsg  = document.getElementById('error-msg');
+
+    function showError(msg) {
+      errMsg.textContent = msg;
+      errMsg.classList.add('is-visible');
+    }
+    function hideError() {
+      errMsg.classList.remove('is-visible');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        showError('Por favor ingresa tu correo y contraseña.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.classList.add('is-loading');
+
+      try {
+        const { error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        const msgs = {
+          'Invalid login credentials': 'Correo o contraseña incorrectos.',
+          'Email not confirmed':        'Confirma tu correo antes de ingresar.',
+        };
+        showError(msgs[err.message] || 'Error al iniciar sesión. Intenta de nuevo.');
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove('is-loading');
+      }
+    });
+  </script>
+</body>
+</html>
