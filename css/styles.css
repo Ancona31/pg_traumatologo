@@ -1486,7 +1486,7 @@ img {
 ================================================================ */
 .fab-test {
   position: fixed;
-  bottom: 2rem;
+  bottom: calc(2rem + 58px + 1rem); /* encima del botón de WhatsApp */
   right: 2rem;
   z-index: 999;
   display: flex;
@@ -2103,6 +2103,7 @@ footer {
 
   /* FAB WhatsApp — alejar del borde */
   .fab { bottom: 1.25rem; right: 1.25rem; width: 52px; height: 52px; font-size: 1.3rem; }
+  .fab-test { bottom: calc(1.25rem + 52px + .75rem); right: 1.25rem; }
 }
 
 
