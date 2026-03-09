@@ -1528,6 +1528,27 @@ footer {
 }
 
 
+.btn-ver-blog {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.25rem;
+  padding: .7rem 1.6rem;
+  background: linear-gradient(135deg, var(--color-vivid), var(--color-accent));
+  border-radius: var(--radius-lg);
+  color: white;
+  font-weight: 600;
+  font-size: .92rem;
+  text-decoration: none;
+  transition: opacity .2s, box-shadow .2s, transform .2s;
+  box-shadow: 0 4px 16px rgba(26,127,232,.25);
+}
+.btn-ver-blog:hover {
+  opacity: .92;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,127,232,.4);
+}
+
 /* ================================================================
    TRAUMATOLOGÍA GENERAL
 ================================================================ */
