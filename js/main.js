@@ -13,7 +13,7 @@
 /* ================================================================
    CONSTANTES — IDs y selectores reutilizables
 ================================================================ */
-const APPOINTMENT_FIELDS = ['f-nombre', 'f-apellido', 'f-tel', 'f-email', 'f-fecha', 'f-hora', 'f-servicio'];
+const APPOINTMENT_FIELDS = ['f-nombre', 'f-edad', 'f-tel', 'f-motivo'];
 
 /* ================================================================
    SCROLL REVEAL
@@ -99,55 +99,59 @@ function initNavbarScroll() {
 
 
 /* ================================================================
-   FORMULARIO DE CITA
+   FORMULARIO DE CITA → WhatsApp
 ================================================================ */
+const WA_NUMBER = '529996364504';
+
 function initAppointmentForm() {
   const submitBtn = document.getElementById('btn-submit-appt');
   if (!submitBtn) return;
-
-  // Establece la fecha mínima como hoy
-  const dateInput = document.getElementById('f-fecha');
-  if (dateInput) {
-    dateInput.min = new Date().toISOString().split('T')[0];
-  }
-
   submitBtn.addEventListener('click', handleAppointmentSubmit);
 }
 
 function handleAppointmentSubmit() {
-  const allFilled = APPOINTMENT_FIELDS.every((id) => {
+  const nombre = document.getElementById('f-nombre')?.value.trim();
+  const edad   = document.getElementById('f-edad')?.value.trim();
+  const tel    = document.getElementById('f-tel')?.value.trim();
+  const motivo = document.getElementById('f-motivo')?.value.trim();
+
+  // Resaltar campos vacíos
+  [['f-nombre', nombre], ['f-edad', edad], ['f-tel', tel], ['f-motivo', motivo]].forEach(([id, val]) => {
     const el = document.getElementById(id);
-    return el && el.value.trim() !== '';
+    if (el) el.style.borderColor = !val ? '#ef4444' : '';
   });
 
-  if (!allFilled) {
-    alert('Por favor completa todos los campos requeridos para solicitar tu cita.');
-    return;
-  }
+  if (!nombre || !edad || !tel || !motivo) return;
 
-  // Mostrar mensaje de éxito
+  // Limpiar el teléfono y agregar código de país automáticamente
+  // El paciente escribe solo su número local, ej: 9991234567 o 999 123 4567
+  const telLimpio = tel.replace(/\D/g, ''); // quitar todo lo que no sea número
+  const telConCodigo = telLimpio.startsWith('52') ? telLimpio : '52' + telLimpio;
+
+  // Construir mensaje pre-llenado para WhatsApp
+  const mensaje =
+    'Hola Dr. Ancona, me gustaría agendar una consulta.\n\n' +
+    '👤 Nombre: ' + nombre + '\n' +
+    '🎂 Edad: ' + edad + ' años\n' +
+    '📞 Teléfono: ' + tel + '\n' +
+    '🩺 Motivo: ' + motivo;
+
+  const url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(mensaje);
+
+  // Mostrar confirmación y abrir WhatsApp
   const successMsg = document.getElementById('success-msg');
   if (successMsg) {
-    successMsg.style.display = 'block';
+    successMsg.hidden = false;
     successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // Limpiar el formulario
-  APPOINTMENT_FIELDS.forEach((id) => {
+  setTimeout(() => window.open(url, '_blank'), 800);
+
+  // Limpiar formulario
+  ['f-nombre', 'f-edad', 'f-tel', 'f-motivo'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.value = '';
+    if (el) { el.value = ''; el.style.borderColor = ''; }
   });
-
-  const motivoField = document.getElementById('f-motivo');
-  if (motivoField) motivoField.value = '';
-
-  /* 
-   * TODO: Aquí conectar con un backend o servicio de email.
-   * Opciones recomendadas:
-   *   - Formspree (https://formspree.io)
-   *   - EmailJS  (https://emailjs.com)
-   *   - Endpoint propio con Node.js / PHP
-   */
 }
 
 
