@@ -841,81 +841,44 @@
       <!-- Formulario de cita -->
       <div class="appt-form">
         <h3>Solicitar Consulta</h3>
-        <p>Todos los campos son necesarios para confirmar tu cita.</p>
+        <p>Completa los datos y te contactaremos por WhatsApp para confirmar tu cita.</p>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="f-nombre">Nombre</label>
-            <input type="text" id="f-nombre" placeholder="Tu nombre" autocomplete="given-name" />
+            <label for="f-nombre">Nombre completo</label>
+            <input type="text" id="f-nombre" placeholder="Tu nombre completo" autocomplete="name" />
           </div>
           <div class="form-group">
-            <label for="f-apellido">Apellido</label>
-            <input type="text" id="f-apellido" placeholder="Tu apellido" autocomplete="family-name" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-tel">Teléfono</label>
-            <input type="tel" id="f-tel" placeholder="+52 55 ..." autocomplete="tel" />
-          </div>
-          <div class="form-group">
-            <label for="f-email">Correo electrónico</label>
-            <input type="email" id="f-email" placeholder="correo@ejemplo.com" autocomplete="email" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-fecha">Fecha preferida</label>
-            <input type="date" id="f-fecha" />
-          </div>
-          <div class="form-group">
-            <label for="f-hora">Hora preferida</label>
-            <select id="f-hora">
-              <option value="">Seleccionar</option>
-              <option>09:00 am</option>
-              <option>10:00 am</option>
-              <option>11:00 am</option>
-              <option>12:00 pm</option>
-              <option>1:00 pm</option>
-              <option>3:00 pm</option>
-              <option>4:00 pm</option>
-              <option>5:00 pm</option>
-              <option>6:00 pm</option>
-            </select>
+            <label for="f-edad">Edad</label>
+            <input type="number" id="f-edad" placeholder="Ej. 45" min="1" max="120" />
           </div>
         </div>
 
         <div class="form-group">
-          <label for="f-servicio">Motivo de consulta</label>
-          <select id="f-servicio">
-            <option value="">Seleccionar especialidad</option>
-            <option>Hernia Discal (cervical / lumbar)</option>
-            <option>Estenosis del Canal Espinal</option>
-            <option>Escoliosis / Deformidad vertebral</option>
-            <option>Fractura Vertebral</option>
-            <option>Espondilolistesis / Inestabilidad</option>
-            <option>Dolor Lumbar Crónico</option>
-            <option>Fractura / Traumatismo (otra región)</option>
-            <option>Lesión Deportiva</option>
-            <option>Segunda Opinión</option>
-            <option>Otro</option>
-          </select>
+          <label for="f-tel">Teléfono / WhatsApp</label>
+          <input type="tel" id="f-tel" placeholder="+52 999 000 0000" autocomplete="tel" />
         </div>
 
         <div class="form-group">
-          <label for="f-motivo">Describe tu padecimiento</label>
+          <label for="f-motivo">Motivo de consulta</label>
           <textarea
             id="f-motivo"
-            placeholder="Cuéntanos brevemente tus síntomas o motivo de consulta..."
+            rows="3"
+            placeholder="Describe brevemente tu padecimiento o síntomas..."
           ></textarea>
         </div>
 
-        <button class="btn-submit" id="btn-submit-appt">Solicitar Cita Ahora →</button>
+        <button class="btn-submit" id="btn-submit-appt">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="22" height="22" fill="none" style="flex-shrink:0">
+            <path fill="#fff" d="M24 4C13 4 4 13 4 24c0 3.6 1 7 2.7 10L4 44l10.3-2.7C17 43 20.4 44 24 44c11 0 20-9 20-20S35 4 24 4z"/>
+            <path fill="#25D366" d="M24 6.5C14.3 6.5 6.5 14.3 6.5 24c0 3.3.9 6.4 2.5 9.1L6.5 41.5l8.6-2.5c2.6 1.5 5.6 2.3 8.9 2.3 9.7 0 17.5-7.8 17.5-17.5S33.7 6.5 24 6.5z"/>
+            <path fill="#fff" fill-rule="evenodd" d="M19.2 16.2c-.4-.9-.8-.9-1.2-.9h-1c-.3 0-.9.1-1.4.7-.5.5-1.8 1.7-1.8 4.2s1.8 4.9 2.1 5.2c.3.3 3.5 5.6 8.6 7.6 4.2 1.7 5.1 1.4 6 1.3.9-.1 2.9-1.2 3.3-2.3.4-1.1.4-2.1.3-2.3-.1-.2-.4-.3-.9-.6-.5-.3-2.9-1.4-3.3-1.6-.4-.2-.7-.3-1 .3-.3.5-1.2 1.6-1.5 1.9-.3.3-.5.3-1 .1-.5-.3-2-.7-3.8-2.4-1.4-1.3-2.3-2.8-2.6-3.3-.3-.5 0-.8.2-1 .2-.2.5-.6.7-.8.2-.3.3-.5.5-.8.2-.3.1-.6 0-.9-.1-.1-1-2.5-1.3-3.4z" clip-rule="evenodd"/>
+          </svg>
+          Agendar por WhatsApp
+        </button>
 
-        <div class="success-msg" id="success-msg" role="alert" aria-live="polite">
-          ✅ ¡Solicitud enviada! Nos comunicaremos contigo en menos de 24 horas para confirmar tu cita.
+        <div class="success-msg" id="success-msg" role="alert" aria-live="polite" hidden>
+          ✅ ¡Redirigiendo a WhatsApp! El Dr. Ancona confirmará tu cita pronto.
         </div>
       </div>
     </div>

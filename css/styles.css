@@ -939,28 +939,29 @@ img {
 
 .btn-submit {
   width: 100%;
-  background: linear-gradient(135deg, var(--color-mid), var(--color-vivid), var(--color-accent));
-  background-size: 200% 100%;
-  background-position: 0% 0%;
+  background: #25D366;
   color: white;
   border: none;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-position .3s;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
 }
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(26,127,232,.4);
-  background-position: 100% 0%;
+  box-shadow: 0 10px 30px rgba(37,211,102,.45);
+  background: #1ebe5d;
 }
 
 .success-msg {
-  display: none;
-  background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+  background: linear-gradient(135deg, #e0f7ea, #e8f5e9);
   border: 1px solid #4caf50;
   border-radius: var(--radius-sm);
   padding: 1.5rem;
