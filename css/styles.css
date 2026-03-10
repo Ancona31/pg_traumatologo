@@ -2119,3 +2119,39 @@ footer {
   .hero-stats       { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
   .cert-badges      { justify-content: center; }
 }
+/* ================================================================
+   FONT AWESOME ICON STYLES
+================================================================ */
+.service-icon i,
+.mis-card-icon i,
+.trauma-category-icon i,
+.trauma-item-icon i,
+.contact-item-icon i,
+.mis-stat-card__icon i {
+  font-size: inherit;
+  color: inherit;
+  line-height: 1;
+}
+
+/* Service cards — icono con gradiente azul */
+.service-icon {
+  color: var(--color-vivid);
+}
+.service-icon i { font-size: 1.5rem; }
+
+/* MIS cards */
+.mis-card-icon i { font-size: 1.4rem; color: var(--color-accent); }
+
+/* Trauma category */
+.trauma-category-icon i { font-size: 1.6rem; color: var(--color-vivid); }
+
+/* Trauma items */
+.trauma-item-icon i { font-size: 1.3rem; color: var(--color-vivid); }
+
+/* Contact */
+.contact-item-icon i { font-size: 1.3rem; color: var(--color-vivid); }
+
+/* MIS stats */
+.mis-stat-card__icon i { font-size: 1.6rem; color: var(--color-vivid); }
+
+
