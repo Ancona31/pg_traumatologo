@@ -901,9 +901,24 @@
       </a>
     </div>
 
-    <!-- Artículos del blog — cargados dinámicamente desde Supabase -->
-    <div class="blog-grid" id="home-blog-grid">
-      <div class="blog-loading">⏳ Cargando artículos...</div>
+    <!-- CTA Blog -->
+    <div class="blog-cta-block">
+      <div class="blog-cta-icon">📚</div>
+      <h3 class="blog-cta-title">¿Tienes dudas sobre tu columna o tus huesos?</h3>
+      <p class="blog-cta-text">
+        El Dr. Ancona publica artículos periódicamente sobre cirugía de columna, traumatología,
+        recuperación postoperatoria y prevención. Información médica real, escrita para pacientes.
+      </p>
+      <div class="blog-cta-tags">
+        <span>🦴 Hernias de disco</span>
+        <span>🩻 Fracturas</span>
+        <span>🔬 Cirugía mínimamente invasiva</span>
+        <span>🏃 Lesiones deportivas</span>
+        <span>🛡️ Prevención</span>
+      </div>
+      <a href="articulos.html" target="_blank" class="blog-cta-btn">
+        📖 Leer artículos del Dr. Ancona →
+      </a>
     </div>
 
     <!-- Sección Q&A -->
@@ -1089,85 +1104,6 @@
   <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="js/pain-test.js"></script>
-
-  <!-- Blog dinámico: carga los últimos artículos desde Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-  (function() {
-    const SUPABASE_URL  = 'https://ithwmacwyexinxjtnbcg.supabase.co';
-    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0aHdtYWN3eWV4aW54anRuYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTYyNTYsImV4cCI6MjA4ODU5MjI1Nn0.WbG3MkP7xvI64V5Ip_GEBkKpVIMs-D8e7fOGB8eePfE';
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-    const CAT_ICONS = {
-      'Columna Vertebral':            '🦴',
-      'Traumatología':                '🩹',
-      'Rehabilitación':               '🏃',
-      'Prevención':                   '🛡️',
-      'Cirugía Mínimamente Invasiva': '🔬',
-    };
-
-    const HEADER_STYLES = ['blog-card-header--default','blog-card-header--dark','blog-card-header--teal','blog-card-header--navy'];
-
-    function escHtml(s = '') {
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-              .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    }
-
-    function fmtDate(iso) {
-      return new Date(iso).toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
-    }
-
-    async function loadHomeBlog() {
-      const grid = document.getElementById('home-blog-grid');
-      if (!grid) return;
-
-      try {
-        const { data, error } = await db
-          .from('blog_posts')
-          .select('id, title, category, excerpt, created_at, author')
-          .eq('published', true)
-          .order('created_at', { ascending: false })
-          .limit(4);
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          grid.innerHTML = `<div class="blog-loading" style="opacity:.6">📝 Próximamente — los artículos se publicarán pronto.</div>`;
-          return;
-        }
-
-        grid.innerHTML = data.map((post, i) => {
-          const icon    = CAT_ICONS[post.category] || '📄';
-          const style   = HEADER_STYLES[i % HEADER_STYLES.length];
-          const excerpt = (post.excerpt || '').slice(0, 140) + ((post.excerpt || '').length > 140 ? '…' : '');
-          const date    = fmtDate(post.created_at);
-          return `
-          <div class="blog-card js-animate">
-            <div class="blog-card-header ${style}">
-              <div class="blog-icon">${icon}</div>
-              <div>
-                <div class="blog-category">${escHtml(post.category || 'General')}</div>
-                <div class="blog-card-title">${escHtml(post.title)}</div>
-              </div>
-            </div>
-            <div class="blog-card-body">
-              <p>${escHtml(excerpt)}</p>
-              <div class="blog-meta">
-                <span class="blog-date">📅 ${date}</span>
-                <a href="articulos.html" class="blog-read" target="_blank">Leer artículo →</a>
-              </div>
-            </div>
-          </div>`;
-        }).join('');
-
-      } catch(err) {
-        grid.innerHTML = `<div class="blog-loading" style="opacity:.6">⚠️ No se pudieron cargar los artículos.</div>`;
-      }
-    }
-
-    loadHomeBlog();
-  })();
-  </script>
 
 </body>
 </html>
