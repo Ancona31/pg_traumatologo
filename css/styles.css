@@ -2168,8 +2168,8 @@ footer {
 .blog-cta-block {
   text-align: center;
   padding: 3rem 2rem;
-  background: linear-gradient(135deg, rgba(26,127,232,.08), rgba(0,198,255,.05));
-  border: 1px solid rgba(26,127,232,.2);
+  background: linear-gradient(135deg, rgba(5,15,40,.85), rgba(10,22,60,.9));
+  border: 1px solid rgba(26,127,232,.3);
   border-radius: 20px;
   max-width: 680px;
   margin: 0 auto 2rem;
