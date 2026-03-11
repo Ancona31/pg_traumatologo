@@ -2154,6 +2154,16 @@ footer {
 /* MIS stats */
 .mis-stat-card__icon i { font-size: 1.6rem; color: var(--color-vivid); }
 
+/* Blog dinámico — estado de carga */
+.blog-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: rgba(255,255,255,.5);
+  font-size: 1rem;
+  letter-spacing: .02em;
+}
+
 
 
 

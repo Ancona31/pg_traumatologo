@@ -901,79 +901,9 @@
       </a>
     </div>
 
-    <!-- Artículos del blog -->
-    <div class="blog-grid">
-      <div class="blog-card js-animate">
-        <div class="blog-card-header blog-card-header--default">
-          <div class="blog-icon">🔬</div>
-          <div>
-            <div class="blog-category">Cirugía Mínimamente Invasiva</div>
-            <div class="blog-card-title">¿Qué es la microdiscectomía endoscópica y cuándo se indica?</div>
-          </div>
-        </div>
-        <div class="blog-card-body">
-          <p>La endoscopía espinal permite extirpar una hernia discal con incisiones menores a 1 cm.
-          Conoce el procedimiento, sus ventajas frente a la cirugía abierta y quiénes son los mejores candidatos.</p>
-          <div class="blog-meta">
-            <span class="blog-date">📅 20 Febrero 2025</span>
-            <a href="#" class="blog-read">Leer artículo →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card js-animate">
-        <div class="blog-card-header blog-card-header--dark">
-          <div class="blog-icon">🧠</div>
-          <div>
-            <div class="blog-category">Hernias Discales</div>
-            <div class="blog-card-title">Hernia de disco lumbar: síntomas, diagnóstico y tratamiento</div>
-          </div>
-        </div>
-        <div class="blog-card-body">
-          <p>La hernia discal es una de las causas más frecuentes de dolor lumbar y ciática.
-          Te explicamos cómo se diagnostica con resonancia magnética y cuándo necesita cirugía.</p>
-          <div class="blog-meta">
-            <span class="blog-date">📅 5 Enero 2025</span>
-            <a href="#" class="blog-read">Leer artículo →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card js-animate">
-        <div class="blog-card-header blog-card-header--teal">
-          <div class="blog-icon">🧘</div>
-          <div>
-            <div class="blog-category">Dolor de Espalda</div>
-            <div class="blog-card-title">Dolor lumbar crónico: cuándo es señal de algo más grave</div>
-          </div>
-        </div>
-        <div class="blog-card-body">
-          <p>No todo dolor de espalda requiere cirugía, pero algunos casos sí indican patología estructural seria.
-          Aprende a identificar las señales de alerta que requieren valoración urgente.</p>
-          <div class="blog-meta">
-            <span class="blog-date">📅 12 Diciembre 2024</span>
-            <a href="#" class="blog-read">Leer artículo →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card js-animate">
-        <div class="blog-card-header blog-card-header--navy">
-          <div class="blog-icon">💉</div>
-          <div>
-            <div class="blog-category">Fracturas Vertebrales</div>
-            <div class="blog-card-title">Cifoplastia: cómo se trata una fractura vertebral sin cirugía abierta</div>
-          </div>
-        </div>
-        <div class="blog-card-body">
-          <p>Las fracturas vertebrales por osteoporosis pueden estabilizarse con un procedimiento percutáneo
-          de 30 minutos. Descubre cómo funciona la cifoplastia y qué esperar en la recuperación.</p>
-          <div class="blog-meta">
-            <span class="blog-date">📅 8 Noviembre 2024</span>
-            <a href="#" class="blog-read">Leer artículo →</a>
-          </div>
-        </div>
-      </div>
+    <!-- Artículos del blog — cargados dinámicamente desde Supabase -->
+    <div class="blog-grid" id="home-blog-grid">
+      <div class="blog-loading">⏳ Cargando artículos...</div>
     </div>
 
     <!-- Sección Q&A -->
@@ -1159,6 +1089,85 @@
   <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="js/pain-test.js"></script>
+
+  <!-- Blog dinámico: carga los últimos artículos desde Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  (function() {
+    const SUPABASE_URL  = 'https://ithwmacwyexinxjtnbcg.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0aHdtYWN3eWV4aW54anRuYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTYyNTYsImV4cCI6MjA4ODU5MjI1Nn0.WbG3MkP7xvI64V5Ip_GEBkKpVIMs-D8e7fOGB8eePfE';
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const CAT_ICONS = {
+      'Columna Vertebral':            '🦴',
+      'Traumatología':                '🩹',
+      'Rehabilitación':               '🏃',
+      'Prevención':                   '🛡️',
+      'Cirugía Mínimamente Invasiva': '🔬',
+    };
+
+    const HEADER_STYLES = ['blog-card-header--default','blog-card-header--dark','blog-card-header--teal','blog-card-header--navy'];
+
+    function escHtml(s = '') {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+              .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+    }
+
+    async function loadHomeBlog() {
+      const grid = document.getElementById('home-blog-grid');
+      if (!grid) return;
+
+      try {
+        const { data, error } = await db
+          .from('blog_posts')
+          .select('id, title, category, excerpt, created_at, author')
+          .eq('published', true)
+          .order('created_at', { ascending: false })
+          .limit(4);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          grid.innerHTML = `<div class="blog-loading" style="opacity:.6">📝 Próximamente — los artículos se publicarán pronto.</div>`;
+          return;
+        }
+
+        grid.innerHTML = data.map((post, i) => {
+          const icon    = CAT_ICONS[post.category] || '📄';
+          const style   = HEADER_STYLES[i % HEADER_STYLES.length];
+          const excerpt = (post.excerpt || '').slice(0, 140) + ((post.excerpt || '').length > 140 ? '…' : '');
+          const date    = fmtDate(post.created_at);
+          return `
+          <div class="blog-card js-animate">
+            <div class="blog-card-header ${style}">
+              <div class="blog-icon">${icon}</div>
+              <div>
+                <div class="blog-category">${escHtml(post.category || 'General')}</div>
+                <div class="blog-card-title">${escHtml(post.title)}</div>
+              </div>
+            </div>
+            <div class="blog-card-body">
+              <p>${escHtml(excerpt)}</p>
+              <div class="blog-meta">
+                <span class="blog-date">📅 ${date}</span>
+                <a href="articulos.html" class="blog-read" target="_blank">Leer artículo →</a>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+
+      } catch(err) {
+        grid.innerHTML = `<div class="blog-loading" style="opacity:.6">⚠️ No se pudieron cargar los artículos.</div>`;
+      }
+    }
+
+    loadHomeBlog();
+  })();
+  </script>
 
 </body>
 </html>
