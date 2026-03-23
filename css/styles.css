@@ -769,6 +769,7 @@ img {
   position: relative;
   z-index: 2;
 }
+.about-grid > * { min-width: 0; }
 
 .about-img-wrap   { position: relative; }
 .about-img-box {
@@ -842,6 +843,53 @@ img {
   font-weight: 700;
   color: white;
   flex-shrink: 0;
+}
+
+.about-instituciones {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.about-instituciones__label {
+  font-size: .75rem;
+  color: var(--color-sky);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+.about-instituciones__logos {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.inst-logos-track {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  width: max-content;
+  animation: marquee 18s linear infinite;
+}
+.inst-logos-track:hover { animation-play-state: paused; }
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.inst-logo {
+  height: 112px;
+  width: auto;
+  max-width: 270px;
+  object-fit: contain;
+  background: white;
+  border-radius: 8px;
+  padding: .6rem 1.25rem;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.inst-logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
 }
 
 
@@ -2210,6 +2258,9 @@ footer {
 
   /* Seguros */
   .seguros-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Instituciones marquee */
+  .inst-logo { height: 75px; max-width: 160px; }
 
   /* Navegación */
   #navbar { padding: .85rem 4%; }
