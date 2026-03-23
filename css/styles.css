@@ -276,7 +276,7 @@ img {
 
 .nav-links {
   display: flex;
-  gap: 1rem;
+  gap: 1.75rem;
   list-style: none;
 }
 .nav-links a {
@@ -289,6 +289,18 @@ img {
 }
 .nav-links a:hover {
   color: var(--color-accent);
+}
+.nav-links a[href="#seguros"] {
+  color: var(--color-gold);
+  font-weight: 600;
+  border: 1px solid rgba(232,201,106,.35);
+  border-radius: 20px;
+  padding: .2rem .75rem;
+}
+.nav-links a[href="#seguros"]:hover {
+  color: white;
+  background: rgba(232,201,106,.15);
+  border-color: var(--color-gold);
 }
 
 .nav-cta {
