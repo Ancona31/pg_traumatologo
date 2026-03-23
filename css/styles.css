@@ -1008,6 +1008,7 @@ img {
 .cedula-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: .5rem;
   font-size: .75rem;
   color: #ffffff;
