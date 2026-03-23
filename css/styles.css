@@ -1729,34 +1729,35 @@ img {
 }
 
 .seguro-card {
-  background: rgba(26,58,110,.35);
-  border: 1px solid rgba(61,163,245,.2);
+  background: white;
+  border: 1px solid #e8eaed;
   border-radius: var(--radius-lg);
   padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: .75rem;
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 .seguro-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(0,198,255,.5);
+  box-shadow: 0 8px 24px rgba(0,0,0,.14);
 }
-.seguro-icon {
-  width: 48px; height: 48px;
-  background: linear-gradient(135deg, var(--color-vivid), var(--color-accent));
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  color: white;
+.seguro-logo {
+  width: 100%;
+  max-width: 120px;
+  height: 50px;
+  object-fit: contain;
+  transition: transform var(--transition-fast);
+}
+.seguro-card:hover .seguro-logo {
+  transform: scale(1.05);
 }
 .seguro-card span {
-  color: var(--color-white);
-  font-weight: 500;
-  font-size: .95rem;
+  color: #3c4043;
+  font-weight: 600;
+  font-size: .85rem;
 }
 
 .seguros-nota {
