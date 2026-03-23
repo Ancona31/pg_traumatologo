@@ -1669,6 +1669,48 @@ img {
 
 
 /* ================================================================
+   GOOGLE REVIEWS BADGE
+================================================================ */
+.rating-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+.rating-link:hover { color: white; }
+
+.google-badge-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+.google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: white;
+  border: 2px solid #e8eaed;
+  border-radius: 16px;
+  padding: 1.25rem 2.25rem;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+.google-badge:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  transform: translateY(-3px);
+}
+.google-badge__text {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.google-badge__stars { color: #FBBC05; font-size: 1.3rem; letter-spacing: 3px; }
+.google-badge__label { color: #3c4043; font-size: 1rem; font-weight: 600; }
+.google-badge__sublabel { color: #70757a; font-size: .8rem; }
+.google-badge__arrow { color: #4285F4; font-size: 1.3rem; font-weight: 700; }
+
+/* ================================================================
    SEGUROS DE GASTOS MÉDICOS MAYORES
 ================================================================ */
 #seguros {
