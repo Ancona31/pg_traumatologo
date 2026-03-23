@@ -463,7 +463,7 @@ img {
 }
 
 .doctor-avatar {
-  width: 140px; height: 140px;
+  width: 220px; height: 220px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--color-mid), var(--color-vivid));
   margin: 0 auto 1.5rem;
@@ -471,8 +471,8 @@ img {
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  border: 4px solid rgba(61,163,245,.4);
-  box-shadow: 0 0 0 8px rgba(26,127,232,.1);
+  border: 5px solid rgba(61,163,245,.5);
+  box-shadow: 0 0 0 10px rgba(26,127,232,.12), 0 8px 32px rgba(0,0,0,.3);
   overflow: hidden;
 }
 .doctor-avatar-img {
