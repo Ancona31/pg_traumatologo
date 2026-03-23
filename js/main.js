@@ -109,23 +109,29 @@ function initAppointmentForm() {
   submitBtn.addEventListener('click', handleAppointmentSubmit);
 }
 
+function setFieldError(fieldId, errorId, hasError) {
+  const field = document.getElementById(fieldId);
+  const error = document.getElementById(errorId);
+  if (field) field.style.borderColor = hasError ? '#ef4444' : '';
+  if (error) error.style.display = hasError ? 'block' : 'none';
+}
+
 function handleAppointmentSubmit() {
   const nombre = document.getElementById('f-nombre')?.value.trim();
   const edad   = document.getElementById('f-edad')?.value.trim();
   const tel    = document.getElementById('f-tel')?.value.trim();
   const motivo = document.getElementById('f-motivo')?.value.trim();
 
-  // Resaltar campos vacíos
-  [['f-nombre', nombre], ['f-edad', edad], ['f-tel', tel], ['f-motivo', motivo]].forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el) el.style.borderColor = !val ? '#ef4444' : '';
-  });
+  // Validar y mostrar errores por campo
+  setFieldError('f-nombre', 'err-nombre', !nombre);
+  setFieldError('f-edad',   'err-edad',   !edad);
+  setFieldError('f-tel',    'err-tel',    !tel);
+  setFieldError('f-motivo', 'err-motivo', !motivo);
 
   if (!nombre || !edad || !tel || !motivo) return;
 
   // Limpiar el teléfono y agregar código de país automáticamente
-  // El paciente escribe solo su número local, ej: 9991234567 o 999 123 4567
-  const telLimpio = tel.replace(/\D/g, ''); // quitar todo lo que no sea número
+  const telLimpio = tel.replace(/\D/g, '');
   const telConCodigo = telLimpio.startsWith('52') ? telLimpio : '52' + telLimpio;
 
   // Construir mensaje pre-llenado para WhatsApp
@@ -151,6 +157,10 @@ function handleAppointmentSubmit() {
   ['f-nombre', 'f-edad', 'f-tel', 'f-motivo'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.value = ''; el.style.borderColor = ''; }
+  });
+  ['err-nombre', 'err-edad', 'err-tel', 'err-motivo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
   });
 }
 

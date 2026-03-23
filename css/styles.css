@@ -993,7 +993,28 @@ img {
   color: #2e7d32;
   font-weight: 600;
   margin-top: 1rem;
+  font-size: 1rem;
 }
+.field-error {
+  display: none;
+  color: #ef4444;
+  font-size: .8rem;
+  margin-top: .3rem;
+}
+.required-mark {
+  color: #ef4444;
+  font-weight: 700;
+}
+.cedula-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .75rem;
+  color: var(--color-sky);
+  margin-top: .5rem;
+  opacity: .85;
+}
+.cedula-row i { color: var(--color-accent); font-size: .85rem; }
 
 
 /* ================================================================
