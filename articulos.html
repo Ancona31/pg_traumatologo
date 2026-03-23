@@ -330,6 +330,58 @@
       overflow-x: auto;
       margin: .75rem 0;
     }
+    /* ── AUTOR ────────────────────────────────────────────────── */
+    .modal-author {
+      margin: 0 2.5rem 1.5rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(26,127,232,.15);
+      border-radius: 14px;
+      background: #f7faff;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .modal-author__img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      flex-shrink: 0;
+      border: 2px solid rgba(26,127,232,.2);
+    }
+    .modal-author__name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: .15rem;
+    }
+    .modal-author__title {
+      font-size: .78rem;
+      color: var(--vivid);
+      font-weight: 600;
+      margin-bottom: .35rem;
+    }
+    .modal-author__creds {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      font-size: .72rem;
+      color: #7a9cc4;
+      margin-bottom: .5rem;
+    }
+    .modal-author__bio {
+      font-size: .78rem;
+      color: #4a6a94;
+      line-height: 1.55;
+      margin: 0;
+    }
+    @media (max-width: 600px) {
+      .modal-author { margin-left: 1.25rem; margin-right: 1.25rem; flex-direction: column; align-items: center; text-align: center; }
+      .modal-author__creds { justify-content: center; }
+    }
+
     /* ── DISCLAIMER ──────────────────────────────────────────── */
     .modal-disclaimer {
       margin: 1.5rem 2.5rem;
@@ -529,6 +581,23 @@
         </div>
       </div>
       <div class="modal-body" id="m-content"></div>
+
+      <!-- Tarjeta del autor -->
+      <div class="modal-author">
+        <img src="assets/images/dr-ancona-perfil.jpg" alt="Dr. Angel M. Ancona Pérez" class="modal-author__img"/>
+        <div class="modal-author__info">
+          <div class="modal-author__name">Dr. Angel M. Ancona Pérez</div>
+          <div class="modal-author__title">Cirujano de Columna Vertebral · Traumatólogo y Ortopedista</div>
+          <div class="modal-author__creds">
+            <span>Céd. Prof. 12085805</span>
+            <span>·</span>
+            <span>CMOT 26/5567/25</span>
+            <span>·</span>
+            <span>Miembro AMCICO</span>
+          </div>
+          <p class="modal-author__bio">Alta Especialidad en Cirugía de Columna — Hospital de Traumatología y Ortopedia Lomas Verdes. Certificado por el Consejo Mexicano de Ortopedia y Traumatología.</p>
+        </div>
+      </div>
 
       <div class="modal-disclaimer">
         <span class="modal-disclaimer-icon">⚠️</span>
