@@ -253,13 +253,10 @@ img {
   gap: .75rem;
 }
 .nav-logo-icon {
-  width: 40px; height: 40px;
-  background: linear-gradient(135deg, var(--color-vivid), var(--color-accent));
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
+  object-fit: contain;
 }
 .nav-logo span {
   color: var(--color-white);
