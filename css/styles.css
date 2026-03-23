@@ -1010,9 +1010,10 @@ img {
   align-items: center;
   gap: .5rem;
   font-size: .75rem;
-  color: var(--color-sky);
-  margin-top: .5rem;
-  opacity: .85;
+  color: #ffffff;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,.15);
 }
 .cedula-row i { color: var(--color-accent); font-size: .85rem; }
 
