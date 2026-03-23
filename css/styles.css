@@ -1657,6 +1657,79 @@ img {
 
 
 /* ================================================================
+   SEGUROS DE GASTOS MÉDICOS MAYORES
+================================================================ */
+#seguros {
+  background: linear-gradient(180deg, var(--color-deep) 0%, var(--color-navy) 100%);
+  text-align: center;
+}
+#seguros .section-title { color: white; margin-bottom: 1.75rem; }
+#seguros .section-tag   { color: var(--color-accent); }
+#seguros .section-sub   { color: var(--color-sky); max-width: 640px; }
+
+.seguros-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.seguro-card {
+  background: rgba(26,58,110,.35);
+  border: 1px solid rgba(61,163,245,.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+.seguro-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,198,255,.5);
+}
+.seguro-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--color-vivid), var(--color-accent));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: white;
+}
+.seguro-card span {
+  color: var(--color-white);
+  font-weight: 500;
+  font-size: .95rem;
+}
+
+.seguros-nota {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0,198,255,.08);
+  border: 1px solid rgba(0,198,255,.2);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.75rem;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: left;
+}
+.seguros-nota i {
+  color: var(--color-accent);
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.seguros-nota p {
+  color: var(--color-sky);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.seguros-nota strong { color: var(--color-white); }
+
+/* ================================================================
    FOOTER
 ================================================================ */
 footer {
@@ -2056,6 +2129,9 @@ footer {
 ================================================================ */
 @media (max-width: 600px) {
   :root { --section-padding: 3.5rem 4%; }
+
+  /* Seguros */
+  .seguros-grid { grid-template-columns: repeat(2, 1fr); }
 
   /* Navegación */
   #navbar { padding: .85rem 4%; }
