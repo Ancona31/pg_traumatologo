@@ -1984,7 +1984,7 @@ footer {
     gap: 2rem;
     text-align: center;
   }
-  .hero-visual  { display: none; }
+  .hero-visual  { display: flex; justify-content: center; }
   .hero-subtitle { max-width: 100%; }
   .hero-stats   { justify-content: center; }
   .hero-buttons { justify-content: center; }
