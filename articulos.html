@@ -42,11 +42,10 @@
       text-decoration: none;
     }
     .nav-logo-icon {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, var(--vivid), var(--accent));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+      object-fit: contain;
     }
     .nav-logo span { color: white; font-weight: 600; font-size: .95rem; }
     .nav-back {
@@ -196,8 +195,21 @@
       border-top: 1px solid rgba(26,127,232,.08);
       padding-top: .75rem;
       margin-top: auto;
+      flex-wrap: wrap;
+      gap: .4rem;
     }
+    .post-card-info { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
     .post-card-author { font-weight: 500; }
+    .post-card-date { color: #aabdd4; }
+    .post-read-time {
+      display: flex; align-items: center; gap: .25rem;
+      background: rgba(26,127,232,.07);
+      border-radius: 20px;
+      padding: .15rem .6rem;
+      font-size: .72rem;
+      color: var(--vivid);
+      font-weight: 500;
+    }
     .read-more {
       color: var(--vivid);
       font-weight: 600;
@@ -318,6 +330,75 @@
       overflow-x: auto;
       margin: .75rem 0;
     }
+    /* ── DISCLAIMER ──────────────────────────────────────────── */
+    .modal-disclaimer {
+      margin: 1.5rem 2.5rem;
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 10px;
+      padding: .85rem 1.1rem;
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      font-size: .78rem;
+      color: #7a6000;
+      line-height: 1.5;
+    }
+    .modal-disclaimer-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+
+    /* ── ARTÍCULOS RELACIONADOS ───────────────────────────────── */
+    .modal-related {
+      padding: 1.25rem 2.5rem;
+      border-top: 1px solid rgba(26,127,232,.1);
+      background: #f7faff;
+    }
+    .modal-related h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem;
+      color: var(--navy);
+      margin-bottom: .85rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+    }
+    .related-card {
+      background: white;
+      border: 1px solid rgba(26,127,232,.12);
+      border-radius: 10px;
+      padding: .85rem;
+      cursor: pointer;
+      transition: border-color .2s, transform .2s;
+    }
+    .related-card:hover { border-color: var(--vivid); transform: translateY(-2px); }
+    .related-card-cat { font-size: .65rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+    .related-card-title { font-size: .8rem; color: var(--navy); font-weight: 600; line-height: 1.4; }
+
+    /* ── COMPARTIR ────────────────────────────────────────────── */
+    .modal-share {
+      padding: 1rem 2.5rem;
+      border-top: 1px solid rgba(26,127,232,.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .modal-share span { font-size: .82rem; color: #7a9cc4; font-weight: 500; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .45rem 1rem;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s, transform .15s;
+      text-decoration: none;
+    }
+    .share-btn:hover { opacity: .85; transform: translateY(-1px); }
+    .share-btn--wa  { background: #25D366; color: white; }
+    .share-btn--copy { background: rgba(26,127,232,.1); color: var(--vivid); }
+
     .modal-footer {
       padding: 1.25rem 2.5rem;
       border-top: 1px solid rgba(26,127,232,.1);
@@ -386,9 +467,12 @@
     @media (max-width: 600px) {
       .blog-hero h1 { font-size: 1.8rem; }
       .posts-grid   { grid-template-columns: 1fr; }
-      .modal-header, .modal-body, .modal-footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .modal-header, .modal-body, .modal-footer,
+      .modal-disclaimer, .modal-related, .modal-share { padding-left: 1.25rem; padding-right: 1.25rem; }
       .modal-title  { font-size: 1.3rem; }
       .filters-bar  { top: 58px; }
+      .related-grid { grid-template-columns: 1fr; }
+      .modal-share  { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -397,7 +481,7 @@
   <!-- ── NAVBAR ─────────────────────────────────────────────── -->
   <nav>
     <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">🦴</div>
+      <img src="assets/images/logo_dr_ancona_sf.PNG" alt="Logo Dr. Angel M. Ancona" class="nav-logo-icon"/>
       <span>Dr. Angel M. Ancona Pérez</span>
     </a>
     <a href="index.html" class="nav-back">← Volver al sitio</a>
@@ -445,6 +529,26 @@
         </div>
       </div>
       <div class="modal-body" id="m-content"></div>
+
+      <div class="modal-disclaimer">
+        <span class="modal-disclaimer-icon">⚠️</span>
+        <span>Este artículo es de carácter informativo y no sustituye la consulta médica profesional. Si tienes síntomas o dudas, agenda una consulta con el Dr. Ancona.</span>
+      </div>
+
+      <div class="modal-share">
+        <span>Compartir:</span>
+        <a id="btn-share-wa" class="share-btn share-btn--wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.856L.057 23.569l5.886-1.453A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.032-1.388l-.36-.214-3.733.921.959-3.608-.235-.371A9.818 9.818 0 1112 21.818z"/></svg>
+          WhatsApp
+        </a>
+        <button id="btn-copy-link" class="share-btn share-btn--copy">🔗 Copiar link</button>
+      </div>
+
+      <div class="modal-related" id="modal-related" style="display:none">
+        <h4>Artículos relacionados</h4>
+        <div class="related-grid" id="related-grid"></div>
+      </div>
+
       <div class="modal-footer">
         <button class="btn-close-bottom" id="btn-close-bottom">Cerrar</button>
         <a href="index.html#citas" class="btn-cita">📅 Agendar Consulta</a>
@@ -517,6 +621,23 @@
       });
     }
 
+    // ── Helpers ────────────────────────────────────────────────
+    function readingTime(text) {
+      const words = (text || '').replace(/<[^>]+>/g, '').split(/\s+/).filter(Boolean).length;
+      return Math.max(1, Math.ceil(words / 200));
+    }
+
+    function smartExcerpt(text, maxLen = 130) {
+      const plain = (text || '').replace(/<[^>]+>/g, '');
+      if (plain.length <= maxLen) return plain;
+      const cut = plain.lastIndexOf(' ', maxLen);
+      return plain.substring(0, cut > 0 ? cut : maxLen) + '…';
+    }
+
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
     // ── Renderizar tarjetas ───────────────────────────────────
     function renderPosts() {
       const filtered = activeFilter === 'all'
@@ -542,10 +663,13 @@
           </div>
           <div class="post-card-body">
             <div class="post-card-title">${escapeHtml(post.title)}</div>
-            <div class="post-card-excerpt">${escapeHtml((post.excerpt || '').slice(0, 120))}${(post.excerpt || '').length > 120 ? '…' : ''}</div>
+            <div class="post-card-excerpt">${escapeHtml(smartExcerpt(post.excerpt || post.content))}</div>
             <div class="post-card-meta">
-              <span class="post-card-author">👨‍⚕️ ${escapeHtml(post.author || 'Dr. Ancona')}</span>
-              <span class="read-more">Leer más →</span>
+              <div class="post-card-info">
+                <span class="post-card-author">👨‍⚕️ Dr. Ancona</span>
+                <span class="post-card-date">${formatDate(post.created_at)}</span>
+              </div>
+              <span class="post-read-time">⏱️ ${readingTime(post.content || post.excerpt)} min</span>
             </div>
           </div>
         </div>`).join('');
@@ -557,11 +681,39 @@
       if (!post) return;
       activePost = post;
 
-      document.getElementById('m-cat').textContent     = post.category || 'General';
-      document.getElementById('m-title').textContent   = post.title;
-      document.getElementById('m-author').textContent  = `👨‍⚕️ ${post.author || 'Dr. Ancona'}`;
-      document.getElementById('m-date').textContent    = new Date(post.created_at).toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+      document.getElementById('m-cat').textContent   = post.category || 'General';
+      document.getElementById('m-title').textContent = post.title;
+      document.getElementById('m-author').textContent = `👨‍⚕️ Dr. Ancona`;
+      document.getElementById('m-date').textContent  = `${formatDate(post.created_at)} · ⏱️ ${readingTime(post.content || post.excerpt)} min de lectura`;
       document.getElementById('m-content').innerHTML = post.content || post.excerpt || '';
+
+      // Compartir por WhatsApp
+      const shareText = `Te comparto este artículo del Dr. Ancona: "${post.title}" — ${window.location.href}`;
+      document.getElementById('btn-share-wa').href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+
+      // Copiar link
+      document.getElementById('btn-copy-link').onclick = () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const btn = document.getElementById('btn-copy-link');
+          btn.textContent = '✅ Copiado';
+          setTimeout(() => btn.textContent = '🔗 Copiar link', 2000);
+        });
+      };
+
+      // Artículos relacionados
+      const related = allPosts.filter(p => p.category === post.category && p.id !== post.id).slice(0, 3);
+      const relSection = document.getElementById('modal-related');
+      const relGrid    = document.getElementById('related-grid');
+      if (related.length) {
+        relGrid.innerHTML = related.map(r => `
+          <div class="related-card" onclick="openPost('${r.id}')">
+            <div class="related-card-cat">${escapeHtml(r.category || '')}</div>
+            <div class="related-card-title">${escapeHtml(r.title)}</div>
+          </div>`).join('');
+        relSection.style.display = 'block';
+      } else {
+        relSection.style.display = 'none';
+      }
 
       document.getElementById('modal-overlay').classList.add('is-open');
       document.body.style.overflow = 'hidden';
