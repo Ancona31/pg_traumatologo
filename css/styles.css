@@ -243,7 +243,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 5%;
+  padding: .75rem 3%;
   transition: box-shadow var(--transition-mid);
 }
 
@@ -276,13 +276,13 @@ img {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   list-style: none;
 }
 .nav-links a {
   color: var(--color-sky);
   text-decoration: none;
-  font-size: .9rem;
+  font-size: .8rem;
   font-weight: 500;
   transition: color var(--transition-fast);
   letter-spacing: .02em;
