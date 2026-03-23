@@ -2445,3 +2445,46 @@ footer {
 
 
 
+
+/* ================================================================
+   GALERÍA QUIRÓFANO
+================================================================ */
+#galeria-qx {
+  padding: 5rem 5%;
+  background: var(--color-white);
+}
+
+.qx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.qx-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(10,22,40,.12);
+  aspect-ratio: 4/3;
+  background: var(--color-deep);
+}
+
+.qx-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+
+.qx-card:hover img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 768px) {
+  .qx-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
