@@ -138,6 +138,20 @@
       text-align: center;
       box-shadow: 0 4px 20px rgba(10,22,40,.07);
       border-top: 3px solid #1a7fe8;
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease;
+      cursor: default;
+    }
+    .step-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(26,127,232,.22);
+      background: linear-gradient(135deg, #0a1628, #1a3a6e);
+      border-color: #00c6ff;
+    }
+    .step-card:hover h4 { color: #fff; }
+    .step-card:hover p  { color: #a8c4e0; }
+    .step-card:hover .step-num {
+      background: rgba(0,198,255,.2);
+      color: #00c6ff;
     }
     .step-num {
       width: 40px; height: 40px;
@@ -150,18 +164,21 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto .75rem;
+      transition: background .3s ease, color .3s ease;
     }
     .step-card h4 {
       color: var(--navy);
       font-size: .9rem;
       font-weight: 600;
       margin: 0 0 .5rem;
+      transition: color .3s ease;
     }
     .step-card p {
       color: #6a8db0;
       font-size: .8rem;
       line-height: 1.55;
       margin: 0;
+      transition: color .3s ease;
     }
 
     /* ── BENEFICIOS ───────────────────────────────────────── */
