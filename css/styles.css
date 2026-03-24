@@ -593,6 +593,13 @@ img {
   font-size: .9rem;
   line-height: 1.6;
 }
+.service-benefit {
+  font-size: .8rem;
+  color: var(--color-vivid);
+  font-weight: 500;
+  margin: .2rem 0 .6rem;
+  line-height: 1.4;
+}
 .service-bullets {
   list-style: none;
   padding: 0;
