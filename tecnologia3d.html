@@ -202,10 +202,10 @@
       margin: 0;
     }
 
-    /* ── GALERÍA ──────────────────────────────────────────── */
+    /* ── GALERÍA PASO A PASO ──────────────────────────────── */
     .sec-galeria {
       padding: 5rem 5%;
-      background: #fff;
+      background: #f8fafc;
     }
     .galeria-grid {
       max-width: 1100px;
@@ -218,24 +218,51 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 8px 30px rgba(10,22,40,.1);
-      aspect-ratio: 1;
-      background: #0d2044;
+      background: #fff;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      position: relative;
+    }
+    .galeria-card--wide {
+      grid-column: span 1;
     }
     .galeria-card img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 220px;
       object-fit: cover;
+      display: block;
       transition: transform .4s;
     }
-    .galeria-card:hover img { transform: scale(1.05); }
-    .galeria-placeholder {
-      color: rgba(255,255,255,.2);
-      font-size: .8rem;
-      text-align: center;
-      padding: 1rem;
+    .galeria-card:hover img { transform: scale(1.03); }
+    .galeria-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
     }
+    .galeria-dual img {
+      height: 180px;
+    }
+    .galeria-step-num {
+      position: absolute;
+      top: .75rem;
+      left: .75rem;
+      background: #1a7fe8;
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      padding: .2rem .55rem;
+      border-radius: 6px;
+      z-index: 2;
+    }
+    .galeria-caption {
+      padding: .85rem 1rem;
+      font-size: .82rem;
+      color: #4a6a94;
+      line-height: 1.5;
+      border-top: 1px solid rgba(26,127,232,.08);
+    }
+    .galeria-caption strong { color: var(--navy); }
 
     /* ── CTA FINAL ────────────────────────────────────────── */
     .sec-cta3d {
@@ -286,7 +313,7 @@
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 900px) {
       .que-grid { grid-template-columns: 1fr; }
-      .proceso-steps { grid-template-columns: repeat(2, 1fr); }
+      .proceso-steps { grid-template-columns: repeat(3, 1fr); }
       .ben-grid { grid-template-columns: 1fr 1fr; }
       .galeria-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -294,6 +321,7 @@
       .proceso-steps { grid-template-columns: 1fr; }
       .ben-grid { grid-template-columns: 1fr; }
       .galeria-grid { grid-template-columns: 1fr; }
+      .galeria-card--wide { grid-column: span 1; }
     }
   </style>
 </head>
@@ -359,23 +387,28 @@
     <div class="proceso-steps">
       <div class="step-card">
         <div class="step-num">1</div>
-        <h4>Estudios de Imagen</h4>
-        <p>El paciente aporta su tomografía o resonancia en formato DICOM.</p>
+        <h4>Procesamiento DICOM</h4>
+        <p>Se cargan las imágenes del paciente en formato DICOM y se segmenta la zona anatómica de interés.</p>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
-        <h4>Reconstrucción 3D</h4>
-        <p>Se procesa digitalmente para generar el modelo anatómico tridimensional.</p>
+        <h4>Extracción del Modelo 3D</h4>
+        <p>A partir de la segmentación se genera el modelo anatómico tridimensional virtual.</p>
       </div>
       <div class="step-card">
         <div class="step-num">3</div>
-        <h4>Planeación Quirúrgica</h4>
-        <p>El Dr. Ancona planea el procedimiento sobre el modelo antes de operar.</p>
+        <h4>Exportación a Software</h4>
+        <p>El modelo virtual se exporta al software de impresión 3D para preparar la pieza física.</p>
       </div>
       <div class="step-card">
         <div class="step-num">4</div>
-        <h4>Impresión 3D (si aplica)</h4>
-        <p>Para casos complejos se imprime físicamente el modelo o la pieza médica.</p>
+        <h4>Impresión y Planeación Física</h4>
+        <p>Se imprime el modelo a escala 1:1 y el Dr. Ancona planea el procedimiento sobre la réplica física.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <h4>Ejecución en Caso Real</h4>
+        <p>Con la planeación completa, se ejecuta el procedimiento quirúrgico con máxima precisión y seguridad.</p>
       </div>
     </div>
   </section>
@@ -421,32 +454,58 @@
     </div>
   </section>
 
-  <!-- GALERÍA -->
+  <!-- GALERÍA PASO A PASO -->
   <section class="sec-galeria">
     <div class="section-header">
-      <div class="section-tag">Galería</div>
-      <h2 class="section-title">Casos y Modelos</h2>
-      <p class="section-sub">Imágenes de modelos 3D y casos trabajados — próximamente.</p>
+      <div class="section-tag">El Proceso en Imágenes</div>
+      <h2 class="section-title">De la Imagen al Quirófano</h2>
+      <p class="section-sub">Documentación real del proceso completo de planeación quirúrgica 3D.</p>
     </div>
     <div class="galeria-grid">
+
       <div class="galeria-card">
-        <div class="galeria-placeholder">
-          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
-          Foto próximamente
+        <div class="galeria-step-num">01</div>
+        <img src="assets/images/fotos_3d/1.jpg" alt="Procesamiento DICOM y segmentación" loading="lazy"/>
+        <div class="galeria-caption">
+          <strong>Paso 1</strong> — Procesamiento DICOM y segmentación anatómica
         </div>
       </div>
+
       <div class="galeria-card">
-        <div class="galeria-placeholder">
-          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
-          Foto próximamente
+        <div class="galeria-step-num">02</div>
+        <img src="assets/images/fotos_3d/2.jpg" alt="Extracción del modelo 3D virtual" loading="lazy"/>
+        <div class="galeria-caption">
+          <strong>Paso 2</strong> — Extracción del modelo 3D virtual
         </div>
       </div>
+
       <div class="galeria-card">
-        <div class="galeria-placeholder">
-          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
-          Foto próximamente
+        <div class="galeria-step-num">03</div>
+        <img src="assets/images/fotos_3d/3.jpg" alt="Exportación a software de impresión 3D" loading="lazy"/>
+        <div class="galeria-caption">
+          <strong>Paso 3</strong> — Exportación a software de impresión 3D
         </div>
       </div>
+
+      <div class="galeria-card galeria-card--wide">
+        <div class="galeria-step-num">04</div>
+        <div class="galeria-dual">
+          <img src="assets/images/fotos_3d/4.jpg" alt="Impresión 3D del modelo" loading="lazy"/>
+          <img src="assets/images/fotos_3d/4.1.png" alt="Planeación sobre modelo físico" loading="lazy"/>
+        </div>
+        <div class="galeria-caption">
+          <strong>Paso 4</strong> — Impresión del modelo y planeación sobre réplica física
+        </div>
+      </div>
+
+      <div class="galeria-card galeria-card--wide">
+        <div class="galeria-step-num">05</div>
+        <img src="assets/images/fotos_3d/5.jpg" alt="Ejecución en caso real" loading="lazy"/>
+        <div class="galeria-caption">
+          <strong>Paso 5</strong> — Planeación y ejecución en caso real
+        </div>
+      </div>
+
     </div>
   </section>
 
