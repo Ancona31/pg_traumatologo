@@ -593,6 +593,29 @@ img {
   font-size: .9rem;
   line-height: 1.6;
 }
+.service-bullets {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.service-bullets li {
+  color: var(--color-text-mid);
+  font-size: .85rem;
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.4;
+}
+.service-bullets li::before {
+  content: '▸';
+  color: var(--color-vivid);
+  position: absolute;
+  left: 0;
+  font-size: .75rem;
+  top: .1rem;
+}
 
 
 /* ================================================================
