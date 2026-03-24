@@ -418,7 +418,15 @@ function initPainTest() {
   document.getElementById('btn-pdf')?.addEventListener('click', () => {
     const result = calcResult();
     populatePDF(result);
-    setTimeout(() => window.print(), 100);
+    document.body.classList.add('is-printing');
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  });
+
+  // Quitar clase después de imprimir
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('is-printing');
   });
 }
 document.addEventListener('DOMContentLoaded', initPainTest);

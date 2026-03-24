@@ -2754,19 +2754,26 @@ footer {
 ================================================================ */
 #pt-pdf-layout { display: none; }
 
+/* Clase que activa el modo impresión */
+body.is-printing > *:not(#pt-pdf-layout) { display: none !important; }
+body.is-printing #pt-pdf-layout { display: block !important; }
+
 /* ================================================================
    PDF LAYOUT — SOLO AL IMPRIMIR
 ================================================================ */
 @media print {
-  /* Ocultar todo excepto el PDF */
-  body > *:not(#pt-pdf-layout) { display: none !important; }
+  body * { visibility: hidden; }
   #pt-pdf-layout {
+    visibility: visible;
     display: block !important;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
     font-family: 'DM Sans', Arial, sans-serif;
     color: #0d1b35;
     padding: 2cm 2cm 1.5cm;
-    max-width: 100%;
   }
+  #pt-pdf-layout * { visibility: visible; }
 
   /* Header con datos del doctor */
   .pdf-header {
