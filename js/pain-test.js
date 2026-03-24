@@ -101,6 +101,18 @@ const RESULTS = {
     ],
     cta: '📅 Evaluar mi dolor irradiado',
   },
+  desgaste_articular: {
+    type: 'especialista', icon: '🦴', color: '#a78bfa',
+    level: 'EVALUACIÓN RECOMENDADA',
+    title: 'Un dolor local que persiste semanas o meses merece una evaluación — no solo pastillas',
+    desc: 'Cuando el dolor de columna es local, no se irradia y aparece sin una causa traumática clara, frecuentemente está relacionado con cambios degenerativos o articulares — desgaste propio de la columna con el paso del tiempo o el uso. No es una emergencia, pero tampoco desaparece solo sin el manejo adecuado.',
+    steps: [
+      'Estudio de imagen para evaluar el estado de las articulaciones y discos vertebrales',
+      'Identificar el grado de desgaste y si es la causa real de tu dolor',
+      'Plan de manejo orientado a reducir el dolor y frenar la progresión',
+    ],
+    cta: '📅 Evaluar mi dolor con el Dr. Ancona',
+  },
   conservador: {
     type: 'conservador', icon: '💊', color: '#22c55e',
     level: 'ATENCIÓN RECOMENDADA',
@@ -160,7 +172,8 @@ function calcResult() {
   if (tratamiento === 'cirugia_previa')                                   return RESULTS.cirugia_fallida;
   if (duracion === 'anos')                                                return RESULTS.especialista_cronico;
   if (tratamiento === 'fisio')                                            return RESULTS.segunda_opinion;
-  if (sintomas === 'irradiado' || duracion === 'meses')                   return RESULTS.especialista_irradiado;
+  if (sintomas === 'irradiado')                                           return RESULTS.especialista_irradiado;
+  if (sintomas === 'solo_dolor' && duracion === 'meses')                  return RESULTS.desgaste_articular;
   if (intensidad <= PAIN_THRESHOLDS.conservador && (duracion === 'dias' || duracion === 'semanas')) return RESULTS.conservador;
   return RESULTS.preventivo;
 }
