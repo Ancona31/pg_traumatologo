@@ -213,11 +213,11 @@
   <section id="test-dolor">
     <div class="section-header section-header--center">
       <div class="section-tag">Evaluación Rápida</div>
-      <h2 class="section-title section-title--center">Test de Dolor de Columna</h2>
+      <h2 class="section-title section-title--center">¿Cuánto tiempo llevas diciéndote que ya se va a quitar?</h2>
       <p class="section-sub section-sub--center">
-        Responde 6 preguntas y recibe una orientación personalizada sobre tu dolor.
-        <strong>No reemplaza una consulta médica.</strong>
+        Descubre ahora qué tipo de atención realmente necesita tu dolor. <strong>No adivines. Evalúate.</strong>
       </p>
+      <p class="pt-meta-line">6 preguntas &nbsp;·&nbsp; 2 minutos &nbsp;·&nbsp; Resultado inmediato</p>
     </div>
 
     <!-- Banner llamativo -->
@@ -226,8 +226,8 @@
       <div class="pt-banner-content">
         <span class="pt-banner-icon">🩺</span>
         <div class="pt-banner-text">
-          <strong>¿Tienes dolor de espalda o cuello?</strong>
-          <span>Responde 6 preguntas y descubre qué tipo de atención necesitas</span>
+          <strong>Descúbrelo ahora — 6 preguntas, 2 minutos</strong>
+          <span>Recibe orientación personalizada del Dr. Ancona sobre tu caso específico</span>
         </div>
         <span class="pt-banner-arrow">↓</span>
       </div>
@@ -243,8 +243,26 @@
         <div class="pt-progress-label" id="pt-progress-label">Pregunta 1 de 6</div>
       </div>
 
+      <!-- Paso 0: Captura de datos -->
+      <div class="pt-step active" id="step-0">
+        <div class="pt-question">¿A quién le enviamos tu resultado?</div>
+        <div class="pt-hint">Ingresa tus datos y al final del test recibirás un PDF personalizado con la orientación del Dr. Ancona para tu caso.</div>
+        <div class="pt-capture-form">
+          <input type="text" id="pt-patient-name" class="pt-capture-input" placeholder="Tu nombre" autocomplete="given-name" />
+          <input type="tel" id="pt-patient-phone" class="pt-capture-input" placeholder="Tu número de WhatsApp" autocomplete="tel" inputmode="numeric" />
+          <label class="pt-capture-consent">
+            <input type="checkbox" id="pt-consent" checked />
+            <span>Acepto recibir información sobre salud de columna del consultorio del Dr. Ancona</span>
+          </label>
+        </div>
+        <div class="pt-nav">
+          <span></span>
+          <button class="pt-btn-next" id="next-0" data-action="start">Comenzar mi evaluación →</button>
+        </div>
+      </div>
+
       <!-- Paso 1: Zona del dolor -->
-      <div class="pt-step active" id="step-1">
+      <div class="pt-step" id="step-1">
         <div class="pt-step-num">01</div>
         <div class="pt-question">¿Dónde se localiza principalmente tu dolor?</div>
         <div class="pt-hint">Selecciona la región que más te molesta</div>
@@ -511,6 +529,7 @@
     <div class="pdf-title-block">
       <div class="pdf-doc-title">Resultado de Evaluación de Dolor</div>
       <div class="pdf-doc-date" id="pdf-date"></div>
+      <div class="pdf-patient-name" id="pdf-patient-name" style="font-size:.95rem;color:#555;margin-top:.2rem;font-weight:600;"></div>
       <div class="pdf-doc-note">Herramienta de orientación médica digital — no sustituye consulta profesional</div>
     </div>
 
@@ -1258,6 +1277,7 @@
   <script src="js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="js/pain-test.js"></script>
 </body>
 </html>

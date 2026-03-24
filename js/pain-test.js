@@ -7,6 +7,13 @@ const TOTAL_STEPS = 6;
 const PAIN_THRESHOLDS = { urgente: 7, traumatico: 6, conservador: 5 };
 
 /* ================================================================
+   SUPABASE
+================================================================ */
+const _SUPA_URL = 'https://ithwmacwyexinxjtnbcg.supabase.co';
+const _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0aHdtYWN3eWV4aW54anRuYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMTYyNTYsImV4cCI6MjA4ODU5MjI1Nn0.WbG3MkP7xvI64V5Ip_GEBkKpVIMs-D8e7fOGB8eePfE';
+let _db = null;
+
+/* ================================================================
    RESULTADOS
 ================================================================ */
 const RESULTS = {
@@ -139,7 +146,8 @@ const Q_LABELS = {
 /* ================================================================
    ESTADO
 ================================================================ */
-let answers = {}, currentStep = 1;
+let answers = {}, currentStep = 0;
+let patientName = '', patientPhone = '', patientConsent = true;
 
 /* ================================================================
    LÓGICA DE RESULTADOS
@@ -191,6 +199,7 @@ function showResult() {
   renderResultCard(result);
   renderSummary();
   setupShare(result);
+  saveLead(result);
 
   const container = document.getElementById('pt-result');
   if (container) container.hidden = false;
@@ -282,7 +291,12 @@ function getPainClass(v) {
    REINICIAR
 ================================================================ */
 function restartTest() {
-  answers = {}; currentStep = 1;
+  answers = {}; currentStep = 0;
+  patientName = ''; patientPhone = '';
+  const nameEl = document.getElementById('pt-patient-name');
+  const phoneEl = document.getElementById('pt-patient-phone');
+  if (nameEl) nameEl.value = '';
+  if (phoneEl) phoneEl.value = '';
   document.querySelectorAll('.pt-option').forEach(o => o.classList.remove('selected'));
   document.querySelectorAll('.pt-scale-btn').forEach(b => { b.className = 'pt-scale-btn'; });
   const lbl = document.getElementById('scale-selected-label');
@@ -291,17 +305,22 @@ function restartTest() {
   const res = document.getElementById('pt-result');
   if (res) res.hidden = true;
   document.querySelectorAll('.pt-step').forEach(s => s.classList.remove('active'));
-  showStep(1); updateProgressBar(1); updateProgressLabel(1);
+  showProgressHeader(false);
+  showStep(0); updateProgressBar(1); updateProgressLabel(1);
   scrollToSection();
 }
 
 /* ================================================================
    DOM HELPERS
 ================================================================ */
-function showStep(step)         { document.getElementById(`step-${step}`)?.classList.add('active'); }
-function hideStep(step)         { document.getElementById(`step-${step}`)?.classList.remove('active'); }
-function enableNextButton(step) { document.getElementById(`next-${step}`)?.classList.add('is-enabled'); }
-function setText(id, text)      { const el = document.getElementById(id); if (el) el.textContent = text; }
+function showStep(step)           { document.getElementById(`step-${step}`)?.classList.add('active'); }
+function hideStep(step)           { document.getElementById(`step-${step}`)?.classList.remove('active'); }
+function enableNextButton(step)   { document.getElementById(`next-${step}`)?.classList.add('is-enabled'); }
+function setText(id, text)        { const el = document.getElementById(id); if (el) el.textContent = text; }
+function showProgressHeader(show) {
+  const h = document.querySelector('.pt-progress-header');
+  if (h) h.style.display = show ? '' : 'none';
+}
 
 function updateProgressBar(step) {
   const fill = document.getElementById('pt-progress');
@@ -323,12 +342,14 @@ function scrollToSection() {
    PDF — POBLAR LAYOUT
 ================================================================ */
 function populatePDF(result) {
-  // Fecha
+  // Fecha y nombre del paciente
   const dateEl = document.getElementById('pdf-date');
   if (dateEl) {
     const now = new Date();
     dateEl.textContent = now.toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
   }
+  const patientEl = document.getElementById('pdf-patient-name');
+  if (patientEl) patientEl.textContent = patientName ? `Paciente: ${patientName}` : '';
 
   // Resultado
   const setText2 = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
@@ -388,11 +409,64 @@ function setupShare(result) {
 }
 
 /* ================================================================
+   CAPTURA — INICIO DEL TEST
+================================================================ */
+function startTest() {
+  patientName    = (document.getElementById('pt-patient-name')?.value  || '').trim();
+  patientPhone   = (document.getElementById('pt-patient-phone')?.value || '').trim();
+  patientConsent = document.getElementById('pt-consent')?.checked ?? true;
+  hideStep(0);
+  showProgressHeader(true);
+  showStep(1);
+  currentStep = 1;
+  updateProgressBar(1);
+  updateProgressLabel(1);
+}
+
+async function saveLead(result) {
+  if (!_db || !patientPhone) return;
+  try {
+    await _db.from('leads').insert({
+      nombre:           patientName,
+      telefono:         patientPhone,
+      consentimiento:   patientConsent,
+      resultado_nivel:  result.level,
+      resultado_titulo: result.title,
+      zona:             answers.zona        || null,
+      intensidad:       answers.intensidad  || null,
+      duracion:         answers.duracion    || null,
+      sintomas:         answers.sintomas    || null,
+      causa:            answers.causa       || null,
+      tratamiento:      answers.tratamiento || null,
+    });
+  } catch (_) { /* silencioso — no bloquear la UI */ }
+}
+
+/* ================================================================
    INICIALIZACIÓN
 ================================================================ */
+function checkCaptureFields() {
+  const name  = (document.getElementById('pt-patient-name')?.value  || '').trim();
+  const phone = (document.getElementById('pt-patient-phone')?.value || '').trim();
+  const btn = document.getElementById('next-0');
+  if (!btn) return;
+  if (name && phone) btn.classList.add('is-enabled');
+  else btn.classList.remove('is-enabled');
+}
+
 function initPainTest() {
   const section = document.getElementById('test-dolor');
   if (!section) return;
+
+  // Inicializar Supabase
+  if (window.supabase) _db = window.supabase.createClient(_SUPA_URL, _SUPA_KEY);
+
+  // Ocultar barra de progreso hasta que empiece el test
+  showProgressHeader(false);
+
+  // Habilitar botón de inicio según campos llenos
+  document.getElementById('pt-patient-name')?.addEventListener('input', checkCaptureFields);
+  document.getElementById('pt-patient-phone')?.addEventListener('input', checkCaptureFields);
 
   section.addEventListener('click', e => {
     const t = e.target;
@@ -402,7 +476,8 @@ function initPainTest() {
     const nextBtn = t.closest('.pt-btn-next');
     if (nextBtn) {
       if (!nextBtn.classList.contains('is-enabled')) return;
-      if (nextBtn.dataset.action === 'result') { showResult(); return; }
+      if (nextBtn.dataset.action === 'start')  { startTest();   return; }
+      if (nextBtn.dataset.action === 'result') { showResult();  return; }
       const n = parseInt(nextBtn.dataset.current, 10);
       if (!isNaN(n)) goToNextStep(n);
       return;
