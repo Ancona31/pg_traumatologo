@@ -458,9 +458,19 @@
           <!-- CTA principal -->
           <a href="#citas" class="pt-result-cta-btn" id="result-cta-btn">📅 Agendar Consulta con el Dr. Ancona</a>
 
+          <!-- Compartir resultado -->
+          <div class="pt-share-row">
+            <span class="pt-share-label">Compartir resultado:</span>
+            <a id="btn-share-wa-test" class="pt-share-btn pt-share-btn--wa" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.856L.057 23.569l5.886-1.453A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.032-1.388l-.36-.214-3.733.921.959-3.608-.235-.371A9.818 9.818 0 1112 21.818z"/></svg>
+              WhatsApp
+            </a>
+            <button id="btn-copy-result" class="pt-share-btn pt-share-btn--copy">🔗 Copiar link</button>
+          </div>
+
           <!-- Acciones secundarias -->
           <div class="pt-result-secondary">
-            <button class="pt-btn-pdf" id="btn-pdf" onclick="window.print()">📄 Guardar resultado</button>
+            <button class="pt-btn-pdf" id="btn-pdf">📄 Guardar como PDF</button>
             <button class="pt-restart" id="btn-restart">🔄 Repetir test</button>
           </div>
         </div>
@@ -477,6 +487,68 @@
 
     </div>
   </section>
+
+  <!-- ============================================================
+       PDF LAYOUT (solo visible al imprimir)
+  ============================================================ -->
+  <div id="pt-pdf-layout">
+    <div class="pdf-header">
+      <img src="assets/images/logo_dr_ancona_sf.PNG" alt="Logo Dr. Ancona" class="pdf-logo"/>
+      <div class="pdf-doctor-info">
+        <div class="pdf-doctor-name">Dr. Angel M. Ancona Pérez</div>
+        <div class="pdf-doctor-title">Cirujano de Columna Vertebral · Traumatólogo y Ortopedista</div>
+        <div class="pdf-doctor-creds">Céd. Prof. 12085805 &nbsp;|&nbsp; CMOT 26/5567/25</div>
+        <div class="pdf-doctor-contact">
+          <span>📞 999 636 4504</span>
+          <span>✉️ drangelmanconaperez@gmail.com</span>
+          <span>📍 Mérida · Progreso · Umán, Yucatán</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdf-divider"></div>
+
+    <div class="pdf-title-block">
+      <div class="pdf-doc-title">Resultado de Evaluación de Dolor</div>
+      <div class="pdf-doc-date" id="pdf-date"></div>
+      <div class="pdf-doc-note">Herramienta de orientación médica digital — no sustituye consulta profesional</div>
+    </div>
+
+    <div class="pdf-result-block">
+      <div class="pdf-result-level" id="pdf-level"></div>
+      <div class="pdf-result-title" id="pdf-title"></div>
+      <div class="pdf-result-desc" id="pdf-desc"></div>
+      <div class="pdf-steps-block" id="pdf-steps"></div>
+    </div>
+
+    <div class="pdf-summary-block">
+      <div class="pdf-section-label">Resumen de respuestas</div>
+      <div class="pdf-summary-grid" id="pdf-summary-items"></div>
+    </div>
+
+    <div class="pdf-divider"></div>
+
+    <div class="pdf-blog-block">
+      <div class="pdf-blog-title">📖 Mantente informado sobre tu salud</div>
+      <div class="pdf-blog-text">El Dr. Ancona publica artículos sobre columna, traumatología y prevención. Información médica real, escrita para pacientes.</div>
+      <div class="pdf-blog-url">ancona31.github.io/pg_traumatologo/articulos.html</div>
+    </div>
+
+    <div class="pdf-divider"></div>
+
+    <div class="pdf-cta-block">
+      <div class="pdf-cta-text">¿Listo para resolver tu dolor? Agenda tu consulta:</div>
+      <div class="pdf-cta-contact">
+        <strong>📞 999 636 4504</strong> &nbsp;·&nbsp;
+        <strong>✉️ drangelmanconaperez@gmail.com</strong>
+      </div>
+      <div class="pdf-cta-web">ancona31.github.io/pg_traumatologo</div>
+    </div>
+
+    <div class="pdf-footer">
+      ⚠️ Este documento es orientativo y no constituye diagnóstico médico. Consulta siempre con el Dr. Ancona para una evaluación precisa y personalizada.
+    </div>
+  </div>
 
 
   <!-- ============================================================

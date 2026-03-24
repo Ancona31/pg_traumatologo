@@ -190,6 +190,7 @@ function showResult() {
   const result = calcResult();
   renderResultCard(result);
   renderSummary();
+  setupShare(result);
 
   const container = document.getElementById('pt-result');
   if (container) container.hidden = false;
@@ -321,11 +322,80 @@ function scrollToSection() {
 }
 
 /* ================================================================
+   PDF — POBLAR LAYOUT
+================================================================ */
+function populatePDF(result) {
+  // Fecha
+  const dateEl = document.getElementById('pdf-date');
+  if (dateEl) {
+    const now = new Date();
+    dateEl.textContent = now.toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+  }
+
+  // Resultado
+  const setText2 = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  setText2('pdf-level', result.level);
+  setText2('pdf-title', result.title);
+  setText2('pdf-desc',  result.desc);
+
+  // Pasos
+  const stepsEl = document.getElementById('pdf-steps');
+  if (stepsEl && result.steps) {
+    stepsEl.innerHTML = `
+      <div class="pdf-steps-label">Lo que el Dr. Ancona puede hacer por ti:</div>
+      <ul class="pdf-steps-list">
+        ${result.steps.map(s => `<li>${s}</li>`).join('')}
+      </ul>`;
+  }
+
+  // Resumen de respuestas
+  const summaryEl = document.getElementById('pdf-summary-items');
+  if (summaryEl) {
+    const items = [
+      { q:'📍 Zona de dolor',      a: LABELS.zona[answers.zona] },
+      { q:'🔢 Intensidad',         a: answers.intensidad ? `${answers.intensidad} / 10` : '—' },
+      { q:'⏱️ Duración',           a: LABELS.duracion[answers.duracion] },
+      { q:'🩺 Síntomas',           a: LABELS.sintomas[answers.sintomas] },
+      { q:'🔎 Causa',              a: LABELS.causa[answers.causa] },
+      { q:'💉 Tratamiento previo', a: LABELS.tratamiento[answers.tratamiento] },
+    ];
+    summaryEl.innerHTML = items.map(i => `
+      <div class="pdf-summary-item">
+        <div class="pdf-summary-q">${i.q}</div>
+        <div class="pdf-summary-a">${i.a || '—'}</div>
+      </div>`).join('');
+  }
+}
+
+/* ================================================================
+   COMPARTIR RESULTADO
+================================================================ */
+function setupShare(result) {
+  const shareText = `Hice el test de dolor del Dr. Angel M. Ancona Pérez y mi resultado fue: "${result.title}". ¿Tienes dolor de columna? Pruébalo aquí: ${window.location.href}`;
+
+  // WhatsApp
+  const waBtn = document.getElementById('btn-share-wa-test');
+  if (waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+
+  // Copiar link
+  const copyBtn = document.getElementById('btn-copy-result');
+  if (copyBtn) {
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        copyBtn.textContent = '✅ Copiado';
+        setTimeout(() => copyBtn.textContent = '🔗 Copiar link', 2000);
+      });
+    };
+  }
+}
+
+/* ================================================================
    INICIALIZACIÓN
 ================================================================ */
 function initPainTest() {
   const section = document.getElementById('test-dolor');
   if (!section) return;
+
   section.addEventListener('click', e => {
     const t = e.target;
     const option = t.closest('.pt-option');
@@ -342,6 +412,13 @@ function initPainTest() {
     const backBtn = t.closest('.pt-btn-back');
     if (backBtn) { const n = parseInt(backBtn.dataset.prev,10); if (!isNaN(n)) goToPrevStep(n); return; }
     if (t.closest('#btn-restart')) restartTest();
+  });
+
+  // Botón PDF
+  document.getElementById('btn-pdf')?.addEventListener('click', () => {
+    const result = calcResult();
+    populatePDF(result);
+    setTimeout(() => window.print(), 100);
   });
 }
 document.addEventListener('DOMContentLoaded', initPainTest);
