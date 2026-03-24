@@ -2750,234 +2750,75 @@ footer {
 .pt-share-btn--copy { background: rgba(26,127,232,.1); color: var(--color-vivid); }
 
 /* ================================================================
-   PDF LAYOUT — PANTALLA (oculto normalmente)
+   PDF LAYOUT — OCULTO EN PANTALLA, VISIBLE SOLO AL GENERAR
 ================================================================ */
-#pt-pdf-layout { display: none; }
+#pt-pdf-layout {
+  display: none;
+  font-family: 'DM Sans', Arial, sans-serif;
+  color: #0d1b35;
+  background: #fff;
+  padding: 40px 48px;
+  width: 794px;
+  box-sizing: border-box;
+}
 
-/* Clase que activa el modo impresión */
-body.is-printing > *:not(#pt-pdf-layout) { display: none !important; }
-body.is-printing #pt-pdf-layout { display: block !important; }
+.pdf-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+.pdf-logo { width: 70px; height: auto; object-fit: contain; }
+.pdf-doctor-name { font-size: 18pt; font-weight: 700; color: #0a1628; margin-bottom: .2rem; }
+.pdf-doctor-title { font-size: 10pt; color: #1a7fe8; font-weight: 600; margin-bottom: .2rem; }
+.pdf-doctor-creds { font-size: 9pt; color: #4a6a94; margin-bottom: .3rem; }
+.pdf-doctor-contact { display: flex; flex-wrap: wrap; gap: .75rem; font-size: 9pt; color: #2c4a72; }
 
-/* ================================================================
-   PDF LAYOUT — SOLO AL IMPRIMIR
-================================================================ */
-@media print {
-  body * { visibility: hidden; }
-  #pt-pdf-layout {
-    visibility: visible;
-    display: block !important;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    font-family: 'DM Sans', Arial, sans-serif;
-    color: #0d1b35;
-    padding: 2cm 2cm 1.5cm;
-  }
-  #pt-pdf-layout * { visibility: visible; }
+.pdf-divider { border: none; border-top: 2px solid #1a7fe8; margin: .85rem 0; }
 
-  /* Header con datos del doctor */
-  .pdf-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .pdf-logo {
-    width: 70px;
-    height: auto;
-    object-fit: contain;
-  }
-  .pdf-doctor-name {
-    font-size: 18pt;
-    font-weight: 700;
-    color: #0a1628;
-    margin-bottom: .2rem;
-  }
-  .pdf-doctor-title {
-    font-size: 10pt;
-    color: #1a7fe8;
-    font-weight: 600;
-    margin-bottom: .2rem;
-  }
-  .pdf-doctor-creds {
-    font-size: 9pt;
-    color: #4a6a94;
-    margin-bottom: .3rem;
-  }
-  .pdf-doctor-contact {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .75rem;
-    font-size: 9pt;
-    color: #2c4a72;
-  }
+.pdf-title-block { margin-bottom: .85rem; }
+.pdf-doc-title { font-size: 15pt; font-weight: 700; color: #0a1628; margin-bottom: .15rem; }
+.pdf-doc-date { font-size: 9pt; color: #7a9cc4; margin-bottom: .1rem; }
+.pdf-doc-note { font-size: 8pt; color: #a8c4e0; font-style: italic; }
 
-  /* Divisor */
-  .pdf-divider {
-    border: none;
-    border-top: 2px solid #1a7fe8;
-    margin: .85rem 0;
-  }
+.pdf-result-block {
+  background: #f7faff;
+  border-left: 4px solid #1a7fe8;
+  border-radius: 6px;
+  padding: .85rem 1rem;
+  margin-bottom: .85rem;
+}
+.pdf-result-level { font-size: 8pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
+.pdf-result-title { font-size: 13pt; font-weight: 700; color: #0a1628; margin-bottom: .4rem; }
+.pdf-result-desc { font-size: 9.5pt; color: #2c4a72; line-height: 1.6; margin-bottom: .6rem; }
+.pdf-steps-label { font-size: 8pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+.pdf-steps-list { list-style: none; padding: 0; margin: 0; }
+.pdf-steps-list li { font-size: 9pt; color: #2c4a72; padding-left: 1.1rem; position: relative; margin-bottom: .2rem; line-height: 1.5; }
+.pdf-steps-list li::before { content: '✓'; color: #1a7fe8; font-weight: 700; position: absolute; left: 0; }
 
-  /* Título del documento */
-  .pdf-title-block { margin-bottom: .85rem; }
-  .pdf-doc-title {
-    font-size: 15pt;
-    font-weight: 700;
-    color: #0a1628;
-    margin-bottom: .15rem;
-  }
-  .pdf-doc-date {
-    font-size: 9pt;
-    color: #7a9cc4;
-    margin-bottom: .1rem;
-  }
-  .pdf-doc-note {
-    font-size: 8pt;
-    color: #a8c4e0;
-    font-style: italic;
-  }
+.pdf-summary-block { margin-bottom: .85rem; }
+.pdf-section-label { font-size: 9pt; font-weight: 700; color: #0a1628; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
+.pdf-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+.pdf-summary-item { background: #f0f6ff; border-radius: 4px; padding: .35rem .5rem; }
+.pdf-summary-q { font-size: 7.5pt; color: #7a9cc4; margin-bottom: .1rem; }
+.pdf-summary-a { font-size: 8.5pt; font-weight: 600; color: #0a1628; }
 
-  /* Bloque de resultado */
-  .pdf-result-block {
-    background: #f7faff;
-    border-left: 4px solid #1a7fe8;
-    border-radius: 6px;
-    padding: .85rem 1rem;
-    margin-bottom: .85rem;
-  }
-  .pdf-result-level {
-    font-size: 8pt;
-    font-weight: 700;
-    color: #1a7fe8;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    margin-bottom: .25rem;
-  }
-  .pdf-result-title {
-    font-size: 13pt;
-    font-weight: 700;
-    color: #0a1628;
-    margin-bottom: .4rem;
-  }
-  .pdf-result-desc {
-    font-size: 9.5pt;
-    color: #2c4a72;
-    line-height: 1.6;
-    margin-bottom: .6rem;
-  }
-  .pdf-steps-label {
-    font-size: 8pt;
-    font-weight: 700;
-    color: #1a7fe8;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: .35rem;
-  }
-  .pdf-steps-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .pdf-steps-list li {
-    font-size: 9pt;
-    color: #2c4a72;
-    padding-left: 1.1rem;
-    position: relative;
-    margin-bottom: .2rem;
-    line-height: 1.5;
-  }
-  .pdf-steps-list li::before {
-    content: '✓';
-    color: #1a7fe8;
-    font-weight: 700;
-    position: absolute;
-    left: 0;
-  }
+.pdf-blog-block { margin-bottom: .85rem; text-align: center; }
+.pdf-blog-title { font-size: 11pt; font-weight: 700; color: #0a1628; margin-bottom: .3rem; }
+.pdf-blog-text { font-size: 9pt; color: #4a6a94; line-height: 1.55; margin-bottom: .25rem; }
+.pdf-blog-url { font-size: 9pt; color: #1a7fe8; font-weight: 600; }
 
-  /* Resumen de respuestas */
-  .pdf-summary-block { margin-bottom: .85rem; }
-  .pdf-section-label {
-    font-size: 9pt;
-    font-weight: 700;
-    color: #0a1628;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: .5rem;
-  }
-  .pdf-summary-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: .4rem;
-  }
-  .pdf-summary-item {
-    background: #f0f6ff;
-    border-radius: 4px;
-    padding: .35rem .5rem;
-  }
-  .pdf-summary-q {
-    font-size: 7.5pt;
-    color: #7a9cc4;
-    margin-bottom: .1rem;
-  }
-  .pdf-summary-a {
-    font-size: 8.5pt;
-    font-weight: 600;
-    color: #0a1628;
-  }
+.pdf-cta-block { text-align: center; margin-bottom: .85rem; }
+.pdf-cta-text { font-size: 10pt; font-weight: 600; color: #0a1628; margin-bottom: .3rem; }
+.pdf-cta-contact { font-size: 10pt; color: #1a7fe8; margin-bottom: .2rem; }
+.pdf-cta-web { font-size: 8.5pt; color: #7a9cc4; }
 
-  /* Blog */
-  .pdf-blog-block {
-    margin-bottom: .85rem;
-    text-align: center;
-  }
-  .pdf-blog-title {
-    font-size: 11pt;
-    font-weight: 700;
-    color: #0a1628;
-    margin-bottom: .3rem;
-  }
-  .pdf-blog-text {
-    font-size: 9pt;
-    color: #4a6a94;
-    line-height: 1.55;
-    margin-bottom: .25rem;
-  }
-  .pdf-blog-url {
-    font-size: 9pt;
-    color: #1a7fe8;
-    font-weight: 600;
-  }
-
-  /* CTA */
-  .pdf-cta-block {
-    text-align: center;
-    margin-bottom: .85rem;
-  }
-  .pdf-cta-text {
-    font-size: 10pt;
-    font-weight: 600;
-    color: #0a1628;
-    margin-bottom: .3rem;
-  }
-  .pdf-cta-contact {
-    font-size: 10pt;
-    color: #1a7fe8;
-    margin-bottom: .2rem;
-  }
-  .pdf-cta-web {
-    font-size: 8.5pt;
-    color: #7a9cc4;
-  }
-
-  /* Footer disclaimer */
-  .pdf-footer {
-    font-size: 7.5pt;
-    color: #a8c4e0;
-    line-height: 1.5;
-    text-align: center;
-    border-top: 1px solid #e0eaf5;
-    padding-top: .5rem;
-    margin-top: .5rem;
-  }
+.pdf-footer {
+  font-size: 7.5pt;
+  color: #a8c4e0;
+  line-height: 1.5;
+  text-align: center;
+  border-top: 1px solid #e0eaf5;
+  padding-top: .5rem;
+  margin-top: .5rem;
 }

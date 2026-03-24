@@ -415,18 +415,52 @@ function initPainTest() {
   });
 
   // Botón PDF
-  document.getElementById('btn-pdf')?.addEventListener('click', () => {
+  document.getElementById('btn-pdf')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-pdf');
     const result = calcResult();
     populatePDF(result);
-    document.body.classList.add('is-printing');
-    setTimeout(() => {
-      window.print();
-    }, 150);
-  });
 
-  // Quitar clase después de imprimir
-  window.addEventListener('afterprint', () => {
-    document.body.classList.remove('is-printing');
+    // Mostrar layout fuera de pantalla para capturarlo
+    const layout = document.getElementById('pt-pdf-layout');
+    layout.style.cssText = 'display:block;position:fixed;top:0;left:-9999px;width:794px;background:#fff;z-index:-1;';
+
+    // Estado de carga
+    btn.textContent = '⏳ Generando PDF...';
+    btn.disabled = true;
+
+    try {
+      const canvas = await html2canvas(layout, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgW = 210;
+      const imgH = (canvas.height * imgW) / canvas.width;
+      const pageH = 297;
+      let y = 0;
+
+      // Soporte multi-página si el contenido es largo
+      while (y < imgH) {
+        if (y > 0) pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, -y, imgW, imgH);
+        y += pageH;
+      }
+
+      pdf.save('resultado-test-dolor-dr-ancona.pdf');
+      btn.textContent = '✅ PDF descargado';
+      setTimeout(() => { btn.textContent = '📄 Guardar como PDF'; }, 3000);
+
+    } catch (err) {
+      btn.textContent = '❌ Error — intenta de nuevo';
+      setTimeout(() => { btn.textContent = '📄 Guardar como PDF'; }, 3000);
+    } finally {
+      btn.disabled = false;
+      layout.style.cssText = 'display:none;';
+    }
   });
 }
 document.addEventListener('DOMContentLoaded', initPainTest);
