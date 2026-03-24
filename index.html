@@ -446,9 +446,21 @@
           </div>
           <h3 class="pt-result-title" id="result-title"></h3>
           <p class="pt-result-desc"  id="result-desc"></p>
-          <div class="pt-result-actions">
-            <a href="#citas" class="btn-primary btn-primary--sm">📅 Agendar Consulta</a>
-            <button class="pt-btn-pdf" id="btn-pdf" onclick="window.print()">📄 Descargar PDF</button>
+
+          <!-- Lo que el Dr. Ancona puede hacer -->
+          <div class="pt-result-steps" id="result-steps"></div>
+
+          <!-- Tranquilidad -->
+          <div class="pt-result-reassurance">
+            💬 La consulta es una <strong>evaluación personalizada</strong>, no un compromiso de cirugía.
+          </div>
+
+          <!-- CTA principal -->
+          <a href="#citas" class="pt-result-cta-btn" id="result-cta-btn">📅 Agendar Consulta con el Dr. Ancona</a>
+
+          <!-- Acciones secundarias -->
+          <div class="pt-result-secondary">
+            <button class="pt-btn-pdf" id="btn-pdf" onclick="window.print()">📄 Guardar resultado</button>
             <button class="pt-restart" id="btn-restart">🔄 Repetir test</button>
           </div>
         </div>

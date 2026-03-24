@@ -4,66 +4,119 @@
    CONFIGURACIÓN
 ================================================================ */
 const TOTAL_STEPS = 6;
-
 const PAIN_THRESHOLDS = { urgente: 7, traumatico: 6, conservador: 5 };
 
 /* ================================================================
-   RESULTADOS — edita solo este objeto para cambiar los textos
+   RESULTADOS
 ================================================================ */
 const RESULTS = {
   urgente_esfinteres: {
     type: 'urgente', icon: '🚨', color: '#ef4444',
     level: 'EMERGENCIA MÉDICA',
-    title: 'Acude a urgencias de inmediato',
-    desc:  'La pérdida de control de esfínteres puede indicar compresión grave de la médula espinal (síndrome de cauda equina). Es una emergencia quirúrgica. Dirígete a urgencias o llama al Dr. Ancona ahora mismo.',
+    title: 'Necesitas atención médica ahora mismo',
+    desc: 'La pérdida de control para orinar o defecar combinada con dolor en la columna puede indicar una compresión grave de la médula espinal. Esto requiere atención inmediata — cada hora cuenta para evitar daño permanente.',
+    steps: [
+      'Evaluación de emergencia y resonancia magnética urgente',
+      'Descompresión quirúrgica de ser necesaria, con el menor riesgo posible',
+      'Seguimiento estrecho para preservar la función neurológica',
+    ],
+    cta: '🚨 Contactar al Dr. Ancona ahora',
   },
   urgente_neurologico: {
     type: 'urgente', icon: '⚠️', color: '#f97316',
     level: 'ATENCIÓN URGENTE',
-    title: 'Requieres atención especializada pronto',
-    desc:  'El entumecimiento o debilidad intensa combinado con dolor severo puede indicar compresión nerviosa activa. Recomendamos consulta con el Dr. Ancona en los próximos 1–3 días para resonancia magnética y valoración neurológica.',
+    title: 'Tu nervio puede estar comprimido activamente',
+    desc: 'El entumecimiento, la debilidad o el dolor que se irradia con esa intensidad no son normales ni deben ignorarse. Cuanto antes se evalúe, mayores son las posibilidades de recuperación completa sin secuelas.',
+    steps: [
+      'Consulta en los próximos 1–3 días con resonancia magnética',
+      'Identificar exactamente qué nervio está comprimido y por qué',
+      'Plan de tratamiento: desde infiltraciones hasta cirugía mínimamente invasiva según el caso',
+    ],
+    cta: '📅 Agendar consulta urgente',
   },
   urgente_trauma: {
     type: 'urgente', icon: '🦴', color: '#f59e0b',
     level: 'EVALUACIÓN PRIORITARIA',
-    title: 'Posible fractura o lesión traumática',
-    desc:  'Un golpe o caída con dolor intenso debe descartarse con estudios de imagen (radiografía o TAC) lo antes posible. Evita movimientos bruscos y acude a valoración urgente para descartar fractura vertebral.',
+    title: 'Un golpe o caída con este dolor necesita descartarse hoy',
+    desc: 'No todo golpe en la espalda es una fractura, pero tampoco puedes saberlo sin estudios de imagen. Moverse sin el diagnóstico correcto puede empeorar una lesión que de otro modo sería tratable.',
+    steps: [
+      'Radiografía o TAC para descartar fractura vertebral',
+      'Si hay fractura: cifoplastia o vertebroplastia — procedimiento de 30 min con alta el mismo día',
+      'Si no hay fractura: plan de manejo del dolor y recuperación segura',
+    ],
+    cta: '📅 Solicitar evaluación urgente',
   },
   cirugia_fallida: {
     type: 'especialista', icon: '🔩', color: '#8b5cf6',
     level: 'REVISIÓN POST-QUIRÚRGICA',
-    title: 'Tu cirugía previa requiere revisión',
-    desc:  'El dolor persistente después de una cirugía de columna puede tener causas específicas: cicatriz epidural, falla del implante, nueva hernia o inestabilidad. El Dr. Ancona realizará una evaluación especializada para identificar la causa y ofrecerte opciones de solución.',
+    title: 'El dolor después de una cirugía tiene solución',
+    desc: 'Que hayas sido operado antes y sigas con dolor no significa que no haya salida. Hay causas específicas y tratables: cicatriz epidural, nueva hernia, falla del implante o inestabilidad. El Dr. Ancona se especializa en revisar estos casos.',
+    steps: [
+      'Revisión completa del historial quirúrgico y estudios previos',
+      'Resonancia magnética para identificar la causa exacta del dolor residual',
+      'Opciones desde manejo conservador hasta revisión quirúrgica mínimamente invasiva',
+    ],
+    cta: '📅 Agendar revisión especializada',
   },
   especialista_cronico: {
     type: 'especialista', icon: '🩺', color: '#3b82f6',
     level: 'CONSULTA ESPECIALIZADA',
-    title: 'Tu dolor crónico necesita evaluación profunda',
-    desc:  'Un dolor que persiste más de 6 meses requiere un enfoque diagnóstico completo con estudios de imagen. El Dr. Ancona determinará si existe una causa estructural tratable y diseñará un plan de manejo personalizado.',
+    title: 'Llevas demasiado tiempo aguantando — hay opciones',
+    desc: 'Vivir con dolor crónico de columna no es algo que tengas que aceptar. Después de 6 meses, el cuerpo ya no puede resolver esto solo. Hay una causa estructural que puede identificarse y tratarse — el primer paso es saber exactamente qué está pasando.',
+    steps: [
+      'Estudio de imagen completo para encontrar la causa raíz',
+      'Evaluación de opciones: desde infiltraciones y fisioterapia dirigida hasta cirugía si es necesario',
+      'Plan de manejo personalizado con objetivo claro: reducir o eliminar el dolor',
+    ],
+    cta: '📅 Poner fin a mi dolor crónico',
   },
   segunda_opinion: {
     type: 'especialista', icon: '🔍', color: '#06b6d4',
     level: 'SEGUNDA EVALUACIÓN',
-    title: 'Tu tratamiento actual no está dando resultados',
-    desc:  'Si la fisioterapia o los medicamentos no han resuelto tu dolor, es momento de una valoración más profunda. El Dr. Ancona revisará si existe una causa estructural que requiera un enfoque diferente o tratamiento mínimamente invasivo.',
+    title: 'Si lo que haces no funciona, hay otro camino',
+    desc: 'Que la fisioterapia o los medicamentos no hayan resuelto tu dolor no significa que no tengas solución — significa que puede haber una causa que no se ha identificado todavía. Una segunda opinión con un especialista puede cambiar completamente el enfoque.',
+    steps: [
+      'Revisión sin sesgos de tu historial y estudios previos',
+      'Identificar si existe una causa estructural que requiera un tratamiento diferente',
+      'Si aplica: cirugía mínimamente invasiva con alta el mismo día o en 24 hrs',
+    ],
+    cta: '📅 Obtener segunda opinión con el Dr. Ancona',
   },
   especialista_irradiado: {
     type: 'especialista', icon: '⚡', color: '#1a7fe8',
     level: 'CONSULTA CON ESPECIALISTA',
-    title: 'El dolor irradiado sugiere compresión nerviosa',
-    desc:  'El dolor que baja por la pierna o el brazo indica posible compresión de raíz nerviosa. Con una resonancia magnética y valoración con el Dr. Ancona podremos confirmar el diagnóstico y evaluar si requieres tratamiento conservador o quirúrgico.',
+    title: 'El dolor que baja por tu pierna o brazo tiene nombre — y tratamiento',
+    desc: 'Ese dolor que se irradia es una señal de que un nervio está siendo presionado. No desaparece solo con descanso ni con analgésicos porque el problema no es el músculo — es la estructura que lo comprime. La buena noticia: tiene solución.',
+    steps: [
+      'Resonancia magnética para confirmar el nivel y el nervio afectado',
+      'Opciones conservadoras: infiltración epidural con guía de imagen para alivio inmediato',
+      'Si es necesario: microdiscectomía endoscópica — incisión menor a 1 cm y alta en 24 hrs',
+    ],
+    cta: '📅 Evaluar mi dolor irradiado',
   },
   conservador: {
     type: 'conservador', icon: '💊', color: '#22c55e',
-    level: 'MANEJO CONSERVADOR',
-    title: 'Tu dolor puede mejorar con tratamiento conservador',
-    desc:  'Muchos casos como el tuyo responden bien a reposo relativo, analgésicos y fisioterapia. Sin embargo, es importante una consulta médica para confirmar el diagnóstico y evitar que el problema progrese.',
+    level: 'ATENCIÓN RECOMENDADA',
+    title: 'Tu dolor puede mejorar — pero necesitas saber qué lo causa',
+    desc: 'La buena noticia es que tu caso no parece urgente. La importante: sin un diagnóstico correcto, lo que hoy es manejable puede volverse crónico. Muchos pacientes que esperan demasiado llegan con un problema que pudo resolverse fácilmente antes.',
+    steps: [
+      'Consulta para confirmar el diagnóstico y descartar causas estructurales',
+      'Plan de tratamiento conservador: fisioterapia dirigida, manejo del dolor y ejercicio específico',
+      'Seguimiento para asegurarnos de que mejora y no progresa',
+    ],
+    cta: '📅 Confirmar diagnóstico con el Dr. Ancona',
   },
   preventivo: {
     type: 'preventivo', icon: '✅', color: '#10b981',
-    level: 'PREVENCIÓN Y SEGUIMIENTO',
-    title: 'Tu dolor parece leve y manejable',
-    desc:  'Tus respuestas sugieren un cuadro leve que puede mejorar con ejercicio, buena postura y ergonomía. Una consulta preventiva con el Dr. Ancona te orientará para evitar que el problema progrese.',
+    level: 'CONSULTA PREVENTIVA',
+    title: 'Hoy es leve — mantenerlo así depende de lo que hagas ahora',
+    desc: 'Tu dolor actual parece manejable, y eso es una ventaja real. Los problemas de columna que se atienden temprano se resuelven con opciones simples. Los mismos problemas ignorados durante meses terminan requiriendo tratamientos más complejos.',
+    steps: [
+      'Evaluación para identificar hábitos o factores de riesgo que puedan empeorar tu columna',
+      'Recomendaciones específicas de ejercicio y ergonomía para tu caso',
+      'Tranquilidad de saber que alguien revisó que todo está bien',
+    ],
+    cta: '📅 Consulta preventiva con el Dr. Ancona',
   },
 };
 
@@ -152,6 +205,22 @@ function renderResultCard(result) {
   setText('result-level', result.level);
   setText('result-title', result.title);
   setText('result-desc',  result.desc);
+
+  // Renderizar pasos
+  const stepsEl = document.getElementById('result-steps');
+  if (stepsEl && result.steps) {
+    stepsEl.innerHTML = `
+      <div class="pt-steps-label">Lo que el Dr. Ancona puede hacer por ti:</div>
+      <ul class="pt-steps-list">
+        ${result.steps.map(s => `<li>${s}</li>`).join('')}
+      </ul>`;
+  }
+
+  // CTA personalizado
+  const ctaBtn = document.getElementById('result-cta-btn');
+  if (ctaBtn) ctaBtn.textContent = result.cta;
+
+  // Color del nivel
   const lvl = document.getElementById('result-level');
   if (lvl) lvl.style.color = result.color;
 }
