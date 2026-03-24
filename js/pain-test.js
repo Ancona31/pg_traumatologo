@@ -13,31 +13,31 @@ const RESULTS = {
   urgente_esfinteres: {
     type: 'urgente', icon: '🚨', color: '#ef4444',
     level: 'EMERGENCIA MÉDICA',
-    title: 'Necesitas atención médica ahora mismo',
-    desc: 'La pérdida de control para orinar o defecar combinada con dolor en la columna puede indicar una compresión grave de la médula espinal. Esto requiere atención inmediata — cada hora cuenta para evitar daño permanente.',
+    title: 'Dirígete a urgencias hospitalarias de inmediato',
+    desc: 'La pérdida de control para orinar o defecar combinada con dolor en la columna puede indicar una compresión grave de la médula espinal. Este tipo de emergencia debe atenderse en urgencias hospitalarias — no esperes a una cita. Cada hora cuenta para evitar daño permanente.',
     steps: [
-      'Evaluación de emergencia y resonancia magnética urgente',
-      'Descompresión quirúrgica de ser necesaria, con el menor riesgo posible',
-      'Seguimiento estrecho para preservar la función neurológica',
+      'Acude a urgencias hospitalarias o llama al 911 de inmediato',
+      'Una vez estabilizado, el Dr. Ancona puede brindar seguimiento especializado',
+      'Evaluación quirúrgica y resonancia magnética de urgencia según evolución',
     ],
-    cta: '🚨 Contactar al Dr. Ancona ahora',
+    cta: '🚨 Llamar al 911 — o ir a urgencias',
   },
   urgente_neurologico: {
     type: 'urgente', icon: '⚠️', color: '#f97316',
     level: 'ATENCIÓN URGENTE',
-    title: 'Tu nervio puede estar comprimido activamente',
-    desc: 'El entumecimiento, la debilidad o el dolor que se irradia con esa intensidad no son normales ni deben ignorarse. Cuanto antes se evalúe, mayores son las posibilidades de recuperación completa sin secuelas.',
+    title: 'Tu nervio puede estar comprimido — busca atención en las próximas 24-48 horas',
+    desc: 'El entumecimiento, la debilidad o el dolor que se irradia con esa intensidad no son normales ni deben ignorarse. No es una emergencia de sala de urgencias, pero sí requiere atención especializada a la brevedad — cuanto antes se evalúe, mayores son las posibilidades de recuperación completa.',
     steps: [
-      'Consulta en los próximos 1–3 días con resonancia magnética',
+      'Consulta con el Dr. Ancona en las próximas 24-48 horas con resonancia magnética',
       'Identificar exactamente qué nervio está comprimido y por qué',
       'Plan de tratamiento: desde infiltraciones hasta cirugía mínimamente invasiva según el caso',
     ],
-    cta: '📅 Agendar consulta urgente',
+    cta: '📅 Agendar consulta a la brevedad',
   },
   urgente_trauma: {
     type: 'urgente', icon: '🦴', color: '#f59e0b',
     level: 'EVALUACIÓN PRIORITARIA',
-    title: 'Un golpe o caída con este dolor necesita descartarse hoy',
+    title: 'Un golpe o caída con este dolor necesita descartarse en las próximas 24 horas',
     desc: 'No todo golpe en la espalda es una fractura, pero tampoco puedes saberlo sin estudios de imagen. Moverse sin el diagnóstico correcto puede empeorar una lesión que de otro modo sería tratable.',
     steps: [
       'Radiografía o TAC para descartar fractura vertebral',
@@ -49,8 +49,8 @@ const RESULTS = {
   cirugia_fallida: {
     type: 'especialista', icon: '🔩', color: '#8b5cf6',
     level: 'REVISIÓN POST-QUIRÚRGICA',
-    title: 'El dolor después de una cirugía tiene solución',
-    desc: 'Que hayas sido operado antes y sigas con dolor no significa que no haya salida. Hay causas específicas y tratables: cicatriz epidural, nueva hernia, falla del implante o inestabilidad. El Dr. Ancona se especializa en revisar estos casos.',
+    title: 'El dolor después de una cirugía tiene solución — agenda tu revisión esta semana',
+    desc: 'Que hayas sido operado antes y sigas con dolor no significa que no haya salida. Hay causas específicas y tratables: cicatriz epidural, nueva hernia, falla del implante o inestabilidad. El Dr. Ancona se especializa en revisar estos casos — mientras antes se evalúe, más opciones hay.',
     steps: [
       'Revisión completa del historial quirúrgico y estudios previos',
       'Resonancia magnética para identificar la causa exacta del dolor residual',
@@ -61,8 +61,8 @@ const RESULTS = {
   especialista_cronico: {
     type: 'especialista', icon: '🩺', color: '#3b82f6',
     level: 'CONSULTA ESPECIALIZADA',
-    title: 'Llevas demasiado tiempo aguantando — hay opciones',
-    desc: 'Vivir con dolor crónico de columna no es algo que tengas que aceptar. Después de 6 meses, el cuerpo ya no puede resolver esto solo. Hay una causa estructural que puede identificarse y tratarse — el primer paso es saber exactamente qué está pasando.',
+    title: 'Llevas demasiado tiempo aguantando — agenda en los próximos días',
+    desc: 'Vivir con dolor crónico de columna no es algo que tengas que aceptar. Después de 6 meses, el cuerpo ya no puede resolver esto solo. Hay una causa estructural que puede identificarse y tratarse — cuanto antes se evalúe, más fácil es el camino de regreso.',
     steps: [
       'Estudio de imagen completo para encontrar la causa raíz',
       'Evaluación de opciones: desde infiltraciones y fisioterapia dirigida hasta cirugía si es necesario',
@@ -73,7 +73,7 @@ const RESULTS = {
   segunda_opinion: {
     type: 'especialista', icon: '🔍', color: '#06b6d4',
     level: 'SEGUNDA EVALUACIÓN',
-    title: 'Si lo que haces no funciona, hay otro camino',
+    title: 'Si lo que haces no funciona, hay otro camino — consúltalo esta semana',
     desc: 'Que la fisioterapia o los medicamentos no hayan resuelto tu dolor no significa que no tengas solución — significa que puede haber una causa que no se ha identificado todavía. Una segunda opinión con un especialista puede cambiar completamente el enfoque.',
     steps: [
       'Revisión sin sesgos de tu historial y estudios previos',
@@ -85,8 +85,8 @@ const RESULTS = {
   especialista_irradiado: {
     type: 'especialista', icon: '⚡', color: '#1a7fe8',
     level: 'CONSULTA CON ESPECIALISTA',
-    title: 'El dolor que baja por tu pierna o brazo tiene nombre — y tratamiento',
-    desc: 'Ese dolor que se irradia es una señal de que un nervio está siendo presionado. No desaparece solo con descanso ni con analgésicos porque el problema no es el músculo — es la estructura que lo comprime. La buena noticia: tiene solución.',
+    title: 'El dolor que baja por tu pierna o brazo tiene nombre — evalúalo en los próximos días',
+    desc: 'Ese dolor que se irradia es una señal de que un nervio está siendo presionado. No desaparece solo con descanso ni con analgésicos porque el problema no es el músculo — es la estructura que lo comprime. Entre más tiempo pasa sin atención, mayor el riesgo de daño permanente.',
     steps: [
       'Resonancia magnética para confirmar el nivel y el nervio afectado',
       'Opciones conservadoras: infiltración epidural con guía de imagen para alivio inmediato',
@@ -97,8 +97,8 @@ const RESULTS = {
   conservador: {
     type: 'conservador', icon: '💊', color: '#22c55e',
     level: 'ATENCIÓN RECOMENDADA',
-    title: 'Tu dolor puede mejorar — pero necesitas saber qué lo causa',
-    desc: 'La buena noticia es que tu caso no parece urgente. La importante: sin un diagnóstico correcto, lo que hoy es manejable puede volverse crónico. Muchos pacientes que esperan demasiado llegan con un problema que pudo resolverse fácilmente antes.',
+    title: 'Tu dolor puede mejorar — conviene evaluarlo pronto para no llegar a más',
+    desc: 'La buena noticia es que tu caso no parece urgente. La importante: sin un diagnóstico correcto, lo que ahora es manejable puede volverse crónico. Muchos pacientes que esperan demasiado llegan con un problema que pudo resolverse fácilmente antes.',
     steps: [
       'Consulta para confirmar el diagnóstico y descartar causas estructurales',
       'Plan de tratamiento conservador: fisioterapia dirigida, manejo del dolor y ejercicio específico',
@@ -109,7 +109,7 @@ const RESULTS = {
   preventivo: {
     type: 'preventivo', icon: '✅', color: '#10b981',
     level: 'CONSULTA PREVENTIVA',
-    title: 'Hoy es leve — mantenerlo así depende de lo que hagas ahora',
+    title: 'Por ahora es leve — mantenerlo así depende de lo que hagas en las próximas semanas',
     desc: 'Tu dolor actual parece manejable, y eso es una ventaja real. Los problemas de columna que se atienden temprano se resuelven con opciones simples. Los mismos problemas ignorados durante meses terminan requiriendo tratamientos más complejos.',
     steps: [
       'Evaluación para identificar hábitos o factores de riesgo que puedan empeorar tu columna',
