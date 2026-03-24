@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Planeación quirúrgica 3D e impresión 3D médica con el Dr. Angel M. Ancona Pérez — Cirujano de Columna en Mérida, Yucatán." />
+  <title>Tecnología 3D Quirúrgica | Dr. Angel M. Ancona Pérez</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    /* ── HERO 3D ─────────────────────────────────────────── */
+    .hero3d {
+      background: linear-gradient(135deg, #0a1628 0%, #0d2044 100%);
+      padding: 8rem 5% 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero3d::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,127,232,.12) 0%, transparent 70%);
+      top: -150px; right: -100px;
+      pointer-events: none;
+    }
+    .hero3d-tag {
+      display: inline-block;
+      background: rgba(26,127,232,.15);
+      color: #1a7fe8;
+      border: 1px solid rgba(26,127,232,.3);
+      border-radius: 50px;
+      padding: .35rem 1rem;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .hero3d h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: #fff;
+      margin: 0 0 1.25rem;
+      line-height: 1.15;
+    }
+    .hero3d h1 span { color: #1a7fe8; }
+    .hero3d-sub {
+      color: #a8c4e0;
+      font-size: 1.05rem;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero3d-cta {
+      display: inline-block;
+      background: #1a7fe8;
+      color: #fff;
+      padding: .9rem 2.25rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background .3s, transform .2s;
+    }
+    .hero3d-cta:hover { background: #1366c0; transform: translateY(-2px); }
+
+    /* ── QUÉ ES ───────────────────────────────────────────── */
+    .sec-que {
+      padding: 5rem 5%;
+      background: #fff;
+    }
+    .que-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .que-text .section-tag { margin-bottom: .5rem; }
+    .que-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin: 0 0 1rem;
+    }
+    .que-text p {
+      color: #4a6a94;
+      font-size: .95rem;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .que-img {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(10,22,40,.15);
+      aspect-ratio: 4/3;
+      background: #0d2044;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .que-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .que-img-placeholder {
+      color: rgba(255,255,255,.2);
+      font-size: .85rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* ── PROCESO ──────────────────────────────────────────── */
+    .sec-proceso {
+      padding: 5rem 5%;
+      background: #f8fafc;
+    }
+    .proceso-steps {
+      max-width: 900px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .step-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(10,22,40,.07);
+      border-top: 3px solid #1a7fe8;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(26,127,232,.1);
+      color: #1a7fe8;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto .75rem;
+    }
+    .step-card h4 {
+      color: var(--navy);
+      font-size: .9rem;
+      font-weight: 600;
+      margin: 0 0 .5rem;
+    }
+    .step-card p {
+      color: #6a8db0;
+      font-size: .8rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── BENEFICIOS ───────────────────────────────────────── */
+    .sec-beneficios {
+      padding: 5rem 5%;
+      background: linear-gradient(135deg, #0a1628 0%, #0d2044 100%);
+    }
+    .sec-beneficios .section-title { color: #fff; }
+    .sec-beneficios .section-tag { color: #1a7fe8; background: rgba(26,127,232,.15); border-color: rgba(26,127,232,.3); }
+    .sec-beneficios .section-sub { color: #a8c4e0; }
+    .ben-grid {
+      max-width: 1000px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .ben-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(26,127,232,.2);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+    }
+    .ben-icon {
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .ben-card h4 {
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 600;
+      margin: 0 0 .5rem;
+    }
+    .ben-card p {
+      color: #a8c4e0;
+      font-size: .82rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── GALERÍA ──────────────────────────────────────────── */
+    .sec-galeria {
+      padding: 5rem 5%;
+      background: #fff;
+    }
+    .galeria-grid {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .galeria-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(10,22,40,.1);
+      aspect-ratio: 1;
+      background: #0d2044;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .galeria-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .galeria-card:hover img { transform: scale(1.05); }
+    .galeria-placeholder {
+      color: rgba(255,255,255,.2);
+      font-size: .8rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* ── CTA FINAL ────────────────────────────────────────── */
+    .sec-cta3d {
+      padding: 5rem 5%;
+      background: #f8fafc;
+      text-align: center;
+    }
+    .sec-cta3d h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .sec-cta3d p {
+      color: #4a6a94;
+      max-width: 540px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+    .cta3d-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-cta3d-primary {
+      background: #1a7fe8;
+      color: #fff;
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background .3s;
+    }
+    .btn-cta3d-primary:hover { background: #1366c0; }
+    .btn-cta3d-secondary {
+      background: transparent;
+      color: var(--navy);
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      border: 2px solid var(--navy);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all .3s;
+    }
+    .btn-cta3d-secondary:hover { background: var(--navy); color: #fff; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .que-grid { grid-template-columns: 1fr; }
+      .proceso-steps { grid-template-columns: repeat(2, 1fr); }
+      .ben-grid { grid-template-columns: 1fr 1fr; }
+      .galeria-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .proceso-steps { grid-template-columns: 1fr; }
+      .ben-grid { grid-template-columns: 1fr; }
+      .galeria-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="assets/images/logo_dr_ancona_sf.PNG" alt="Logo Dr. Angel M. Ancona" class="nav-logo-icon"/>
+      <div>
+        <span>Dr. Angel M. Ancona Pérez</span>
+        <small>Cirugía de Columna · Traumatología</small>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#servicios">Servicios</a></li>
+      <li><a href="index.html#nosotros">Sobre mí</a></li>
+      <li><a href="articulos.html">Blog</a></li>
+    </ul>
+    <a href="index.html#citas" class="nav-cta">📅 Agendar Cita</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero3d">
+    <div class="hero3d-tag">Innovación Quirúrgica</div>
+    <h1>Planeación Quirúrgica <span>3D</span></h1>
+    <p class="hero3d-sub">Tecnología de vanguardia que convierte imágenes DICOM en modelos anatómicos tridimensionales a escala 1:1, permitiendo planear cada cirugía con precisión milimétrica antes de entrar al quirófano.</p>
+    <a href="index.html#citas" class="hero3d-cta">Consultar disponibilidad →</a>
+  </section>
+
+  <!-- QUÉ ES -->
+  <section class="sec-que">
+    <div class="que-grid">
+      <div class="que-text">
+        <div class="section-tag">¿Qué es?</div>
+        <h2>Del Estudio al Quirófano en 3D</h2>
+        <p>A partir de los estudios de imagen del paciente (tomografías o resonancias en formato DICOM), se reconstruye digitalmente la anatomía exacta en tres dimensiones.</p>
+        <p>Esta reconstrucción permite al cirujano explorar, medir y planear el procedimiento en un modelo virtual idéntico al paciente — antes de hacer la primera incisión.</p>
+        <p>Cuando el caso lo requiere, se puede imprimir físicamente en 3D una réplica de la zona a intervenir para practicar o fabricar piezas médicas personalizadas.</p>
+      </div>
+      <div class="que-img">
+        <!-- Sustituir src con foto real cuando esté disponible -->
+        <div class="que-img-placeholder">
+          <i class="fas fa-cube" style="font-size:3rem;display:block;margin-bottom:.75rem;color:rgba(26,127,232,.4)"></i>
+          Foto / imagen 3D próximamente
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="sec-proceso">
+    <div class="section-header">
+      <div class="section-tag">Cómo Funciona</div>
+      <h2 class="section-title">El Proceso Paso a Paso</h2>
+    </div>
+    <div class="proceso-steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Estudios de Imagen</h4>
+        <p>El paciente aporta su tomografía o resonancia en formato DICOM.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Reconstrucción 3D</h4>
+        <p>Se procesa digitalmente para generar el modelo anatómico tridimensional.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Planeación Quirúrgica</h4>
+        <p>El Dr. Ancona planea el procedimiento sobre el modelo antes de operar.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>Impresión 3D (si aplica)</h4>
+        <p>Para casos complejos se imprime físicamente el modelo o la pieza médica.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="sec-beneficios">
+    <div class="section-header">
+      <div class="section-tag">Ventajas</div>
+      <h2 class="section-title">¿Por qué Importa?</h2>
+      <p class="section-sub">La planeación 3D transforma la manera en que se abordan los casos complejos.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-card">
+        <div class="ben-icon">🎯</div>
+        <h4>Mayor Precisión</h4>
+        <p>El cirujano conoce la anatomía exacta del paciente antes de la cirugía, reduciendo imprevistos en el quirófano.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">⏱️</div>
+        <h4>Menor Tiempo Quirúrgico</h4>
+        <p>Con la planeación previa, los procedimientos son más eficientes y el tiempo de exposición del paciente se reduce.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">🔒</div>
+        <h4>Mayor Seguridad</h4>
+        <p>Se anticipan dificultades anatómicas y se prepara la estrategia adecuada con antelación.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">🧩</div>
+        <h4>Implantes Personalizados</h4>
+        <p>En casos seleccionados se pueden fabricar piezas médicas adaptadas a la anatomía específica del paciente.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">💬</div>
+        <h4>Mejor Comunicación</h4>
+        <p>El modelo 3D permite explicar al paciente y su familia el procedimiento de forma clara y visual.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📈</div>
+        <h4>Casos Complejos</h4>
+        <p>Especialmente útil en revisiones, deformidades o anatomías atípicas donde la planeación convencional es insuficiente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section class="sec-galeria">
+    <div class="section-header">
+      <div class="section-tag">Galería</div>
+      <h2 class="section-title">Casos y Modelos</h2>
+      <p class="section-sub">Imágenes de modelos 3D y casos trabajados — próximamente.</p>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-card">
+        <div class="galeria-placeholder">
+          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
+          Foto próximamente
+        </div>
+      </div>
+      <div class="galeria-card">
+        <div class="galeria-placeholder">
+          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
+          Foto próximamente
+        </div>
+      </div>
+      <div class="galeria-card">
+        <div class="galeria-placeholder">
+          <i class="fas fa-image" style="font-size:2rem;display:block;margin-bottom:.5rem;color:rgba(26,127,232,.3)"></i>
+          Foto próximamente
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="sec-cta3d">
+    <h2>¿Tienes un caso complejo?</h2>
+    <p>Agenda una consulta para evaluar si la planeación quirúrgica 3D es una opción para tu caso.</p>
+    <div class="cta3d-btns">
+      <a href="index.html#citas" class="btn-cta3d-primary">📅 Agendar Consulta</a>
+      <a href="index.html" class="btn-cta3d-secondary">← Volver al inicio</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#0a1628;color:#a8c4e0;text-align:center;padding:2rem;font-size:.85rem;">
+    <p>© 2025 Dr. Angel M. Ancona Pérez · Cirujano de Columna · Mérida, Yucatán</p>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+    // Menú hamburguesa
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    toggle?.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
+    });
+  </script>
+</body>
+</html>
