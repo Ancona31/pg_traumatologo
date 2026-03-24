@@ -48,7 +48,7 @@ const RESULTS = {
     desc: 'No todo golpe en la espalda es una fractura, pero tampoco puedes saberlo sin estudios de imagen. Moverse sin el diagnóstico correcto puede empeorar una lesión que de otro modo sería tratable.',
     steps: [
       'Radiografía o TAC para descartar fractura vertebral',
-      'Si hay fractura: cifoplastia o vertebroplastia — procedimiento de 30 min con alta el mismo día',
+      'Si hay fractura: el Dr. Ancona te explicará las opciones de tratamiento según el tipo y gravedad',
       'Si no hay fractura: plan de manejo del dolor y recuperación segura',
     ],
     cta: '📅 Solicitar evaluación urgente',
@@ -85,7 +85,7 @@ const RESULTS = {
     steps: [
       'Revisión sin sesgos de tu historial y estudios previos',
       'Identificar si existe una causa estructural que requiera un tratamiento diferente',
-      'Si aplica: cirugía mínimamente invasiva con alta el mismo día o en 24 hrs',
+      'Si aplica: el Dr. Ancona te presentará las opciones de tratamiento disponibles para tu caso',
     ],
     cta: '📅 Obtener segunda opinión con el Dr. Ancona',
   },
@@ -96,8 +96,8 @@ const RESULTS = {
     desc: 'Ese dolor que se irradia es una señal de que un nervio está siendo presionado. No desaparece solo con descanso ni con analgésicos porque el problema no es el músculo — es la estructura que lo comprime. Entre más tiempo pasa sin atención, mayor el riesgo de daño permanente.',
     steps: [
       'Resonancia magnética para confirmar el nivel y el nervio afectado',
-      'Opciones conservadoras: infiltración epidural con guía de imagen para alivio inmediato',
-      'Si es necesario: microdiscectomía endoscópica — incisión menor a 1 cm y alta en 24 hrs',
+      'Opciones de tratamiento desde las más conservadoras hasta las más resolutivas, según tu caso',
+      'Si se requiere intervención: el Dr. Ancona te explicará el procedimiento más adecuado en consulta',
     ],
     cta: '📅 Evaluar mi dolor irradiado',
   },
