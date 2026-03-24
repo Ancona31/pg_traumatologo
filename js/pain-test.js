@@ -234,14 +234,12 @@ function goToNextStep(step) {
   currentStep = step + 1;
   updateProgressBar(currentStep);
   updateProgressLabel(currentStep);
-  scrollToSection();
 }
 function goToPrevStep(step) {
   hideStep(step); showStep(step - 1);
   currentStep = step - 1;
   updateProgressBar(currentStep);
   updateProgressLabel(currentStep);
-  scrollToSection();
 }
 
 /* ================================================================
