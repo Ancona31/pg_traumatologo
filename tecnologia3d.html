@@ -99,16 +99,17 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 12px 40px rgba(10,22,40,.15);
-      aspect-ratio: 4/3;
       background: #0d2044;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      width: 100%;
+      padding-top: 75%; /* ratio 4:3 */
     }
-    .que-img img {
+    .que-img iframe {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      border: none;
       display: block;
     }
     .que-img-placeholder {
@@ -338,11 +339,13 @@
         <p>Cuando el caso lo requiere, se puede imprimir físicamente en 3D una réplica de la zona a intervenir para practicar o fabricar piezas médicas personalizadas.</p>
       </div>
       <div class="que-img">
-        <!-- Sustituir src con foto real cuando esté disponible -->
-        <div class="que-img-placeholder">
-          <i class="fas fa-cube" style="font-size:3rem;display:block;margin-bottom:.75rem;color:rgba(26,127,232,.4)"></i>
-          Foto / imagen 3D próximamente
-        </div>
+        <iframe title="Modelo 3D — Dr. Ancona"
+                src="https://realitymax.co/embed/co_k0S?skip_carousel=true"
+                frameborder="0"
+                allowfullscreen
+                mozallowfullscreen="true"
+                webkitallowfullscreen="true">
+        </iframe>
       </div>
     </div>
   </section>
