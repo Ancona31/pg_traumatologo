@@ -756,19 +756,6 @@
       document.getElementById('m-date').textContent  = `${formatDate(post.created_at)} · ⏱️ ${readingTime(post.content || post.excerpt)} min de lectura`;
       document.getElementById('m-content').innerHTML = post.content || post.excerpt || '';
 
-      // Compartir por WhatsApp
-      const shareText = `Te comparto este artículo del Dr. Ancona: "${post.title}" — ${window.location.href}`;
-      document.getElementById('btn-share-wa').href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-
-      // Copiar link
-      document.getElementById('btn-copy-link').onclick = () => {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          const btn = document.getElementById('btn-copy-link');
-          btn.textContent = '✅ Copiado';
-          setTimeout(() => btn.textContent = '🔗 Copiar link', 2000);
-        });
-      };
-
       // Artículos relacionados
       const related = allPosts.filter(p => p.category === post.category && p.id !== post.id).slice(0, 3);
       const relSection = document.getElementById('modal-related');
@@ -786,11 +773,29 @@
 
       document.getElementById('modal-overlay').classList.add('is-open');
       document.body.style.overflow = 'hidden';
+
+      // Actualizar URL con hash del artículo
+      history.pushState({ postId: id }, '', `#${id}`);
+
+      // Actualizar links de compartir con la URL correcta
+      const articleUrl = window.location.href;
+      const shareText = `Te comparto este artículo del Dr. Ancona: "${post.title}" — ${articleUrl}`;
+      document.getElementById('btn-share-wa').href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+      document.getElementById('btn-copy-link').onclick = () => {
+        navigator.clipboard.writeText(articleUrl).then(() => {
+          const btn = document.getElementById('btn-copy-link');
+          btn.textContent = '✅ Copiado';
+          setTimeout(() => btn.textContent = '🔗 Copiar link', 2000);
+        });
+      };
     }
 
     function closeModal() {
       document.getElementById('modal-overlay').classList.remove('is-open');
       document.body.style.overflow = '';
+
+      // Limpiar hash de la URL al cerrar
+      history.pushState(null, '', window.location.pathname);
     }
 
     document.getElementById('btn-modal-close').addEventListener('click', closeModal);
@@ -807,7 +812,12 @@
     }
 
     // ── Iniciar ───────────────────────────────────────────────
-    loadPosts();
+    async function init() {
+      await loadPosts();
+      const hash = window.location.hash.replace('#', '');
+      if (hash) openPost(hash);
+    }
+    init();
   </script>
 </body>
 </html>
