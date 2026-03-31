@@ -212,12 +212,12 @@
 
   <section id="test-dolor">
     <div class="section-header section-header--center">
-      <div class="section-tag">Evaluación Rápida</div>
-      <h2 class="section-title section-title--center">Evalúa tu dolor en 2 minutos y descubre si necesitas atención especializada</h2>
+      <div class="section-tag">Diagnóstico de Riesgo</div>
+      <h2 class="section-title section-title--center">Tu Reporte de Riesgo de Columna — listo en 2 minutos</h2>
       <p class="section-sub section-sub--center">
-        Descubre ahora qué tipo de atención realmente necesita tu dolor. <strong>No adivines. Evalúate.</strong>
+        Responde 6 preguntas y recibe un reporte personalizado con la orientación del Dr. Ancona para tu caso. <strong>No adivines. Diagnostícate.</strong>
       </p>
-      <p class="pt-meta-line">6 preguntas &nbsp;·&nbsp; 2 minutos &nbsp;·&nbsp; Resultado inmediato</p>
+      <p class="pt-meta-line">6 datos clínicos &nbsp;·&nbsp; 2 minutos &nbsp;·&nbsp; Reporte personalizado</p>
     </div>
 
     <!-- Banner llamativo -->
@@ -226,14 +226,23 @@
       <div class="pt-banner-content">
         <span class="pt-banner-icon">🩺</span>
         <div class="pt-banner-text">
-          <strong>Descúbrelo ahora — 6 preguntas, 2 minutos</strong>
-          <span>Recibe orientación personalizada del Dr. Ancona sobre tu caso específico</span>
+          <strong>Diagnóstico de Riesgo de Columna — 6 preguntas, 2 minutos</strong>
+          <span>Tu reporte personalizado con la orientación del Dr. Ancona para tu caso específico</span>
         </div>
         <span class="pt-banner-arrow">↓</span>
       </div>
     </div>
 
     <div class="pain-test-wrap">
+
+      <!-- Overlay: Analizando síntomas -->
+      <div class="pt-analyzing" id="pt-analyzing" hidden>
+        <div class="pt-analyzing-icon">🔬</div>
+        <div class="pt-analyzing-text" id="pt-analyzing-text">Analizando síntomas<span class="pt-analyzing-dots"></span></div>
+        <div class="pt-analyzing-bar-wrap">
+          <div class="pt-analyzing-bar" id="pt-analyzing-bar"></div>
+        </div>
+      </div>
 
       <!-- Barra de progreso mejorada -->
       <div class="pt-progress-header">
@@ -257,7 +266,7 @@
         </div>
         <div class="pt-nav">
           <span></span>
-          <button class="pt-btn-next" id="next-0" data-action="start">Comenzar mi evaluación →</button>
+          <button class="pt-btn-next" id="next-0" data-action="start">Iniciar mi diagnóstico →</button>
         </div>
       </div>
 

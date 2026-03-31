@@ -202,9 +202,10 @@ function renderSummary() {
 /* ================================================================
    MOSTRAR RESULTADO
 ================================================================ */
-function showResult() {
+async function showResult() {
   if (!answers.tratamiento) return;
   hideStep(TOTAL_STEPS);
+  await showAnalyzing('Generando tu Reporte de Riesgo', 1600);
   updateProgressBar(TOTAL_STEPS + 1);
   updateProgressLabel(TOTAL_STEPS + 1);
 
@@ -251,8 +252,10 @@ function renderResultCard(result) {
 /* ================================================================
    NAVEGACIÓN
 ================================================================ */
-function goToNextStep(step) {
-  hideStep(step); showStep(step + 1);
+async function goToNextStep(step) {
+  hideStep(step);
+  await showAnalyzing();
+  showStep(step + 1);
   currentStep = step + 1;
   updateProgressBar(currentStep);
   updateProgressLabel(currentStep);
@@ -342,7 +345,38 @@ function updateProgressBar(step) {
 function updateProgressLabel(step) {
   const lbl = document.getElementById('pt-progress-label');
   if (!lbl) return;
-  lbl.textContent = step > TOTAL_STEPS ? '✅ Completado' : `Pregunta ${step} de ${TOTAL_STEPS}`;
+  lbl.textContent = step > TOTAL_STEPS ? '✅ Reporte listo' : `Dato clínico ${step} de ${TOTAL_STEPS}`;
+}
+
+/* ================================================================
+   OVERLAY: ANALIZANDO SÍNTOMAS
+================================================================ */
+function showAnalyzing(msg = 'Analizando síntomas', duration = 1200) {
+  const overlay  = document.getElementById('pt-analyzing');
+  const textEl   = document.getElementById('pt-analyzing-text');
+  const bar      = document.getElementById('pt-analyzing-bar');
+  const lbl      = document.getElementById('pt-progress-label');
+  if (!overlay) return Promise.resolve();
+
+  // Actualizar mensaje
+  if (textEl) textEl.innerHTML = `${msg}<span class="pt-analyzing-dots"></span>`;
+  if (lbl) lbl.textContent = 'Analizando síntomas...';
+
+  overlay.hidden = false;
+
+  // Reiniciar y disparar la barra
+  if (bar) {
+    bar.style.transition = 'none';
+    bar.style.width = '0';
+    void bar.offsetWidth; // forzar reflow
+    bar.style.transition = `width ${duration * 0.9}ms ease-in-out`;
+    bar.style.width = '100%';
+  }
+
+  return new Promise(resolve => setTimeout(() => {
+    overlay.hidden = true;
+    resolve();
+  }, duration));
 }
 function scrollToSection() {
   const s = document.getElementById('test-dolor');
