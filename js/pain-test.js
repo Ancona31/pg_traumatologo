@@ -242,7 +242,18 @@ async function showResult() {
 
   const container = document.getElementById('pt-result');
   if (container) container.hidden = false;
-  scrollToSection();
+
+  // Scroll al resultado (único momento donde sí queremos mover la pantalla)
+  container?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // CTA → WhatsApp con resultado
+  const ctaBtn = document.getElementById('result-cta-btn');
+  if (ctaBtn) {
+    const msg = `Hola Dr. Ancona, hice el test de dolor y mi resultado fue: "${result.title}". Me gustaría agendar una consulta.`;
+    ctaBtn.href   = `https://wa.me/529996364504?text=${encodeURIComponent(msg)}`;
+    ctaBtn.target = '_blank';
+    ctaBtn.rel    = 'noopener';
+  }
 
   // Visualizaciones
   renderImpactBar(result);
@@ -298,7 +309,6 @@ async function goToNextStep(step) {
   currentStep = step + 1;
   updateProgressBar(currentStep);
   updateProgressLabel(currentStep);
-  scrollToSection();
 }
 function goToPrevStep(step) {
   hideStep(step); showStep(step - 1);
@@ -686,16 +696,19 @@ async function generatePDF() {
     });
 
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgW = 210;
-    const imgH = (canvas.height * imgW) / canvas.width;
-    const pageH = 297;
-    let y = 0;
+    const pdf  = new jsPDF('p', 'mm', 'a4');
+    const pageW = 210, pageH = 297;
+    const imgW  = pageW;
+    const imgH  = (canvas.height * imgW) / canvas.width;
 
-    while (y < imgH) {
-      if (y > 0) pdf.addPage();
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, -y, imgW, imgH);
-      y += pageH;
+    // Escalar para caber siempre en una sola página
+    if (imgH <= pageH) {
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgW, imgH);
+    } else {
+      const scale  = pageH / imgH;
+      const scaledW = imgW * scale;
+      const xOffset = (pageW - scaledW) / 2;
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', xOffset, 0, scaledW, pageH);
     }
 
     pdf.save('resultado-test-dolor-dr-ancona.pdf');

@@ -3106,7 +3106,7 @@ footer {
   font-family: 'DM Sans', Arial, sans-serif;
   color: #0d1b35;
   background: #fff;
-  padding: 40px 48px;
+  padding: 24px 36px;
   width: 794px;
   box-sizing: border-box;
 }
@@ -3114,53 +3114,53 @@ footer {
 .pdf-header {
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: .6rem;
 }
-.pdf-logo { width: 70px; height: auto; object-fit: contain; }
-.pdf-doctor-name { font-size: 18pt; font-weight: 700; color: #0a1628; margin-bottom: .2rem; }
-.pdf-doctor-title { font-size: 10pt; color: #1a7fe8; font-weight: 600; margin-bottom: .2rem; }
-.pdf-doctor-creds { font-size: 9pt; color: #4a6a94; margin-bottom: .3rem; }
-.pdf-doctor-contact { display: flex; flex-wrap: wrap; gap: .75rem; font-size: 9pt; color: #2c4a72; }
+.pdf-logo { width: 56px; height: auto; object-fit: contain; }
+.pdf-doctor-name { font-size: 14pt; font-weight: 700; color: #0a1628; margin-bottom: .15rem; }
+.pdf-doctor-title { font-size: 9pt; color: #1a7fe8; font-weight: 600; margin-bottom: .15rem; }
+.pdf-doctor-creds { font-size: 8pt; color: #4a6a94; margin-bottom: .2rem; }
+.pdf-doctor-contact { display: flex; flex-wrap: wrap; gap: .5rem; font-size: 8pt; color: #2c4a72; }
 
-.pdf-divider { border: none; border-top: 2px solid #1a7fe8; margin: .85rem 0; }
+.pdf-divider { border: none; border-top: 2px solid #1a7fe8; margin: .5rem 0; }
 
-.pdf-title-block { margin-bottom: .85rem; }
-.pdf-doc-title { font-size: 15pt; font-weight: 700; color: #0a1628; margin-bottom: .15rem; }
-.pdf-doc-date { font-size: 9pt; color: #7a9cc4; margin-bottom: .1rem; }
-.pdf-doc-note { font-size: 8pt; color: #a8c4e0; font-style: italic; }
+.pdf-title-block { margin-bottom: .5rem; }
+.pdf-doc-title { font-size: 13pt; font-weight: 700; color: #0a1628; margin-bottom: .1rem; }
+.pdf-doc-date { font-size: 8pt; color: #7a9cc4; margin-bottom: .05rem; }
+.pdf-doc-note { font-size: 7.5pt; color: #a8c4e0; font-style: italic; }
 
 .pdf-result-block {
   background: #f7faff;
   border-left: 4px solid #1a7fe8;
   border-radius: 6px;
-  padding: .85rem 1rem;
-  margin-bottom: .85rem;
+  padding: .6rem .8rem;
+  margin-bottom: .55rem;
 }
-.pdf-result-level { font-size: 8pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
-.pdf-result-title { font-size: 13pt; font-weight: 700; color: #0a1628; margin-bottom: .4rem; }
-.pdf-result-desc { font-size: 9.5pt; color: #2c4a72; line-height: 1.6; margin-bottom: .6rem; }
-.pdf-steps-label { font-size: 8pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+.pdf-result-level { font-size: 7.5pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .2rem; }
+.pdf-result-title { font-size: 11pt; font-weight: 700; color: #0a1628; margin-bottom: .3rem; }
+.pdf-result-desc { font-size: 8.5pt; color: #2c4a72; line-height: 1.5; margin-bottom: .45rem; }
+.pdf-steps-label { font-size: 7.5pt; font-weight: 700; color: #1a7fe8; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .25rem; }
 .pdf-steps-list { list-style: none; padding: 0; margin: 0; }
-.pdf-steps-list li { font-size: 9pt; color: #2c4a72; padding-left: 1.1rem; position: relative; margin-bottom: .2rem; line-height: 1.5; }
+.pdf-steps-list li { font-size: 8pt; color: #2c4a72; padding-left: 1rem; position: relative; margin-bottom: .15rem; line-height: 1.4; }
 .pdf-steps-list li::before { content: '✓'; color: #1a7fe8; font-weight: 700; position: absolute; left: 0; }
 
-.pdf-summary-block { margin-bottom: .85rem; }
-.pdf-section-label { font-size: 9pt; font-weight: 700; color: #0a1628; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
-.pdf-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
-.pdf-summary-item { background: #f0f6ff; border-radius: 4px; padding: .35rem .5rem; }
-.pdf-summary-q { font-size: 7.5pt; color: #7a9cc4; margin-bottom: .1rem; }
-.pdf-summary-a { font-size: 8.5pt; font-weight: 600; color: #0a1628; }
+.pdf-summary-block { margin-bottom: .55rem; }
+.pdf-section-label { font-size: 8pt; font-weight: 700; color: #0a1628; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .35rem; }
+.pdf-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .3rem; }
+.pdf-summary-item { background: #f0f6ff; border-radius: 4px; padding: .25rem .4rem; }
+.pdf-summary-q { font-size: 7pt; color: #7a9cc4; margin-bottom: .05rem; }
+.pdf-summary-a { font-size: 8pt; font-weight: 600; color: #0a1628; }
 
-.pdf-blog-block { margin-bottom: .85rem; text-align: center; }
-.pdf-blog-title { font-size: 11pt; font-weight: 700; color: #0a1628; margin-bottom: .3rem; }
-.pdf-blog-text { font-size: 9pt; color: #4a6a94; line-height: 1.55; margin-bottom: .25rem; }
-.pdf-blog-url { font-size: 9pt; color: #1a7fe8; font-weight: 600; }
+.pdf-blog-block { margin-bottom: .5rem; text-align: center; }
+.pdf-blog-title { font-size: 9pt; font-weight: 700; color: #0a1628; margin-bottom: .2rem; }
+.pdf-blog-text { font-size: 8pt; color: #4a6a94; line-height: 1.4; margin-bottom: .15rem; }
+.pdf-blog-url { font-size: 8pt; color: #1a7fe8; font-weight: 600; }
 
-.pdf-cta-block { text-align: center; margin-bottom: .85rem; }
-.pdf-cta-text { font-size: 10pt; font-weight: 600; color: #0a1628; margin-bottom: .3rem; }
-.pdf-cta-contact { font-size: 10pt; color: #1a7fe8; margin-bottom: .2rem; }
-.pdf-cta-web { font-size: 8.5pt; color: #7a9cc4; }
+.pdf-cta-block { text-align: center; margin-bottom: .5rem; }
+.pdf-cta-text { font-size: 9pt; font-weight: 600; color: #0a1628; margin-bottom: .2rem; }
+.pdf-cta-contact { font-size: 9pt; color: #1a7fe8; margin-bottom: .15rem; }
+.pdf-cta-web { font-size: 8pt; color: #7a9cc4; }
 
 .pdf-footer {
   font-size: 7.5pt;
@@ -3175,8 +3175,8 @@ footer {
 /* ── PDF — Visuals Row (Riesgo + Zona) ─────────────────────────── */
 .pdf-visuals-row {
   display: flex;
-  gap: 1rem;
-  margin-bottom: .85rem;
+  gap: .75rem;
+  margin-bottom: .55rem;
 }
 .pdf-visual-col {
   flex: 1;
