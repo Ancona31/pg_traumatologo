@@ -1322,6 +1322,30 @@ img {
 .pt-step { display: none; animation: fadeUp .4s ease both; }
 .pt-step.active { display: block; }
 
+/* ── CTA BOTÓN EVALUACIÓN (landing) ────────────────────────────── */
+.pt-cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 1rem;
+}
+.pt-cta-main {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-vivid), var(--color-accent));
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 8px 28px rgba(26,127,232,.35);
+  transition: transform .2s, box-shadow .2s;
+  letter-spacing: .01em;
+}
+.pt-cta-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(26,127,232,.5);
+}
+
 /* ── OVERLAY: ANALIZANDO SÍNTOMAS ───────────────────────────────── */
 .pt-analyzing {
   display: flex;
