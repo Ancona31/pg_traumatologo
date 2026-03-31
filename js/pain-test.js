@@ -3,7 +3,7 @@
 /* ================================================================
    CONFIGURACIÓN
 ================================================================ */
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 const PAIN_THRESHOLDS = { urgente: 7, traumatico: 6, conservador: 5 };
 
 /* ================================================================
@@ -146,13 +146,14 @@ const LABELS = {
   zona:        { cervical:'Cuello (Cervical)', dorsal:'Espalda media (Dorsal)', lumbar:'Espalda baja (Lumbar)', multiple:'Varias zonas' },
   duracion:    { dias:'Menos de 1 semana', semanas:'1 a 6 semanas', meses:'1 a 6 meses', anos:'Más de 6 meses' },
   sintomas:    { sfinteres:'Dificultad para orinar/defecar', neurologico:'Entumecimiento o debilidad', irradiado:'Dolor que baja por pierna/brazo', solo_dolor:'Solo dolor local' },
+  causa:       { traumatico:'Caída, golpe o accidente', actividad:'Esfuerzo o actividad física', postura:'Postura mantenida / trabajo', sin_causa:'Sin causa aparente' },
   limitacion:  { normal:'Hago todo con algo de molestia', evita:'Evito ciertas actividades', trabajo_sueno:'No puedo trabajar o dormir bien', inmovil:'Prácticamente inmovilizado' },
   tratamiento: { ninguno:'Ninguno todavía', medicamento:'Solo medicamentos', fisio:'Fisioterapia / rehabilitación', cirugia_previa:'Cirugía de columna previa' },
 };
 const Q_LABELS = {
   zona:'📍 Zona de dolor', intensidad:'🔢 Intensidad del dolor',
   duracion:'⏱️ Duración', sintomas:'🩺 Síntomas',
-  limitacion:'🏃 Limitación funcional', tratamiento:'💉 Tratamiento previo',
+  causa:'💥 Causa del dolor', limitacion:'🏃 Limitación funcional', tratamiento:'💉 Tratamiento previo',
 };
 
 /* ================================================================
@@ -166,9 +167,11 @@ let _radarChart = null;
    LÓGICA DE RESULTADOS
 ================================================================ */
 function calcResult() {
-  const { sintomas, intensidad, duracion, tratamiento, limitacion } = answers;
+  const { sintomas, intensidad, duracion, tratamiento, limitacion, causa } = answers;
   if (sintomas === 'sfinteres')                                                                                    return RESULTS.urgente_esfinteres;
   if (sintomas === 'neurologico' && intensidad >= PAIN_THRESHOLDS.urgente)                                        return RESULTS.urgente_neurologico;
+  // Trauma + limitación significativa en cuadro agudo → evaluación urgente
+  if (causa === 'traumatico' && (limitacion === 'inmovil' || limitacion === 'trabajo_sueno') && (duracion === 'dias' || duracion === 'semanas')) return RESULTS.urgente_trauma;
   if (limitacion === 'inmovil' && intensidad >= PAIN_THRESHOLDS.traumatico && (duracion === 'dias' || duracion === 'semanas')) return RESULTS.urgente_trauma;
   if (tratamiento === 'cirugia_previa')                                                                           return RESULTS.cirugia_fallida;
   if (duracion === 'anos')                                                                                        return RESULTS.especialista_cronico;
@@ -193,6 +196,7 @@ function renderSummary() {
     { key:'intensidad',  val: answers.intensidad ? `${answers.intensidad} / 10` : null },
     { key:'duracion',    val: LABELS.duracion[answers.duracion] },
     { key:'sintomas',    val: LABELS.sintomas[answers.sintomas] },
+    { key:'causa',       val: LABELS.causa[answers.causa] },
     { key:'limitacion',  val: LABELS.limitacion[answers.limitacion] },
     { key:'tratamiento', val: LABELS.tratamiento[answers.tratamiento] },
   ];
@@ -204,10 +208,28 @@ function renderSummary() {
 }
 
 /* ================================================================
+   TEMPORALIDAD DINÁMICA (causa × limitación)
+================================================================ */
+function getTimingText(result) {
+  // Emergencia: no aplica timing de cita
+  if (result.type === 'urgente' && answers.sintomas === 'sfinteres') return null;
+
+  const causaScore  = { traumatico:3, actividad:2, postura:1, sin_causa:0 }[answers.causa]   ?? 1;
+  const limitScore  = { inmovil:3, trabajo_sueno:2, evita:1, normal:0 }[answers.limitacion]  ?? 1;
+  const total = causaScore + limitScore;
+
+  if (total >= 5) return 'hoy mismo o en las próximas horas';
+  if (total >= 4) return 'en las próximas 24 horas';
+  if (total >= 3) return 'en los próximos 2–3 días';
+  if (total >= 2) return 'esta semana';
+  return 'en las próximas semanas';
+}
+
+/* ================================================================
    MOSTRAR RESULTADO
 ================================================================ */
 async function showResult() {
-  if (!answers.tratamiento || !answers.limitacion) return;
+  if (!answers.tratamiento || !answers.limitacion || !answers.causa) return;
   hideStep(TOTAL_STEPS);
   await showAnalyzing('', 220);
   updateProgressBar(TOTAL_STEPS + 1);
@@ -258,6 +280,13 @@ function renderResultCard(result) {
   // Color del nivel
   const lvl = document.getElementById('result-level');
   if (lvl) lvl.style.color = result.color;
+
+  // Timing badge dinámico (causa × limitación)
+  const timingText  = getTimingText(result);
+  const timingBadge = document.getElementById('pt-timing-badge');
+  const timingEl    = document.getElementById('pt-timing-text');
+  if (timingBadge) timingBadge.hidden = !timingText;
+  if (timingEl && timingText) timingEl.textContent = timingText;
 }
 
 /* ================================================================
@@ -330,7 +359,7 @@ function restartTest() {
   document.querySelectorAll('.pt-scale-btn').forEach(b => { b.className = 'pt-scale-btn'; });
   const lbl = document.getElementById('scale-selected-label');
   if (lbl) { lbl.textContent = ''; lbl.style.display = 'none'; }
-  document.querySelectorAll('.pt-btn-next:not(#next-6)').forEach(b => b.classList.remove('is-enabled'));
+  document.querySelectorAll('.pt-btn-next:not(#next-7)').forEach(b => b.classList.remove('is-enabled'));
   const res = document.getElementById('pt-result');
   if (res) res.hidden = true;
   // Resetear barra de impacto
@@ -413,12 +442,13 @@ function populatePDF(result) {
   const summaryEl = document.getElementById('pdf-summary-items');
   if (summaryEl) {
     const items = [
-      { q:'📍 Zona de dolor',      a: LABELS.zona[answers.zona] },
-      { q:'🔢 Intensidad',         a: answers.intensidad ? `${answers.intensidad} / 10` : '—' },
-      { q:'⏱️ Duración',           a: LABELS.duracion[answers.duracion] },
-      { q:'🩺 Síntomas',           a: LABELS.sintomas[answers.sintomas] },
-      { q:'🏃 Limitación funcional',  a: LABELS.limitacion[answers.limitacion] },
-      { q:'💉 Tratamiento previo', a: LABELS.tratamiento[answers.tratamiento] },
+      { q:'📍 Zona de dolor',          a: LABELS.zona[answers.zona] },
+      { q:'🔢 Intensidad',             a: answers.intensidad ? `${answers.intensidad} / 10` : '—' },
+      { q:'⏱️ Duración',               a: LABELS.duracion[answers.duracion] },
+      { q:'🩺 Síntomas',               a: LABELS.sintomas[answers.sintomas] },
+      { q:'💥 Causa del dolor',        a: LABELS.causa[answers.causa] },
+      { q:'🏃 Limitación funcional',   a: LABELS.limitacion[answers.limitacion] },
+      { q:'💉 Tratamiento previo',     a: LABELS.tratamiento[answers.tratamiento] },
     ];
     summaryEl.innerHTML = items.map(i => `
       <div class="pdf-summary-item">

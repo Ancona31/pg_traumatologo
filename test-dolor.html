@@ -54,9 +54,9 @@
       <div class="section-tag">Diagnóstico de Riesgo</div>
       <h2 class="section-title section-title--center">Tu Reporte de Riesgo de Columna — listo en 2 minutos</h2>
       <p class="section-sub section-sub--center">
-        Responde 6 preguntas y recibe un reporte personalizado con la orientación del Dr. Ancona para tu caso. <strong>No adivines. Diagnostícate.</strong>
+        Responde 7 preguntas y recibe un reporte personalizado con la orientación del Dr. Ancona para tu caso. <strong>No adivines. Diagnostícate.</strong>
       </p>
-      <p class="pt-meta-line">6 datos clínicos &nbsp;·&nbsp; 2 minutos &nbsp;·&nbsp; Reporte personalizado</p>
+      <p class="pt-meta-line">7 datos clínicos &nbsp;·&nbsp; 2 minutos &nbsp;·&nbsp; Reporte personalizado</p>
     </div>
 
     <!-- Banner llamativo -->
@@ -228,9 +228,42 @@
         </div>
       </div>
 
-      <!-- Paso 5: Limitación funcional -->
+      <!-- Paso 5: Causa del dolor -->
       <div class="pt-step" id="step-5">
         <div class="pt-step-num">05</div>
+        <div class="pt-question">¿A qué atribuyes el inicio de este dolor?</div>
+        <div class="pt-hint">Piensa en qué pasó justo antes o cuando comenzó el dolor</div>
+        <div class="pt-options">
+          <div class="pt-option" data-key="causa" data-val="traumatico">
+            <span class="pt-option-icon">🤕</span>
+            <div class="pt-option-label">Caída, golpe o accidente</div>
+            <div class="pt-option-sub">Trauma directo sobre la columna o espalda</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="actividad">
+            <span class="pt-option-icon">🏋️</span>
+            <div class="pt-option-label">Esfuerzo o actividad física</div>
+            <div class="pt-option-sub">Carga, deporte, movimiento brusco</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="postura">
+            <span class="pt-option-icon">💼</span>
+            <div class="pt-option-label">Postura mantenida o trabajo</div>
+            <div class="pt-option-sub">Escritorio, trabajo de pie, conducción</div>
+          </div>
+          <div class="pt-option" data-key="causa" data-val="sin_causa">
+            <span class="pt-option-icon">❓</span>
+            <div class="pt-option-label">Sin causa aparente</div>
+            <div class="pt-option-sub">El dolor apareció sin razón identificable</div>
+          </div>
+        </div>
+        <div class="pt-nav">
+          <button class="pt-btn-back" data-prev="5">← Anterior</button>
+          <button class="pt-btn-next" id="next-5" data-current="5">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Paso 6: Limitación funcional -->
+      <div class="pt-step" id="step-6">
+        <div class="pt-step-num">06</div>
         <div class="pt-question">¿Cuánto limita el dolor tus actividades diarias?</div>
         <div class="pt-hint">Considera tu nivel de actividad en los últimos días</div>
         <div class="pt-options">
@@ -256,14 +289,14 @@
           </div>
         </div>
         <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="5">← Anterior</button>
-          <button class="pt-btn-next" id="next-5" data-current="5">Siguiente →</button>
+          <button class="pt-btn-back" data-prev="6">← Anterior</button>
+          <button class="pt-btn-next" id="next-6" data-current="6">Siguiente →</button>
         </div>
       </div>
 
-      <!-- Paso 6: Tratamiento previo -->
-      <div class="pt-step" id="step-6">
-        <div class="pt-step-num">06</div>
+      <!-- Paso 7: Tratamiento previo -->
+      <div class="pt-step" id="step-7">
+        <div class="pt-step-num">07</div>
         <div class="pt-question">¿Has recibido algún tratamiento para este dolor?</div>
         <div class="pt-hint">Cuéntanos sobre tu experiencia previa con este padecimiento</div>
         <div class="pt-options">
@@ -289,8 +322,8 @@
           </div>
         </div>
         <div class="pt-nav">
-          <button class="pt-btn-back" data-prev="6">← Anterior</button>
-          <button class="pt-btn-next is-enabled" id="next-6" data-action="result">Ver mi resultado →</button>
+          <button class="pt-btn-back" data-prev="7">← Anterior</button>
+          <button class="pt-btn-next is-enabled" id="next-7" data-action="result">Ver mi resultado →</button>
         </div>
       </div>
 
@@ -305,6 +338,12 @@
           <p class="pt-result-desc"  id="result-desc"></p>
 
           <div class="pt-result-steps" id="result-steps"></div>
+
+          <div class="pt-timing-badge" id="pt-timing-badge" hidden>
+            <span class="pt-timing-icon">⏱️</span>
+            <span>Tiempo recomendado para atención:</span>
+            <strong id="pt-timing-text">—</strong>
+          </div>
 
           <div class="pt-result-reassurance">
             💬 La consulta es una <strong>evaluación personalizada</strong>, no un compromiso de cirugía.
