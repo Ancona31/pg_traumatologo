@@ -218,7 +218,6 @@ function getTimingText(result) {
   const limitScore  = { inmovil:3, trabajo_sueno:2, evita:1, normal:0 }[answers.limitacion]  ?? 1;
   const total = causaScore + limitScore;
 
-  if (total >= 5) return 'hoy mismo o en las próximas horas';
   if (total >= 4) return 'en las próximas 24 horas';
   if (total >= 3) return 'en los próximos 2–3 días';
   if (total >= 2) return 'esta semana';
@@ -521,6 +520,7 @@ function calcRiskScores() {
     intensidad:  answers.intensidad || 0,
     cronicidad:  ({ dias:2, semanas:4, meses:7, anos:10 })[answers.duracion]                    || 0,
     neurologico: ({ solo_dolor:1, irradiado:5, neurologico:8, sfinteres:10 })[answers.sintomas] || 0,
+    causa:       ({ traumatico:4, actividad:2, postura:1, sin_causa:0 })[answers.causa]         ?? 1,
     limitacion:  ({ normal:2, evita:4, trabajo_sueno:7, inmovil:10 })[answers.limitacion]       || 0,
     tratamiento: ({ ninguno:1, medicamento:3, fisio:7, cirugia_previa:10 })[answers.tratamiento]|| 0,
   };
@@ -531,9 +531,9 @@ function calcRiskScores() {
 ================================================================ */
 function renderImpactBar(result) {
   const s = calcRiskScores();
-  // Suma total: 0-50 → escala a 0-100%
-  const raw = s.intensidad + s.cronicidad + s.neurologico + s.limitacion + s.tratamiento;
-  const pct = Math.min(Math.max(Math.round((raw / 50) * 100), 4), 97);
+  // Suma total: 0-60 → escala a 0-100%
+  const raw = s.intensidad + s.cronicidad + s.neurologico + s.causa + s.limitacion + s.tratamiento;
+  const pct = Math.min(Math.max(Math.round((raw / 60) * 100), 4), 97);
 
   const fill   = document.getElementById('pt-impact-fill');
   const needle = document.getElementById('pt-impact-needle');
