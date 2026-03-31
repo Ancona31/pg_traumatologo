@@ -176,6 +176,9 @@ function calcResult() {
   if (sintomas === 'irradiado')                                                                                   return RESULTS.especialista_irradiado;
   if (sintomas === 'solo_dolor' && duracion === 'meses')                                                          return RESULTS.desgaste_articular;
   if (intensidad <= PAIN_THRESHOLDS.conservador && (duracion === 'dias' || duracion === 'semanas'))               return RESULTS.conservador;
+  // Safety nets: cubrir combinaciones no capturadas arriba
+  if (sintomas === 'neurologico')                                                                                  return RESULTS.especialista_irradiado;
+  if (limitacion === 'trabajo_sueno' || limitacion === 'inmovil' || intensidad >= 6)                              return RESULTS.conservador;
   return RESULTS.preventivo;
 }
 
@@ -493,7 +496,6 @@ async function saveLead(result) {
       intensidad:       answers.intensidad  || null,
       duracion:         answers.duracion    || null,
       sintomas:         answers.sintomas    || null,
-      limitacion:       answers.limitacion   || null,
       tratamiento:      answers.tratamiento || null,
     });
   } catch (_) { /* silencioso — no bloquear la UI */ }
@@ -596,7 +598,7 @@ function updateSpineAnatomySVG(result) {
     el.querySelectorAll('.spine-vert').forEach(v => v.style.fill = '');
   });
   const sciatic = document.getElementById('spine-sciatic');
-  if (sciatic) sciatic.className = 'spine-sciatic-hidden';
+  if (sciatic) sciatic.setAttribute('class', 'spine-sciatic-hidden');
 
   // Activar región según respuesta — fill directo para garantizar visibilidad en SVG
   const zonaMap = {
@@ -615,7 +617,7 @@ function updateSpineAnatomySVG(result) {
   // Nervio ciático si hay dolor irradiado o neurológico lumbar
   if (answers.sintomas === 'irradiado' ||
       (answers.sintomas === 'neurologico' && answers.zona === 'lumbar')) {
-    if (sciatic) sciatic.className = 'spine-sciatic-visible';
+    if (sciatic) sciatic.setAttribute('class', 'spine-sciatic-visible');
   }
 
   // Label descriptivo
