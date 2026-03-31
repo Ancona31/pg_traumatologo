@@ -209,7 +209,7 @@ function renderSummary() {
 async function showResult() {
   if (!answers.tratamiento || !answers.limitacion) return;
   hideStep(TOTAL_STEPS);
-  await showAnalyzing('Generando tu Reporte de Riesgo', 1600);
+  await showAnalyzing('', 220);
   updateProgressBar(TOTAL_STEPS + 1);
   updateProgressLabel(TOTAL_STEPS + 1);
 
@@ -224,7 +224,7 @@ async function showResult() {
   scrollToSection();
 
   // Visualizaciones
-  renderRadarChart(result);
+  renderImpactBar(result);
   updateSpineAnatomySVG(result);
 
   // Descarga automática — esperar a que el DOM pinte el resultado
@@ -321,7 +321,7 @@ function getPainClass(v) {
 function restartTest() {
   answers = {}; currentStep = 0;
   patientName = ''; patientPhone = '';
-  if (_radarChart) { _radarChart.destroy(); _radarChart = null; }
+  _radarChart = null;
   const nameEl = document.getElementById('pt-patient-name');
   const phoneEl = document.getElementById('pt-patient-phone');
   if (nameEl) nameEl.value = '';
@@ -333,6 +333,11 @@ function restartTest() {
   document.querySelectorAll('.pt-btn-next:not(#next-6)').forEach(b => b.classList.remove('is-enabled'));
   const res = document.getElementById('pt-result');
   if (res) res.hidden = true;
+  // Resetear barra de impacto
+  const fill = document.getElementById('pt-impact-fill');
+  if (fill) fill.style.width = '100%';
+  const needle = document.getElementById('pt-impact-needle');
+  if (needle) needle.style.left = '0%';
   document.querySelectorAll('.pt-step').forEach(s => s.classList.remove('active'));
   showProgressHeader(false);
   showStep(0); updateProgressBar(1); updateProgressLabel(1);
@@ -364,32 +369,9 @@ function updateProgressLabel(step) {
 /* ================================================================
    OVERLAY: ANALIZANDO SÍNTOMAS
 ================================================================ */
-function showAnalyzing(msg = 'Analizando síntomas', duration = 1200) {
-  const overlay  = document.getElementById('pt-analyzing');
-  const textEl   = document.getElementById('pt-analyzing-text');
-  const bar      = document.getElementById('pt-analyzing-bar');
-  const lbl      = document.getElementById('pt-progress-label');
-  if (!overlay) return Promise.resolve();
-
-  // Actualizar mensaje
-  if (textEl) textEl.innerHTML = `${msg}<span class="pt-analyzing-dots"></span>`;
-  if (lbl) lbl.textContent = 'Analizando síntomas...';
-
-  overlay.style.display = 'flex';
-
-  // Reiniciar y disparar la barra
-  if (bar) {
-    bar.style.transition = 'none';
-    bar.style.width = '0';
-    void bar.offsetWidth; // forzar reflow
-    bar.style.transition = `width ${duration * 0.9}ms ease-in-out`;
-    bar.style.width = '100%';
-  }
-
-  return new Promise(resolve => setTimeout(() => {
-    overlay.style.display = 'none';
-    resolve();
-  }, duration));
+/* Transición sin overlay — pausa mínima para que el progreso anime */
+function showAnalyzing(msg = '', duration = 220) {
+  return new Promise(resolve => setTimeout(resolve, duration));
 }
 function scrollToSection() {
   const s = document.getElementById('test-dolor');
@@ -502,85 +484,52 @@ async function saveLead(result) {
 }
 
 /* ================================================================
-   SCORES PARA EL RADAR
+   SCORES PARA BARRA DE IMPACTO
 ================================================================ */
-function calcRadarScores() {
+function calcRiskScores() {
   return {
     intensidad:  answers.intensidad || 0,
-    cronicidad:  ({ dias:2, semanas:4, meses:7, anos:10 })[answers.duracion]               || 0,
+    cronicidad:  ({ dias:2, semanas:4, meses:7, anos:10 })[answers.duracion]                    || 0,
     neurologico: ({ solo_dolor:1, irradiado:5, neurologico:8, sfinteres:10 })[answers.sintomas] || 0,
-    limitacion:  ({ normal:2, evita:4, trabajo_sueno:7, inmovil:10 })[answers.limitacion]  || 0,
-    tratamiento: ({ ninguno:1, medicamento:3, fisio:7, cirugia_previa:10 })[answers.tratamiento] || 0,
+    limitacion:  ({ normal:2, evita:4, trabajo_sueno:7, inmovil:10 })[answers.limitacion]       || 0,
+    tratamiento: ({ ninguno:1, medicamento:3, fisio:7, cirugia_previa:10 })[answers.tratamiento]|| 0,
   };
 }
 
 /* ================================================================
-   RADAR CHART
+   BARRA DE IMPACTO FUNCIONAL
 ================================================================ */
-function renderRadarChart(result) {
-  const canvas = document.getElementById('pt-radar-chart');
-  if (!canvas || !window.Chart) return;
+function renderImpactBar(result) {
+  const s = calcRiskScores();
+  // Suma total: 0-50 → escala a 0-100%
+  const raw = s.intensidad + s.cronicidad + s.neurologico + s.limitacion + s.tratamiento;
+  const pct = Math.min(Math.max(Math.round((raw / 50) * 100), 4), 97);
 
-  const s = calcRadarScores();
-  const colorMap = {
-    urgente:      'rgba(239,68,68,',
-    especialista: 'rgba(26,127,232,',
-    conservador:  'rgba(34,197,94,',
-    preventivo:   'rgba(16,185,129,',
-  };
-  const base = colorMap[result.type] || 'rgba(26,127,232,';
+  const fill   = document.getElementById('pt-impact-fill');
+  const needle = document.getElementById('pt-impact-needle');
+  // Pequeño delay para que el DOM haya pintado antes de animar
+  setTimeout(() => {
+    if (fill)   fill.style.width  = Math.max(0, 100 - pct) + '%';
+    if (needle) needle.style.left = pct + '%';
+  }, 80);
 
-  if (_radarChart) { _radarChart.destroy(); _radarChart = null; }
+  // Métrica 1: Intensidad del dolor
+  const intLbl   = answers.intensidad >= 8 ? 'Crítico' : answers.intensidad >= 6 ? 'Intenso' : answers.intensidad >= 4 ? 'Moderado' : 'Leve';
+  const intColor = answers.intensidad >= 8 ? '#ef4444' : answers.intensidad >= 6 ? '#f97316' : answers.intensidad >= 4 ? '#eab308' : '#22c55e';
+  setText('pt-metric-intensidad', `${answers.intensidad}/10 — ${intLbl}`);
+  const intEl = document.getElementById('pt-metric-intensidad');
+  if (intEl) intEl.style.color = intColor;
 
-  _radarChart = new Chart(canvas, {
-    type: 'radar',
-    data: {
-      labels: [
-        ['Intensidad', 'del dolor'],
-        ['Cronicidad'],
-        ['Impacto', 'neurológico'],
-        ['Limitación', 'funcional'],
-        ['Tratamientos', 'previos'],
-      ],
-      datasets: [{
-        label: 'Tu perfil',
-        data: [s.intensidad, s.cronicidad, s.neurologico, s.limitacion, s.tratamiento],
-        backgroundColor: base + '0.2)',
-        borderColor:     base + '0.9)',
-        borderWidth: 2.5,
-        pointBackgroundColor: base + '1)',
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      scales: {
-        r: {
-          min: 0, max: 10,
-          ticks: { stepSize: 5, font: { size: 9 }, color: '#9ca3af', backdropColor: 'transparent' },
-          grid: { color: 'rgba(0,0,0,0.07)' },
-          angleLines: { color: 'rgba(0,0,0,0.07)' },
-          pointLabels: { font: { size: 10, weight: '600' }, color: '#374151' },
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` Nivel ${ctx.raw} de 10` } },
-      },
-      animation: { duration: 900, easing: 'easeInOutQuart' },
-    }
-  });
+  // Métrica 2: Tiempo evolutivo
+  const tiempoLbl = { dias:'Agudo', semanas:'Subagudo', meses:'Persistente', anos:'Crónico' }[answers.duracion] || '—';
+  setText('pt-metric-tiempo', tiempoLbl);
 
-  // Subtítulo explicativo
-  const wrap = canvas.closest('.pt-visual-card');
-  if (wrap && !wrap.querySelector('.pt-radar-note')) {
-    const note = document.createElement('p');
-    note.className = 'pt-radar-note';
-    note.textContent = 'Mayor área sombreada = mayor nivel de afectación';
-    wrap.appendChild(note);
-  }
+  // Métrica 3: Riesgo neurológico
+  const nervioLbl   = { solo_dolor:'Sin riesgo', irradiado:'Moderado', neurologico:'Alto', sfinteres:'Urgente' }[answers.sintomas] || '—';
+  const nervioColor = { solo_dolor:'#22c55e', irradiado:'#f97316', neurologico:'#ef4444', sfinteres:'#dc2626' }[answers.sintomas] || '#6b7280';
+  setText('pt-metric-nervio', nervioLbl);
+  const nervEl = document.getElementById('pt-metric-nervio');
+  if (nervEl) nervEl.style.color = nervioColor;
 }
 
 /* ================================================================
@@ -595,12 +544,12 @@ function updateSpineAnatomySVG(result) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.remove('spine-region--active');
-    el.querySelectorAll('.spine-vert').forEach(v => v.style.fill = '');
+    el.querySelectorAll('.spine-vert').forEach(v => { v.style.fill = ''; v.style.filter = ''; });
   });
   const sciatic = document.getElementById('spine-sciatic');
   if (sciatic) sciatic.setAttribute('class', 'spine-sciatic-hidden');
 
-  // Activar región según respuesta — fill directo para garantizar visibilidad en SVG
+  // Activar región — fill + glow filter directo sobre vértebras
   const zonaMap = {
     cervical: ['spine-cervical'],
     dorsal:   ['spine-dorsal'],
@@ -611,7 +560,10 @@ function updateSpineAnatomySVG(result) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add('spine-region--active');
-    el.querySelectorAll('.spine-vert').forEach(v => v.style.fill = result.color);
+    el.querySelectorAll('.spine-vert').forEach(v => {
+      v.style.fill   = result.color;
+      v.style.filter = 'url(#glow-fx)';
+    });
   });
 
   // Nervio ciático si hay dolor irradiado o neurológico lumbar
@@ -622,9 +574,9 @@ function updateSpineAnatomySVG(result) {
 
   // Label descriptivo
   const zonaTexts = {
-    cervical: 'Región Cervical — C1 a C7 (cuello)',
-    dorsal:   'Región Dorsal — T1 a T12 (espalda media)',
-    lumbar:   'Región Lumbar — L1 a L5 (espalda baja)',
+    cervical: 'Cuello — Región Cervical (C1–C7)',
+    dorsal:   'Espalda Media — Región Dorsal (T1–T12)',
+    lumbar:   'Cintura / Pierna — Región Lumbar (L1–L5)',
     multiple: 'Múltiples regiones afectadas',
   };
   const lbl = document.getElementById('pt-anatomy-label');
