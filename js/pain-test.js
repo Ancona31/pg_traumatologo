@@ -455,6 +455,60 @@ function populatePDF(result) {
         <div class="pdf-summary-a">${i.a || '—'}</div>
       </div>`).join('');
   }
+
+  // ── Índice de Riesgo Clínico (PDF) ──────────────────────────────
+  const s   = calcRiskScores();
+  const raw = s.intensidad + s.cronicidad + s.neurologico + s.causa + s.limitacion + s.tratamiento;
+  const pct = Math.min(Math.max(Math.round((raw / 60) * 100), 4), 97);
+
+  const pdfFill   = document.getElementById('pdf-risk-fill');
+  const pdfNeedle = document.getElementById('pdf-risk-needle');
+  if (pdfFill)   pdfFill.style.width = Math.max(0, 100 - pct) + '%';
+  if (pdfNeedle) pdfNeedle.style.left = pct + '%';
+
+  const pdfScore = document.getElementById('pdf-risk-score');
+  const riskLabel = pct >= 80 ? 'Crítico' : pct >= 60 ? 'Alto' : pct >= 35 ? 'Moderado' : 'Leve';
+  const riskColor = pct >= 80 ? '#dc2626' : pct >= 60 ? '#f97316' : pct >= 35 ? '#eab308' : '#22c55e';
+  if (pdfScore) { pdfScore.textContent = `${pct}% — ${riskLabel}`; pdfScore.style.color = riskColor; }
+
+  const intLbl   = s.intensidad >= 8 ? 'Crítico' : s.intensidad >= 6 ? 'Intenso' : s.intensidad >= 4 ? 'Moderado' : 'Leve';
+  const intColor = s.intensidad >= 8 ? '#ef4444' : s.intensidad >= 6 ? '#f97316' : s.intensidad >= 4 ? '#eab308' : '#22c55e';
+  const metInt = document.getElementById('pdf-metric-int');
+  if (metInt) { metInt.textContent = `${s.intensidad}/10 — ${intLbl}`; metInt.style.color = intColor; }
+
+  const tiempoLbl = { dias:'Agudo', semanas:'Subagudo', meses:'Persistente', anos:'Crónico' }[answers.duracion] || '—';
+  const metTiempo = document.getElementById('pdf-metric-tiempo');
+  if (metTiempo) metTiempo.textContent = tiempoLbl;
+
+  const nervioLbl   = { solo_dolor:'Sin riesgo', irradiado:'Moderado', neurologico:'Alto', sfinteres:'Urgente' }[answers.sintomas] || '—';
+  const nervioColor = { solo_dolor:'#22c55e', irradiado:'#f97316', neurologico:'#ef4444', sfinteres:'#dc2626' }[answers.sintomas] || '#6b7280';
+  const metNervio = document.getElementById('pdf-metric-nervio');
+  if (metNervio) { metNervio.textContent = nervioLbl; metNervio.style.color = nervioColor; }
+
+  // ── Zona Afectada (PDF) ─────────────────────────────────────────
+  const zonaMap = {
+    cervical: ['pdf-seg-cervical'],
+    dorsal:   ['pdf-seg-dorsal'],
+    lumbar:   ['pdf-seg-lumbar'],
+    multiple: ['pdf-seg-cervical', 'pdf-seg-dorsal', 'pdf-seg-lumbar'],
+  };
+  ['pdf-seg-cervical', 'pdf-seg-dorsal', 'pdf-seg-lumbar'].forEach(id => {
+    const seg = document.getElementById(id);
+    if (seg) { seg.classList.remove('pdf-spine-seg--active'); seg.style.removeProperty('--seg-color'); }
+  });
+  (zonaMap[answers.zona] || []).forEach(id => {
+    const seg = document.getElementById(id);
+    if (seg) { seg.classList.add('pdf-spine-seg--active'); seg.style.setProperty('--seg-color', result.color || '#1a7fe8'); }
+  });
+
+  const zonaTexts = {
+    cervical: 'Cuello — Región Cervical (C1–C7)',
+    dorsal:   'Espalda Media — Región Dorsal (T1–T12)',
+    lumbar:   'Cintura / Pierna — Región Lumbar (L1–L5)',
+    multiple: 'Múltiples regiones afectadas',
+  };
+  const pdfZoneName = document.getElementById('pdf-zone-name');
+  if (pdfZoneName) pdfZoneName.textContent = zonaTexts[answers.zona] || '—';
 }
 
 /* ================================================================

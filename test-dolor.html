@@ -553,6 +553,50 @@
       <div class="pdf-result-desc" id="pdf-desc"></div>
       <div class="pdf-steps-block" id="pdf-steps"></div>
     </div>
+
+    <!-- Índice de Riesgo + Zona Afectada -->
+    <div class="pdf-visuals-row">
+
+      <div class="pdf-visual-col">
+        <div class="pdf-section-label">Índice de Riesgo Clínico</div>
+        <div class="pdf-risk-bar-wrap">
+          <div class="pdf-risk-track">
+            <div class="pdf-risk-fill"   id="pdf-risk-fill"></div>
+            <div class="pdf-risk-needle" id="pdf-risk-needle"></div>
+          </div>
+          <div class="pdf-risk-scale-labels">
+            <span>Leve</span><span>Moderado</span><span>Alto</span><span>Crítico</span>
+          </div>
+        </div>
+        <div class="pdf-risk-score" id="pdf-risk-score"></div>
+        <div class="pdf-risk-metrics">
+          <div class="pdf-risk-metric-row"><span>💢 Intensidad:</span><span id="pdf-metric-int">—</span></div>
+          <div class="pdf-risk-metric-row"><span>⏱️ Tiempo evolutivo:</span><span id="pdf-metric-tiempo">—</span></div>
+          <div class="pdf-risk-metric-row"><span>⚡ Riesgo neurológico:</span><span id="pdf-metric-nervio">—</span></div>
+        </div>
+      </div>
+
+      <div class="pdf-visual-col">
+        <div class="pdf-section-label">Zona Afectada</div>
+        <div class="pdf-spine-segments">
+          <div class="pdf-spine-seg" id="pdf-seg-cervical">
+            <div class="pdf-spine-seg-bar"></div>
+            <div class="pdf-spine-seg-lbl">Cuello <small>C1–C7</small></div>
+          </div>
+          <div class="pdf-spine-seg" id="pdf-seg-dorsal">
+            <div class="pdf-spine-seg-bar"></div>
+            <div class="pdf-spine-seg-lbl">Espalda Media <small>T1–T12</small></div>
+          </div>
+          <div class="pdf-spine-seg" id="pdf-seg-lumbar">
+            <div class="pdf-spine-seg-bar"></div>
+            <div class="pdf-spine-seg-lbl">Cintura / Pierna <small>L1–L5</small></div>
+          </div>
+        </div>
+        <div class="pdf-zone-name" id="pdf-zone-name"></div>
+      </div>
+
+    </div>
+
     <div class="pdf-summary-block">
       <div class="pdf-section-label">Resumen de respuestas</div>
       <div class="pdf-summary-grid" id="pdf-summary-items"></div>

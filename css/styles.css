@@ -3171,3 +3171,100 @@ footer {
   padding-top: .5rem;
   margin-top: .5rem;
 }
+
+/* ── PDF — Visuals Row (Riesgo + Zona) ─────────────────────────── */
+.pdf-visuals-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: .85rem;
+}
+.pdf-visual-col {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Risk bar */
+.pdf-risk-bar-wrap { margin-bottom: .4rem; }
+.pdf-risk-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #22c55e 0%, #eab308 40%, #f97316 70%, #dc2626 100%);
+  overflow: visible;
+}
+.pdf-risk-fill {
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  background: #e5eaf2;
+  border-radius: 0 5px 5px 0;
+}
+.pdf-risk-needle {
+  position: absolute;
+  top: -4px;
+  width: 3px;
+  height: 18px;
+  background: #0a1628;
+  border-radius: 2px;
+  transform: translateX(-50%);
+}
+.pdf-risk-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7pt;
+  color: #7a9cc4;
+  margin-top: .2rem;
+}
+.pdf-risk-score {
+  font-size: 10pt;
+  font-weight: 700;
+  margin: .3rem 0 .5rem;
+}
+.pdf-risk-metrics { display: flex; flex-direction: column; gap: .25rem; }
+.pdf-risk-metric-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8pt;
+  color: #2c4a72;
+  background: #f0f6ff;
+  border-radius: 4px;
+  padding: .2rem .4rem;
+}
+.pdf-risk-metric-row span:last-child { font-weight: 600; }
+
+/* Spine segments */
+.pdf-spine-segments { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .4rem; }
+.pdf-spine-seg {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: #f7faff;
+  border-radius: 5px;
+  padding: .3rem .5rem;
+  border-left: 3px solid #d1dff0;
+}
+.pdf-spine-seg--active {
+  border-left-color: var(--seg-color, #1a7fe8);
+  background: #eef5ff;
+}
+.pdf-spine-seg-bar {
+  width: 8px;
+  height: 28px;
+  border-radius: 3px;
+  background: #d1dff0;
+  flex-shrink: 0;
+}
+.pdf-spine-seg--active .pdf-spine-seg-bar {
+  background: var(--seg-color, #1a7fe8);
+}
+.pdf-spine-seg-lbl { font-size: 8pt; color: #2c4a72; line-height: 1.4; }
+.pdf-spine-seg-lbl small { display: block; color: #7a9cc4; font-size: 7pt; }
+.pdf-zone-name {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #0a1628;
+  text-align: center;
+  padding: .3rem .5rem;
+  background: #f0f6ff;
+  border-radius: 4px;
+}
