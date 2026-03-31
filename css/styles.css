@@ -1682,6 +1682,112 @@ img {
   font-weight: 600;
 }
 
+/* ── VISUALIZACIONES: RADAR + ANATOMÍA SVG ──────────────────────── */
+.pt-visuals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.pt-visual-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pt-visual-title {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--color-vivid);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+}
+.pt-radar-container {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+}
+.pt-anatomy-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+.pt-anatomy-label {
+  font-size: .75rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: .75rem;
+  font-weight: 500;
+}
+
+/* ── SVG COLUMNA ───────────────────────────────────────────────── */
+.spine-svg {
+  width: auto;
+  height: 340px;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+.spine-vert {
+  fill: #d1d5db;
+  transition: fill .4s ease;
+}
+.spine-disc {
+  fill: #e9ecef;
+  transition: fill .4s ease;
+}
+.spine-sacrum {
+  fill: #c4c9d0;
+}
+.spine-label {
+  font-size: 11px;
+  fill: #9ca3af;
+  font-family: sans-serif;
+  font-weight: 700;
+}
+/* Región activa */
+.spine-region--active .spine-vert {
+  fill: var(--spine-active-color, #1a7fe8);
+  animation: spineGlow 1.6s ease-in-out infinite alternate;
+}
+.spine-region--active .spine-disc {
+  fill: #93c5fd;
+  transition: fill .4s ease;
+}
+@keyframes spineGlow {
+  from { fill: var(--spine-active-color, #1a7fe8); opacity: 1; }
+  to   { fill: var(--spine-active-color, #1a7fe8); opacity: .55; }
+}
+/* Nervio ciático */
+.spine-sciatic-hidden { opacity: 0; pointer-events: none; }
+.spine-sciatic-visible {
+  opacity: 1;
+  transition: opacity .5s ease;
+}
+.sciatic-path {
+  stroke: #f97316;
+  stroke-width: 2.5;
+  stroke-dasharray: 7 4;
+  fill: none;
+  animation: sciaticPulse 1.6s ease-in-out infinite;
+}
+@keyframes sciaticPulse {
+  0%, 100% { stroke-opacity: 1; }
+  50%       { stroke-opacity: .4; }
+}
+
+@media (max-width: 600px) {
+  .pt-visuals { grid-template-columns: 1fr; }
+  .spine-svg  { height: 300px; }
+}
+
 .pt-disclaimer {
   background: white;
   border-radius: var(--radius-sm);

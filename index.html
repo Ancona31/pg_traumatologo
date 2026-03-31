@@ -398,31 +398,31 @@
         </div>
       </div>
 
-      <!-- Paso 5: Causa -->
+      <!-- Paso 5: Limitación funcional -->
       <div class="pt-step" id="step-5">
         <div class="pt-step-num">05</div>
-        <div class="pt-question">¿Sabes qué originó el dolor?</div>
-        <div class="pt-hint">Esto ayuda a orientar el tipo de tratamiento más adecuado</div>
+        <div class="pt-question">¿Cuánto limita el dolor tus actividades diarias?</div>
+        <div class="pt-hint">Considera tu nivel de actividad en los últimos días</div>
         <div class="pt-options">
-          <div class="pt-option" data-key="causa" data-val="trauma">
-            <span class="pt-option-icon">💥</span>
-            <div class="pt-option-label">Golpe o caída reciente</div>
-            <div class="pt-option-sub">Accidente, trauma directo</div>
+          <div class="pt-option" data-key="limitacion" data-val="normal">
+            <span class="pt-option-icon">✅</span>
+            <div class="pt-option-label">Hago todo con algo de molestia</div>
+            <div class="pt-option-sub">El dolor está presente pero no me detiene</div>
           </div>
-          <div class="pt-option" data-key="causa" data-val="esfuerzo">
-            <span class="pt-option-icon">🏋️</span>
-            <div class="pt-option-label">Esfuerzo o movimiento brusco</div>
-            <div class="pt-option-sub">Levantar peso, torcedura</div>
+          <div class="pt-option" data-key="limitacion" data-val="evita">
+            <span class="pt-option-icon">⚠️</span>
+            <div class="pt-option-label">Evito ciertas actividades o esfuerzos</div>
+            <div class="pt-option-sub">Modifico lo que hago por el dolor</div>
           </div>
-          <div class="pt-option" data-key="causa" data-val="postura">
-            <span class="pt-option-icon">💺</span>
-            <div class="pt-option-label">Postura o trabajo sedentario</div>
-            <div class="pt-option-sub">Escritorio, computadora, pantalla</div>
+          <div class="pt-option" data-key="limitacion" data-val="trabajo_sueno">
+            <span class="pt-option-icon">😔</span>
+            <div class="pt-option-label">No puedo trabajar o dormir bien</div>
+            <div class="pt-option-sub">El dolor afecta significativamente mi rutina</div>
           </div>
-          <div class="pt-option" data-key="causa" data-val="sin_causa">
-            <span class="pt-option-icon">❓</span>
-            <div class="pt-option-label">Sin causa aparente</div>
-            <div class="pt-option-sub">Apareció de forma espontánea</div>
+          <div class="pt-option" data-key="limitacion" data-val="inmovil">
+            <span class="pt-option-icon">🚨</span>
+            <div class="pt-option-label">Estoy prácticamente inmovilizado</div>
+            <div class="pt-option-sub">El dolor me impide moverme con normalidad</div>
           </div>
         </div>
         <div class="pt-nav">
@@ -501,6 +501,92 @@
             <button class="pt-restart" id="btn-restart">🔄 Repetir test</button>
           </div>
         </div>
+        <!-- Visualizaciones: Radar + Anatomía SVG -->
+        <div class="pt-visuals" id="pt-visuals">
+
+          <!-- Radar Chart -->
+          <div class="pt-visual-card">
+            <div class="pt-visual-title">📊 Perfil de Riesgo de Columna</div>
+            <div class="pt-radar-container">
+              <canvas id="pt-radar-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Anatomía SVG -->
+          <div class="pt-visual-card">
+            <div class="pt-visual-title">🦴 Zona Afectada</div>
+            <div class="pt-anatomy-container">
+              <svg id="spine-svg" viewBox="0 0 140 470" xmlns="http://www.w3.org/2000/svg" class="spine-svg" aria-label="Diagrama de columna vertebral" role="img">
+                <text x="8" y="63"  class="spine-label">C</text>
+                <text x="8" y="192" class="spine-label">D</text>
+                <text x="8" y="330" class="spine-label">L</text>
+                <!-- Cervical C1-C7 -->
+                <g id="spine-cervical" class="spine-region">
+                  <rect x="48" y="8"  width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="20" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="23" width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="35" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="38" width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="50" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="53" width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="65" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="68" width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="80" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="83" width="44" height="12" rx="6" class="spine-vert"/>
+                  <rect x="50" y="95" width="40" height="3"  rx="1" class="spine-disc"/>
+                  <rect x="48" y="98" width="44" height="12" rx="6" class="spine-vert"/>
+                </g>
+                <!-- Dorsal T1-T12 -->
+                <g id="spine-dorsal" class="spine-region">
+                  <rect x="50" y="118" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="127" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="130" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="139" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="142" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="151" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="154" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="163" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="166" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="175" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="178" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="187" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="190" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="199" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="202" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="211" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="214" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="223" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="226" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="235" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="238" width="40" height="9" rx="5" class="spine-vert"/>
+                  <rect x="52" y="247" width="36" height="3" rx="1" class="spine-disc"/>
+                  <rect x="50" y="250" width="40" height="9" rx="5" class="spine-vert"/>
+                </g>
+                <!-- Lumbar L1-L5 + Sacro -->
+                <g id="spine-lumbar" class="spine-region">
+                  <rect x="45" y="267" width="50" height="14" rx="7" class="spine-vert"/>
+                  <rect x="47" y="281" width="46" height="5"  rx="2" class="spine-disc"/>
+                  <rect x="45" y="286" width="50" height="14" rx="7" class="spine-vert"/>
+                  <rect x="47" y="300" width="46" height="5"  rx="2" class="spine-disc"/>
+                  <rect x="45" y="305" width="50" height="14" rx="7" class="spine-vert"/>
+                  <rect x="47" y="319" width="46" height="5"  rx="2" class="spine-disc"/>
+                  <rect x="45" y="324" width="50" height="14" rx="7" class="spine-vert"/>
+                  <rect x="47" y="338" width="46" height="5"  rx="2" class="spine-disc"/>
+                  <rect x="45" y="343" width="50" height="14" rx="7" class="spine-vert"/>
+                  <polygon points="47,362 93,362 88,392 52,392" class="spine-vert spine-sacrum"/>
+                </g>
+                <!-- Nervio ciático (oculto por defecto) -->
+                <g id="spine-sciatic" class="spine-sciatic-hidden">
+                  <path d="M 57 388 Q 40 425 28 462" class="sciatic-path"/>
+                  <path d="M 83 388 Q 100 425 112 462" class="sciatic-path"/>
+                </g>
+              </svg>
+            </div>
+            <div class="pt-anatomy-label" id="pt-anatomy-label"></div>
+          </div>
+
+        </div>
+
         <div class="pt-summary" id="pt-summary">
           <div class="pt-summary-title">📋 Resumen de tus respuestas</div>
           <div class="pt-summary-grid" id="pt-summary-grid"></div>
@@ -1284,6 +1370,7 @@
   </a>
 
   <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

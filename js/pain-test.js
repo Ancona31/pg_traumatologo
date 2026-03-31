@@ -146,13 +146,13 @@ const LABELS = {
   zona:        { cervical:'Cuello (Cervical)', dorsal:'Espalda media (Dorsal)', lumbar:'Espalda baja (Lumbar)', multiple:'Varias zonas' },
   duracion:    { dias:'Menos de 1 semana', semanas:'1 a 6 semanas', meses:'1 a 6 meses', anos:'Más de 6 meses' },
   sintomas:    { sfinteres:'Dificultad para orinar/defecar', neurologico:'Entumecimiento o debilidad', irradiado:'Dolor que baja por pierna/brazo', solo_dolor:'Solo dolor local' },
-  causa:       { trauma:'Golpe o caída reciente', esfuerzo:'Esfuerzo o movimiento brusco', postura:'Postura o trabajo sedentario', sin_causa:'Sin causa aparente' },
+  limitacion:  { normal:'Hago todo con algo de molestia', evita:'Evito ciertas actividades', trabajo_sueno:'No puedo trabajar o dormir bien', inmovil:'Prácticamente inmovilizado' },
   tratamiento: { ninguno:'Ninguno todavía', medicamento:'Solo medicamentos', fisio:'Fisioterapia / rehabilitación', cirugia_previa:'Cirugía de columna previa' },
 };
 const Q_LABELS = {
   zona:'📍 Zona de dolor', intensidad:'🔢 Intensidad del dolor',
   duracion:'⏱️ Duración', sintomas:'🩺 Síntomas',
-  causa:'🔎 Causa', tratamiento:'💉 Tratamiento previo',
+  limitacion:'🏃 Limitación funcional', tratamiento:'💉 Tratamiento previo',
 };
 
 /* ================================================================
@@ -160,21 +160,22 @@ const Q_LABELS = {
 ================================================================ */
 let answers = {}, currentStep = 0;
 let patientName = '', patientPhone = '', patientConsent = true;
+let _radarChart = null;
 
 /* ================================================================
    LÓGICA DE RESULTADOS
 ================================================================ */
 function calcResult() {
-  const { sintomas, intensidad, duracion, tratamiento, causa } = answers;
-  if (sintomas === 'sfinteres')                                           return RESULTS.urgente_esfinteres;
-  if (sintomas === 'neurologico' && intensidad >= PAIN_THRESHOLDS.urgente) return RESULTS.urgente_neurologico;
-  if (causa === 'trauma' && intensidad >= PAIN_THRESHOLDS.traumatico)     return RESULTS.urgente_trauma;
-  if (tratamiento === 'cirugia_previa')                                   return RESULTS.cirugia_fallida;
-  if (duracion === 'anos')                                                return RESULTS.especialista_cronico;
-  if (tratamiento === 'fisio')                                            return RESULTS.segunda_opinion;
-  if (sintomas === 'irradiado')                                           return RESULTS.especialista_irradiado;
-  if (sintomas === 'solo_dolor' && duracion === 'meses')                  return RESULTS.desgaste_articular;
-  if (intensidad <= PAIN_THRESHOLDS.conservador && (duracion === 'dias' || duracion === 'semanas')) return RESULTS.conservador;
+  const { sintomas, intensidad, duracion, tratamiento, limitacion } = answers;
+  if (sintomas === 'sfinteres')                                                                                    return RESULTS.urgente_esfinteres;
+  if (sintomas === 'neurologico' && intensidad >= PAIN_THRESHOLDS.urgente)                                        return RESULTS.urgente_neurologico;
+  if (limitacion === 'inmovil' && intensidad >= PAIN_THRESHOLDS.traumatico && (duracion === 'dias' || duracion === 'semanas')) return RESULTS.urgente_trauma;
+  if (tratamiento === 'cirugia_previa')                                                                           return RESULTS.cirugia_fallida;
+  if (duracion === 'anos')                                                                                        return RESULTS.especialista_cronico;
+  if (tratamiento === 'fisio')                                                                                    return RESULTS.segunda_opinion;
+  if (sintomas === 'irradiado')                                                                                   return RESULTS.especialista_irradiado;
+  if (sintomas === 'solo_dolor' && duracion === 'meses')                                                          return RESULTS.desgaste_articular;
+  if (intensidad <= PAIN_THRESHOLDS.conservador && (duracion === 'dias' || duracion === 'semanas'))               return RESULTS.conservador;
   return RESULTS.preventivo;
 }
 
@@ -189,7 +190,7 @@ function renderSummary() {
     { key:'intensidad',  val: answers.intensidad ? `${answers.intensidad} / 10` : null },
     { key:'duracion',    val: LABELS.duracion[answers.duracion] },
     { key:'sintomas',    val: LABELS.sintomas[answers.sintomas] },
-    { key:'causa',       val: LABELS.causa[answers.causa] },
+    { key:'limitacion',  val: LABELS.limitacion[answers.limitacion] },
     { key:'tratamiento', val: LABELS.tratamiento[answers.tratamiento] },
   ];
   grid.innerHTML = items.map(i => `
@@ -203,7 +204,7 @@ function renderSummary() {
    MOSTRAR RESULTADO
 ================================================================ */
 async function showResult() {
-  if (!answers.tratamiento) return;
+  if (!answers.tratamiento || !answers.limitacion) return;
   hideStep(TOTAL_STEPS);
   await showAnalyzing('Generando tu Reporte de Riesgo', 1600);
   updateProgressBar(TOTAL_STEPS + 1);
@@ -218,6 +219,10 @@ async function showResult() {
   const container = document.getElementById('pt-result');
   if (container) container.hidden = false;
   scrollToSection();
+
+  // Visualizaciones
+  renderRadarChart(result);
+  updateSpineAnatomySVG(result);
 
   // Descarga automática del PDF
   generatePDF();
@@ -312,6 +317,7 @@ function getPainClass(v) {
 function restartTest() {
   answers = {}; currentStep = 0;
   patientName = ''; patientPhone = '';
+  if (_radarChart) { _radarChart.destroy(); _radarChart = null; }
   const nameEl = document.getElementById('pt-patient-name');
   const phoneEl = document.getElementById('pt-patient-phone');
   if (nameEl) nameEl.value = '';
@@ -425,7 +431,7 @@ function populatePDF(result) {
       { q:'🔢 Intensidad',         a: answers.intensidad ? `${answers.intensidad} / 10` : '—' },
       { q:'⏱️ Duración',           a: LABELS.duracion[answers.duracion] },
       { q:'🩺 Síntomas',           a: LABELS.sintomas[answers.sintomas] },
-      { q:'🔎 Causa',              a: LABELS.causa[answers.causa] },
+      { q:'🏃 Limitación funcional',  a: LABELS.limitacion[answers.limitacion] },
       { q:'💉 Tratamiento previo', a: LABELS.tratamiento[answers.tratamiento] },
     ];
     summaryEl.innerHTML = items.map(i => `
@@ -486,10 +492,122 @@ async function saveLead(result) {
       intensidad:       answers.intensidad  || null,
       duracion:         answers.duracion    || null,
       sintomas:         answers.sintomas    || null,
-      causa:            answers.causa       || null,
+      limitacion:       answers.limitacion   || null,
       tratamiento:      answers.tratamiento || null,
     });
   } catch (_) { /* silencioso — no bloquear la UI */ }
+}
+
+/* ================================================================
+   SCORES PARA EL RADAR
+================================================================ */
+function calcRadarScores() {
+  return {
+    intensidad:  answers.intensidad || 0,
+    cronicidad:  ({ dias:2, semanas:4, meses:7, anos:10 })[answers.duracion]               || 0,
+    neurologico: ({ solo_dolor:1, irradiado:5, neurologico:8, sfinteres:10 })[answers.sintomas] || 0,
+    limitacion:  ({ normal:2, evita:4, trabajo_sueno:7, inmovil:10 })[answers.limitacion]  || 0,
+    tratamiento: ({ ninguno:1, medicamento:3, fisio:7, cirugia_previa:10 })[answers.tratamiento] || 0,
+  };
+}
+
+/* ================================================================
+   RADAR CHART
+================================================================ */
+function renderRadarChart(result) {
+  const canvas = document.getElementById('pt-radar-chart');
+  if (!canvas || !window.Chart) return;
+
+  const s = calcRadarScores();
+  const colorMap = {
+    urgente:      'rgba(239,68,68,',
+    especialista: 'rgba(26,127,232,',
+    conservador:  'rgba(34,197,94,',
+    preventivo:   'rgba(16,185,129,',
+  };
+  const base = colorMap[result.type] || 'rgba(26,127,232,';
+
+  if (_radarChart) { _radarChart.destroy(); _radarChart = null; }
+
+  _radarChart = new Chart(canvas, {
+    type: 'radar',
+    data: {
+      labels: ['Intensidad\ndel dolor', 'Cronicidad', 'Impacto\nneurológico', 'Limitación\nfuncional', 'Respuesta a\ntratamiento'],
+      datasets: [{
+        label: 'Tu perfil de riesgo',
+        data: [s.intensidad, s.cronicidad, s.neurologico, s.limitacion, s.tratamiento],
+        backgroundColor: base + '0.18)',
+        borderColor:     base + '0.9)',
+        borderWidth: 2.5,
+        pointBackgroundColor: base + '1)',
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { stepSize: 2, font: { size: 9 }, color: '#9ca3af', backdropColor: 'transparent' },
+          grid: { color: 'rgba(0,0,0,0.07)' },
+          angleLines: { color: 'rgba(0,0,0,0.07)' },
+          pointLabels: { font: { size: 10, weight: '600' }, color: '#374151' },
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} / 10` } },
+      },
+      animation: { duration: 900, easing: 'easeInOutQuart' },
+    }
+  });
+}
+
+/* ================================================================
+   ANATOMÍA SVG
+================================================================ */
+function updateSpineAnatomySVG(result) {
+  const svg = document.getElementById('spine-svg');
+  if (!svg) return;
+
+  // Resetear todas las regiones
+  ['spine-cervical', 'spine-dorsal', 'spine-lumbar'].forEach(id =>
+    document.getElementById(id)?.classList.remove('spine-region--active')
+  );
+  const sciatic = document.getElementById('spine-sciatic');
+  if (sciatic) sciatic.className = 'spine-sciatic-hidden';
+
+  // Color activo según resultado
+  svg.style.setProperty('--spine-active-color', result.color);
+
+  // Activar región según respuesta
+  const zonaMap = {
+    cervical: ['spine-cervical'],
+    dorsal:   ['spine-dorsal'],
+    lumbar:   ['spine-lumbar'],
+    multiple: ['spine-cervical', 'spine-dorsal', 'spine-lumbar'],
+  };
+  (zonaMap[answers.zona] || []).forEach(id =>
+    document.getElementById(id)?.classList.add('spine-region--active')
+  );
+
+  // Nervio ciático si hay dolor irradiado o neurológico lumbar
+  if (answers.sintomas === 'irradiado' ||
+      (answers.sintomas === 'neurologico' && answers.zona === 'lumbar')) {
+    if (sciatic) sciatic.className = 'spine-sciatic-visible';
+  }
+
+  // Label descriptivo
+  const zonaTexts = {
+    cervical: 'Región Cervical — C1 a C7 (cuello)',
+    dorsal:   'Región Dorsal — T1 a T12 (espalda media)',
+    lumbar:   'Región Lumbar — L1 a L5 (espalda baja)',
+    multiple: 'Múltiples regiones afectadas',
+  };
+  const lbl = document.getElementById('pt-anatomy-label');
+  if (lbl) lbl.textContent = zonaTexts[answers.zona] || '';
 }
 
 /* ================================================================
