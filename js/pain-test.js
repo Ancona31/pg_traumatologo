@@ -224,8 +224,8 @@ async function showResult() {
   renderRadarChart(result);
   updateSpineAnatomySVG(result);
 
-  // Descarga automática del PDF
-  generatePDF();
+  // Descarga automática — esperar a que el DOM pinte el resultado
+  setTimeout(() => generatePDF(), 600);
 }
 
 function renderResultCard(result) {
@@ -267,6 +267,7 @@ async function goToNextStep(step) {
   currentStep = step + 1;
   updateProgressBar(currentStep);
   updateProgressLabel(currentStep);
+  scrollToSection();
 }
 function goToPrevStep(step) {
   hideStep(step); showStep(step - 1);
@@ -371,7 +372,7 @@ function showAnalyzing(msg = 'Analizando síntomas', duration = 1200) {
   if (textEl) textEl.innerHTML = `${msg}<span class="pt-analyzing-dots"></span>`;
   if (lbl) lbl.textContent = 'Analizando síntomas...';
 
-  overlay.hidden = false;
+  overlay.style.display = 'flex';
 
   // Reiniciar y disparar la barra
   if (bar) {
@@ -383,7 +384,7 @@ function showAnalyzing(msg = 'Analizando síntomas', duration = 1200) {
   }
 
   return new Promise(resolve => setTimeout(() => {
-    overlay.hidden = true;
+    overlay.style.display = 'none';
     resolve();
   }, duration));
 }
@@ -532,16 +533,22 @@ function renderRadarChart(result) {
   _radarChart = new Chart(canvas, {
     type: 'radar',
     data: {
-      labels: ['Intensidad\ndel dolor', 'Cronicidad', 'Impacto\nneurológico', 'Limitación\nfuncional', 'Respuesta a\ntratamiento'],
+      labels: [
+        ['Intensidad', 'del dolor'],
+        ['Cronicidad'],
+        ['Impacto', 'neurológico'],
+        ['Limitación', 'funcional'],
+        ['Tratamientos', 'previos'],
+      ],
       datasets: [{
-        label: 'Tu perfil de riesgo',
+        label: 'Tu perfil',
         data: [s.intensidad, s.cronicidad, s.neurologico, s.limitacion, s.tratamiento],
-        backgroundColor: base + '0.18)',
+        backgroundColor: base + '0.2)',
         borderColor:     base + '0.9)',
         borderWidth: 2.5,
         pointBackgroundColor: base + '1)',
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        pointRadius: 4,
+        pointHoverRadius: 6,
       }]
     },
     options: {
@@ -550,7 +557,7 @@ function renderRadarChart(result) {
       scales: {
         r: {
           min: 0, max: 10,
-          ticks: { stepSize: 2, font: { size: 9 }, color: '#9ca3af', backdropColor: 'transparent' },
+          ticks: { stepSize: 5, font: { size: 9 }, color: '#9ca3af', backdropColor: 'transparent' },
           grid: { color: 'rgba(0,0,0,0.07)' },
           angleLines: { color: 'rgba(0,0,0,0.07)' },
           pointLabels: { font: { size: 10, weight: '600' }, color: '#374151' },
@@ -558,11 +565,20 @@ function renderRadarChart(result) {
       },
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} / 10` } },
+        tooltip: { callbacks: { label: ctx => ` Nivel ${ctx.raw} de 10` } },
       },
       animation: { duration: 900, easing: 'easeInOutQuart' },
     }
   });
+
+  // Subtítulo explicativo
+  const wrap = canvas.closest('.pt-visual-card');
+  if (wrap && !wrap.querySelector('.pt-radar-note')) {
+    const note = document.createElement('p');
+    note.className = 'pt-radar-note';
+    note.textContent = 'Mayor área sombreada = mayor nivel de afectación';
+    wrap.appendChild(note);
+  }
 }
 
 /* ================================================================
@@ -573,25 +589,28 @@ function updateSpineAnatomySVG(result) {
   if (!svg) return;
 
   // Resetear todas las regiones
-  ['spine-cervical', 'spine-dorsal', 'spine-lumbar'].forEach(id =>
-    document.getElementById(id)?.classList.remove('spine-region--active')
-  );
+  ['spine-cervical', 'spine-dorsal', 'spine-lumbar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('spine-region--active');
+    el.querySelectorAll('.spine-vert').forEach(v => v.style.fill = '');
+  });
   const sciatic = document.getElementById('spine-sciatic');
   if (sciatic) sciatic.className = 'spine-sciatic-hidden';
 
-  // Color activo según resultado
-  svg.style.setProperty('--spine-active-color', result.color);
-
-  // Activar región según respuesta
+  // Activar región según respuesta — fill directo para garantizar visibilidad en SVG
   const zonaMap = {
     cervical: ['spine-cervical'],
     dorsal:   ['spine-dorsal'],
     lumbar:   ['spine-lumbar'],
     multiple: ['spine-cervical', 'spine-dorsal', 'spine-lumbar'],
   };
-  (zonaMap[answers.zona] || []).forEach(id =>
-    document.getElementById(id)?.classList.add('spine-region--active')
-  );
+  (zonaMap[answers.zona] || []).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('spine-region--active');
+    el.querySelectorAll('.spine-vert').forEach(v => v.style.fill = result.color);
+  });
 
   // Nervio ciático si hay dolor irradiado o neurológico lumbar
   if (answers.sintomas === 'irradiado' ||

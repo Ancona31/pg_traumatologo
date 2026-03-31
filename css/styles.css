@@ -1348,7 +1348,7 @@ img {
 
 /* ── OVERLAY: ANALIZANDO SÍNTOMAS ───────────────────────────────── */
 .pt-analyzing {
-  display: flex;
+  display: none; /* hidden attribute se respeta; JS lo muestra con style.display */
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -1750,6 +1750,13 @@ img {
   margin-top: .75rem;
   font-weight: 500;
 }
+.pt-radar-note {
+  font-size: .72rem;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: .5rem;
+  font-style: italic;
+}
 
 /* ── SVG COLUMNA ───────────────────────────────────────────────── */
 .spine-svg {
@@ -1776,18 +1783,16 @@ img {
   font-family: sans-serif;
   font-weight: 700;
 }
-/* Región activa */
+/* Región activa — fill se aplica directo via JS; animación solo usa opacity */
 .spine-region--active .spine-vert {
-  fill: var(--spine-active-color, #1a7fe8);
   animation: spineGlow 1.6s ease-in-out infinite alternate;
 }
 .spine-region--active .spine-disc {
   fill: #93c5fd;
-  transition: fill .4s ease;
 }
 @keyframes spineGlow {
-  from { fill: var(--spine-active-color, #1a7fe8); opacity: 1; }
-  to   { fill: var(--spine-active-color, #1a7fe8); opacity: .55; }
+  from { opacity: 1; }
+  to   { opacity: .4; }
 }
 /* Nervio ciático */
 .spine-sciatic-hidden { opacity: 0; pointer-events: none; }
